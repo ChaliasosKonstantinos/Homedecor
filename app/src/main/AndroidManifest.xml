@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="gr.homedeco.www.homedeco">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".Main"
+            android:theme="@style/Theme.Design.Light.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".AboutUs"
+            android:label="Λίγα λόγια"
+            android:parentActivityName=".Main" />
+        <activity
+            android:name=".Cart"
+            android:label="Καλάθι"
+            android:parentActivityName=".Main" />
+        <activity
+            android:name=".Chat"
+            android:parentActivityName=".Main"
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".CheckoutDialog" />
+        <activity android:name=".CustomProduct" />
+        <activity
+            android:name=".Login"
+            android:label="Είσοδος χρήστη"
+            android:parentActivityName=".Main"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".ProductDetails"
+            android:label="Λεπτομέρειες"
+            android:parentActivityName=".Products"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Products"
+            android:label="Προϊόντα"
+            android:parentActivityName=".Main" />
+        <activity
+            android:name=".Register"
+            android:label="Εγγραφή"
+            android:parentActivityName=".Login"
+            android:windowSoftInputMode="adjustPan" />
+    </application>
+
+</manifest>
