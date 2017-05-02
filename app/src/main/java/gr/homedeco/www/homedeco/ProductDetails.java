@@ -13,6 +13,8 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.List;
+
 public class ProductDetails extends AppCompatActivity {
 
     private ImageView imgProductPhoto;
@@ -25,28 +27,7 @@ public class ProductDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_details);
 
-//        productID = getIntent().getExtras().getInt("productID");
-
-        // Mockup - TODO: Delete it
-        Product product = new Product();
-        product.setProductID(2);
-        product.setSKU("123ABC");
-        product.setName("BILLY/OXBERG");
-        product.setPrice(149.99);
-        product.setDiscountPrice(10);
-        product.setWeight(1);
-        product.setDescription("Ρυθμιζόμενα ράφια. Προσαρμόστε το χώρο μεταξύ των ραφιών ανάλογα με τις ανάγκες σας.\n" +
-                "Η επιφάνεια είναι κατασκευασμένη με όψη φυσικού ξύλου.\n" +
-                "Οι ρυθμιζόμενοι μεντεσέδες σάς επιτρέπουν να προσαρμόσετε την πόρτα στη σωστή θέση.\n" +
-                "Οι γυάλινες πόρτες προφυλάσσουν τα αγαπημένα σας αντικείμενα από τη σκόνη και επιτρέπουν να είναι ορατά. \n\n" +
-                "Ρυθμιζόμενα ράφια. Προσαρμόστε το χώρο μεταξύ των ραφιών ανάλογα με τις ανάγκες σας.\n" +
-                "Η επιφάνεια είναι κατασκευασμένη με όψη φυσικού ξύλου.\n" +
-                "Οι ρυθμιζόμενοι μεντεσέδες σάς επιτρέπουν να προσαρμόσετε την πόρτα στη σωστή θέση.\n" +
-                "Οι γυάλινες πόρτες προφυλάσσουν τα αγαπημένα σας αντικείμενα από τη σκόνη και επιτρέπουν να είναι ορατά.");
-        product.setShortDescription("Ρυθμιζόμενα ράφια. Προσαρμόστε το χώρο μεταξύ των ραφιών ανάλογα με τις ανάγκες σας.");
-        product.setImage("http://www.ikea.gr/images/250x250/79020482/billy_oxberg_bibliothiki_skoyro_kafe_0.jpg?v=5");
-        product.setStock(20);
-        product.setCategoryID(1);
+        productID = getIntent().getExtras().getInt("productID");
 
         imgProductPhoto = (ImageView) findViewById(R.id.imgvProductPhoto);
         tvProductName = (TextView) findViewById(R.id.tvProductName);
@@ -54,23 +35,20 @@ public class ProductDetails extends AppCompatActivity {
         tvProductDesc = (TextView) findViewById(R.id.tvProductDesc);
         localDatabase = new LocalDatabase(this);
 
-        populateProductDetails(product);
-
         //Server Request for specific product details
-//        ServerRequests serverRequest = new ServerRequests(this);
-//        serverRequest.fetchProductDataInBackground(productID, new GetProductCallback() {
-//            @Override
-//            public void done(List<Product> returnedList) {
-//                Product returnedProduct = returnedList.get(0);
-//                populateProductDetails(returnedProduct);
-//            }
-//        });
+        ServerRequests serverRequest = new ServerRequests(this);
+        serverRequest.fetchProductDataInBackground(productID, new GetProductCallback() {
+            @Override
+            public void done(List<Product> returnedList) {
+                Product returnedProduct = returnedList.get(0);
+                populateProductDetails(returnedProduct);
+            }
+        });
     }
 
     private void populateProductDetails(Product product) {
 
-//        String image_url = "http://83.212.107.169/" + product.getImage();
-        String image_url = product.getImage();
+        String image_url = "http://83.212.101.162/" + product.getImage();
 
         Picasso.with(this).load(image_url).into(imgProductPhoto);
         tvProductName.setText(product.getName());

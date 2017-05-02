@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
             android:layout_toStartOf="@+id/tvProductPrice"
-            android:text="Κόστος: "
+            android:text="@string/default_product_price"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="@color/black"
             android:textStyle="bold" />
@@ -63,7 +63,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
             android:layout_toStartOf="@+id/tvProductVAT"
-            android:text="ΦΠΑ: "
+            android:text="@string/vat"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="@color/black"
             android:textStyle="bold" />
@@ -90,7 +90,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
             android:layout_toStartOf="@+id/tvProductTotalPrice"
-            android:text="Σύνολο: "
+            android:text="@string/price_total"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="@color/black"
             android:textStyle="bold" />

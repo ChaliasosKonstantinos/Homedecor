@@ -17,6 +17,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:contentDescription="@string/content_description"
+        android:scaleType="fitCenter"
         android:src="@drawable/homedeco_logo" />
 
     <LinearLayout

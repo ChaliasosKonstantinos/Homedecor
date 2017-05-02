@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/relativeLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Overview -->
+    <TextView
+        android:id="@+id/tvProductOverview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_centerHorizontal="true"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:text="@string/custom_product_overview"/>
+
+    <TextView
+        android:id="@+id/tvProduct"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="16dp"
+        android:layout_below="@+id/tvProductOverview"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:text="@string/custom_product_product"
+        android:textColor="@color/black"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/tvProductName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Κρεβάτι"
+        android:textColor="@color/black"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:layout_marginStart="10dp"
+        android:layout_alignBottom="@+id/tvProduct"
+        android:layout_toEndOf="@+id/tvProduct" />
+
+    <TextView
+        android:id="@+id/tvProductColor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/custom_product_color"
+        android:textColor="@color/black"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/tvProduct" />
+
+    <TextView
+        android:id="@+id/tvProductColorText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Μαύρο"
+        android:textColor="@color/black"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_alignBottom="@+id/tvProductColor"
+        android:layout_toEndOf="@+id/tvProductColor" />
+
+    <TextView
+        android:id="@+id/tvProductBody"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/custom_product_body"
+        android:textColor="@color/black"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/tvProductColor"
+        android:layout_alignStart="@+id/tvProductColor" />
+
+    <TextView
+        android:id="@+id/tvProductBodyText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sodernam"
+        android:textColor="@color/black"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_alignBottom="@+id/tvProductBody"
+        android:layout_toEndOf="@+id/tvProductBody" />
+
+    <TextView
+        android:id="@+id/tvProductFeet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/custom_product_feet"
+        android:textColor="@color/black"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/tvProductBody"
+        android:layout_alignStart="@+id/tvProductColor" />
+
+    <TextView
+        android:id="@+id/tvProductFeetText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sodernam"
+        android:textColor="@color/black"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_alignBottom="@+id/tvProductFeet"
+        android:layout_toEndOf="@+id/tvProductFeet" />
+
+    <View
+        android:id="@+id/separator"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/tvProductFeet"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="25dp"
+        android:background="@color/light_gray" />
+
+    <!-- Pricing -->
+    <TextView
+        android:id="@+id/tvProductPriceTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/separator"
+        android:layout_centerHorizontal="true"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:text="@string/default_product_price"/>
+
+    <TextView
+        android:id="@+id/tvProductPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="16dp"
+        android:layout_below="@+id/tvProductPriceTitle"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:text="@string/default_product_price"
+        android:textColor="@color/black"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/tvProductPriceText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="100€"
+        android:textColor="@color/black"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:layout_marginStart="10dp"
+        android:layout_alignBottom="@+id/tvProductPrice"
+        android:layout_toEndOf="@+id/tvProductPrice" />
+
+    <TextView
+        android:id="@+id/tvProductVAT"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="16dp"
+        android:layout_below="@+id/tvProductPrice"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:text="@string/vat"
+        android:textColor="@color/black"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/tvProductVATText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="50€"
+        android:textColor="@color/black"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:layout_marginStart="10dp"
+        android:layout_alignBottom="@+id/tvProductVAT"
+        android:layout_toEndOf="@+id/tvProductVAT" />
+
+    <TextView
+        android:id="@+id/tvProductTotalPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="16dp"
+        android:layout_below="@+id/tvProductVAT"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:text="@string/price_total"
+        android:textColor="@color/black"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/tvProductTotalPriceText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="150€"
+        android:textColor="@color/price"
+        android:textStyle="bold"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:layout_marginStart="10dp"
+        android:layout_alignBottom="@+id/tvProductTotalPrice"
+        android:layout_toEndOf="@+id/tvProductTotalPrice" />
+
+    <Button
+        android:id="@+id/btnAddToCart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:layout_below="@+id/tvProductTotalPrice"
+        android:text="@string/buy_now"
+        android:textColor="@color/white"
+        android:textStyle="bold" />
+
+
+</RelativeLayout>

@@ -6,7 +6,7 @@ import java.net.URL;
 
 public class ServerConnection {
 
-    private final String SERVER_ADDRESS = "http://83.212.107.169/HomeDecoWS/public";
+    private final String SERVER_ADDRESS = "http://83.212.101.162/HomeDecoWS/public";
     private HttpURLConnection urlConnection;
 
     public ServerConnection() {

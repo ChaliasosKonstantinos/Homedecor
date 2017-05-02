@@ -93,6 +93,8 @@ public class ServerRequests {
 
         @Override
         protected void onPostExecute(List<Product> products) {
+            System.out.println("PRODUCT RESULTS");
+            System.out.println(products.toString());
             progressDialog.dismiss();
             productCallback.done(products);
             super.onPostExecute(products);

@@ -2,6 +2,7 @@ package gr.homedeco.www.homedeco;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,8 +39,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
         holder.tvProductsName.setText(dataList.get(position).getName());
         String price = String.valueOf(dataList.get(position).getPrice()) + " €";
         holder.tvProductsPrice.setText(price);
-//        String image_url = "http://83.212.107.169/" + dataList.get(position).getImage();
-        String image_url = dataList.get(position).getImage();
+        String image_url = "http://83.212.101.162/" + dataList.get(position).getImage();
         Picasso.with(myContext).load(image_url).into(holder.imgProductsPhoto);
     }
 

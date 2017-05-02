@@ -8,7 +8,9 @@
     <color name="hint">#bdbdbd</color>
     <color name="light_gray">#D2D7D3</color>
     <color name="transparent">#D2D7D3</color>
+    <color name="transparent_full">#00FFFFFF</color>
     <color name="black">#000000</color>
     <color name="white">#ffffff</color>
     <color name="price">#008000</color>
+    <color name="darkBrown">#3E2723</color>
 </resources>

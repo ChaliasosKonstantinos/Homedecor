@@ -23,7 +23,7 @@
     <string name="about_us">Λίγα λόγια..</string>
     <string name="how_to">Οδηγίες</string>
     <string name="default_product_name">Όνομα</string>
-    <string name="default_product_price">Τιμή</string>
+    <string name="default_product_price">Τιμή :</string>
     <string name="default_product_desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
     <string name="default_product_short_desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed</string>
     <string name="buy_now">Αγορα</string>
@@ -36,6 +36,14 @@
     <string name="category">Κατηγορία</string>
     <string name="checkoutDialog_title">Αγορά ως..</string>
     <string name="noAccount_goToRegister">Δεν έχετε λογαριασμό; Εγγραφή εδώ</string>
+    <string name="custom_product_overview"><u>Σύνοψη</u></string>
+    <string name="custom_product_product">Προιόν:</string>
+    <string name="custom_product_color">- Χρώμα :</string>
+    <string name="custom_product_body">- Σώμα :</string>
+    <string name="custom_product_feet">- Πόδια :</string>
+    <string name="vat">ΦΠΑ :</string>
+    <string name="price_total">Σύνολο:</string>
+    <string name="send_Email_button">Αποστολη</string>
 
     <string-array name="product_filters_category">
         <item>Κατηγορία</item>

@@ -33,7 +33,10 @@
             android:parentActivityName=".Main"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".CheckoutDialog" />
-        <activity android:name=".CustomProduct" />
+        <activity
+            android:name=".CustomProduct"
+            android:theme="@style/Theme.Design.Light.NoActionBar"
+            android:parentActivityName=".Products"/>
         <activity
             android:name=".Login"
             android:label="Είσοδος χρήστη"
@@ -42,17 +45,25 @@
         <activity
             android:name=".ProductDetails"
             android:label="Λεπτομέρειες"
-            android:parentActivityName=".Products"
+            android:parentActivityName=".GenericProducts"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Products"
+            android:name=".GenericProducts"
             android:label="Προϊόντα"
-            android:parentActivityName=".Main" />
+            android:parentActivityName=".Products" />
         <activity
             android:name=".Register"
             android:label="Εγγραφή"
             android:parentActivityName=".Login"
             android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".ContactUs"
+            android:label="Επικοινωνία"
+            android:parentActivityName=".Main" />
+        <activity
+            android:name=".Products"
+            android:label="Τύποι Προϊόντων"
+            android:parentActivityName=".Main" />
     </application>
 
 </manifest>
