@@ -163,19 +163,17 @@ public class ServerRequests {
 
         @Override
         protected void onPostExecute(String authToken) {
-            progressDialog.dismiss();
             loginCallback.done(authToken);
             super.onPostExecute(authToken);
         }
     }
 
 //------------------------------------------------------------------------------------------------//
-//                                    USER
+//                                    USER DETAILS
 //------------------------------------------------------------------------------------------------//
 
     // Get user's details
     public void getUserDetails(GetUserDetailsCallback userDetailsCallback) {
-        progressDialog.show();
         new getUserDetailsAsyncTask(userDetailsCallback).execute();
     }
 
@@ -216,7 +214,6 @@ public class ServerRequests {
                 }
 
                 String result = strBuilder.toString();
-                Log.d("Result apo self", result);
                 returnedUser = parser.toUser(result);
 
 
@@ -233,4 +230,73 @@ public class ServerRequests {
             super.onPostExecute(returnedUser);
         }
     }
+
+//------------------------------------------------------------------------------------------------//
+//                                    REGISTER
+//------------------------------------------------------------------------------------------------//
+
+    // Try to log user in
+    public void register(User user, GetRegisterCallback registerCallback) {
+        progressDialog.show();
+        new registerAsyncTask(user, registerCallback).execute();
+    }
+
+    //AsyncTask that try to log user in
+    public class registerAsyncTask extends AsyncTask<User, Void, ServerResponse> {
+        User user = new User();
+        GetRegisterCallback registerCallback;
+
+        public registerAsyncTask(User user, GetRegisterCallback registerCallback) {
+            this.user = user;
+            this.registerCallback = registerCallback;
+        }
+
+        @Override
+        protected ServerResponse doInBackground(User... params) {
+            ServerConnection connection = new ServerConnection();
+            ServerResponse response = new ServerResponse();
+            HttpURLConnection urlConnection;
+            JSONparser parser = new JSONparser();
+
+            urlConnection = connection.openPostConnection("/user");
+
+            try {
+
+                urlConnection.connect();
+
+                JSONObject json = parser.toRegister(user);
+                OutputStreamWriter out = new OutputStreamWriter(urlConnection.getOutputStream());
+                out.write(json.toString());
+                out.close();
+
+                InputStream is = urlConnection.getInputStream();
+                reader = new BufferedReader(new InputStreamReader(is));
+
+                StringBuilder strBuilder = new StringBuilder();
+
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    strBuilder.append(line);
+                }
+
+                String result = strBuilder.toString();
+                response = parser.registerResponse(result);
+
+
+            } catch (IOException | JSONException e) {
+                e.printStackTrace();
+            }
+
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(ServerResponse response) {
+            progressDialog.dismiss();
+            registerCallback.done(response);
+            super.onPostExecute(response);
+        }
+    }
+
 }
+

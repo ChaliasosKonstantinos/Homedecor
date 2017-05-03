@@ -45,6 +45,8 @@ public class JSONparser {
                 if (!jObject.isNull("Stock")) {
                     stock = jObject.getInt("Stock");
                 }
+                String mainCategory = jObject.getString("MainCategory");
+                String subCategory = jObject.getString("SubCategory");
                 int categoryID = jObject.getInt("CategoryID");
 
                 returnedProduct = new Product();
@@ -58,6 +60,8 @@ public class JSONparser {
                 returnedProduct.setShortDescription(shortDesc);
                 returnedProduct.setImage(image);
                 returnedProduct.setStock(stock);
+                returnedProduct.setMainCategory(mainCategory);
+                returnedProduct.setSubCategory(subCategory);
                 returnedProduct.setCategoryID(categoryID);
 
                 products.add(returnedProduct);
@@ -81,11 +85,9 @@ public class JSONparser {
 
         String authToken = null;
         JSONObject jObject = new JSONObject(result);
-
         if (jObject.has("android-token")) {
             authToken = jObject.getString("android-token");
         }
-
         return authToken;
     }
 
@@ -120,12 +122,6 @@ public class JSONparser {
 
         if (jObject.has("Message")) {
             response.setMessage(jObject.getString("Message"));
-        } else {
-            if (jObject.has("User.Username")) {
-                response.setUsernameError(jObject.getString("User.Username"));
-            } else if (jObject.has("User.Email")) {
-                response.setEmailError(jObject.getString("User.Email"));
-            }
         }
 
         return response;
@@ -148,6 +144,8 @@ public class JSONparser {
 
         Userdetail.put("FirstName", user.getFirstName());
         Userdetail.put("LastName", user.getLastName());
+        Userdetail.put("Birthday", user.getBirthday());
+        Userdetail.put("Address", user.getAddress());
         Userdetail.put("PostalCode", user.getPostalCode());
         Userdetail.put("City", user.getCity());
         Userdetail.put("State", user.getState());
@@ -158,6 +156,7 @@ public class JSONparser {
         json.put("User", User);
         json.put("Userdetail", Userdetail);
 
+        System.out.println(json);
         return json;
     }
 

@@ -5,6 +5,9 @@ public class ServerResponse {
     private String message, emailError, usernameError;
 
     public ServerResponse() {
+        this.message = "";
+        this.emailError = "";
+        this.usernameError = "";
     }
 
     public String getMessage() {

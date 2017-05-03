@@ -85,4 +85,11 @@ public class LocalDatabase {
         spEditor.putString("passwordRemember", user.getPassword());
         spEditor.apply();
     }
+
+    public User getRememberMe() {
+        User user = new User();
+        user.setUsername(localDatabase.getString("usernameRemember", ""));
+        user.setPassword(localDatabase.getString("passwordRemember", ""));
+        return user;
+    }
 }

@@ -80,6 +80,7 @@ public class GenericProducts extends AppCompatActivity {
         serverRequest.fetchProductDataInBackground(0, new GetProductCallback() {
             @Override
             public void done(List<Product> returnedList) {
+                products = returnedList;
                 populateProductsList(returnedList);
                 initListeners();
             }
@@ -119,7 +120,8 @@ public class GenericProducts extends AppCompatActivity {
                     spSubCategory.setEnabled(true);
                     List<Product> tmpProducts = new ArrayList<>();
                     for (Product product : products) {
-                        if (product.getCategoryID() == selectedPos) {
+                        String cat = product.getSKU();
+                        if (Integer.parseInt(cat.substring(0,1)) == selectedPos) {
                             tmpProducts.add(product);
                         }
                     }
@@ -146,7 +148,8 @@ public class GenericProducts extends AppCompatActivity {
                     if (catSelectedPos != 0) {
                         List<Product> tmpProducts = new ArrayList<>();
                         for (Product product : products) {
-                            if (product.getCategoryID() == catSelectedPos) {
+                            String cat = product.getSKU();
+                            if (Integer.parseInt(cat.substring(0,1)) == catSelectedPos) {
                                 tmpProducts.add(product);
                             }
                         }
@@ -157,8 +160,9 @@ public class GenericProducts extends AppCompatActivity {
                 } else {
                     List<Product> tmpProducts = new ArrayList<>();
                     for (Product product : products) {
-                        if (product.getCategoryID() == catSelectedPos
-                                && product.getSubCategoryID() == subCatSelectedPos) {
+                        String cat = product.getSKU();
+                        if (Integer.parseInt(cat.substring(0,1)) == catSelectedPos
+                                && Integer.parseInt(cat.substring(1,2)) == subCatSelectedPos) {
                             tmpProducts.add(product);
                         }
                     }

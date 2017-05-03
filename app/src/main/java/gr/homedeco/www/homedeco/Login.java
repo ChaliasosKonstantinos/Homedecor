@@ -2,6 +2,7 @@ package gr.homedeco.www.homedeco;
 
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,13 +28,22 @@ public class Login extends AppCompatActivity {
         cbRememberMe = (CheckBox) findViewById(R.id.cbRememberMe);
         layout = (LinearLayout) findViewById(R.id.activity_login);
         localDatabase = new LocalDatabase(this);
+
+        // Remembered user
+        User user = localDatabase.getRememberMe();
+        if (!user.getUsername().isEmpty()) {
+            etUsername.setText(user.getUsername());
+            etPassword.setText(user.getPassword());
+            cbRememberMe.setChecked(true);
+        }
     }
 
     public void logIn(View view) {
 
         final String username = etUsername.getText().toString();
         final String password = etPassword.getText().toString();
-
+        Helpers helper = new Helpers();
+        helper.hideKeyboard(Login.this);
         final User userToLogin = new User(username, password);
 
         final ServerRequests serverRequest = new ServerRequests(this);
@@ -43,7 +53,6 @@ public class Login extends AppCompatActivity {
                 if (response != null) {
                     Snackbar snackbar = Snackbar.make(layout, "Σύνδεση επιτυχής", Snackbar.LENGTH_LONG);
                     snackbar.show();
-                    Log.d("LOGIN RE", "DONE");
                     localDatabase.setLoggedIn(true, response);
                     if (cbRememberMe.isChecked()) {
                         localDatabase.setRememberMe(userToLogin);
@@ -51,11 +60,17 @@ public class Login extends AppCompatActivity {
                     serverRequest.getUserDetails(new GetUserDetailsCallback() {
                         @Override
                         public void done(User returnedUser) {
-                            Log.d("GET-USER-DETAILS", "DONE");
+                            localDatabase.setUserDetails(returnedUser);
+                            // Navigates to parent Activity after 1sec
+                            new android.os.Handler().postDelayed(
+                                new Runnable() {
+                                    public void run() {
+                                        NavUtils.navigateUpFromSameTask(Login.this);
+                                    }
+                                }, 1000);
                         }
                     });
                 } else {
-                    Log.d("LOGIN RE", "FAILED");
                     Snackbar snackbar = Snackbar.make(layout, "Λάθος συνδυασμός όνομα χρήστη/κωδικού", Snackbar.LENGTH_LONG);
                     snackbar.show();
                 }

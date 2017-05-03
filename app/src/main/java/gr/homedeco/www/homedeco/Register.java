@@ -1,14 +1,21 @@
 package gr.homedeco.www.homedeco;
 
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ScrollView;
+
+import java.util.Objects;
 
 public class Register extends AppCompatActivity {
 
     private EditText etUsername, etPassword, etFirstName, etLastName, etEmail, etAddress,
-            etAddressNumber, etTK, etCity, etState, etCountry, etPhone, etMobilePhone;
+            etTK, etCity, etState, etCountry, etPhone, etMobilePhone;
+    private ScrollView layout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +33,7 @@ public class Register extends AppCompatActivity {
         etCountry = (EditText) findViewById(R.id.etRegCountry);
         etPhone = (EditText) findViewById(R.id.etRegPhone);
         etMobilePhone = (EditText) findViewById(R.id.etRegMobilePhone);
+        layout = (ScrollView) findViewById(R.id.activity_register);
     }
 
     public void registerUser(View view) {
@@ -54,5 +62,30 @@ public class Register extends AppCompatActivity {
         userToRegister.setCountry(country);
         userToRegister.setPhone(phone);
         userToRegister.setMobilePhone(mobilePhone);
+        userToRegister.setBirthday("23/06/1992");
+
+        Helpers helper = new Helpers();
+        helper.hideKeyboard(Register.this);
+
+        ServerRequests serverRequests = new ServerRequests(this);
+        serverRequests.register(userToRegister, new GetRegisterCallback() {
+            @Override
+            public void done(ServerResponse response) {
+                if (!response.getMessage().isEmpty()) {
+                    Snackbar snackbar = Snackbar.make(layout, "Εγγραφή επιτυχής", Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                    // Navigates to parent Activity after 1sec
+                    new android.os.Handler().postDelayed(
+                            new Runnable() {
+                                public void run() {
+                                    NavUtils.navigateUpFromSameTask(Register.this);
+                                }
+                            }, 1000);
+                } else {
+                    Snackbar snackbar = Snackbar.make(layout, "Η εγγραφή απέτυχε, προσπαθήστε ξανά.", Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+            }
+        });
     }
 }
