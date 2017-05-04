@@ -17,11 +17,18 @@
             android:id="@+id/imgType1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/generic_products"
+            android:src="@drawable/custom_products_grafeio"
             android:layout_centerInParent="true"
             android:scaleType="fitCenter"/>
 
     </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/light_gray" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -34,11 +41,18 @@
             android:id="@+id/imgType2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/custom_products"
+            android:src="@drawable/custom_products_kanapes"
             android:layout_centerInParent="true"
             android:scaleType="fitCenter"/>
 
     </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/light_gray" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -51,7 +65,7 @@
             android:id="@+id/imgType3"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/custom_products"
+            android:src="@drawable/custom_products_krevati"
             android:layout_centerInParent="true"
             android:scaleType="fitCenter"/>
 

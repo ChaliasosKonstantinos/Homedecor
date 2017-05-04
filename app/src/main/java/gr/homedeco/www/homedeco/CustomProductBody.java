@@ -36,10 +36,9 @@ public class CustomProductBody extends Fragment {
         System.out.println(parts[0]);
         switch (parts[0]) {
             case "1":
-                // TODO: CHANGE
-                imgbBody1.setImageResource(R.drawable.swma_kanape_1);
-                imgbBody2.setImageResource(R.drawable.swma_kanape_2);
-                imgbBody3.setImageResource(R.drawable.swma_kanape_3);
+                imgbBody1.setImageResource(R.drawable.swma_grafeiou_1);
+                imgbBody2.setImageResource(R.drawable.swma_grafeiou_2);
+                imgbBody3.setImageResource(R.drawable.swma_grafeiou_3);
                 break;
             case "2":
                 imgbBody1.setImageResource(R.drawable.swma_kanape_1);
@@ -47,10 +46,9 @@ public class CustomProductBody extends Fragment {
                 imgbBody3.setImageResource(R.drawable.swma_kanape_3);
                 break;
             case "3":
-                // TODO: CHANGE
-                imgbBody1.setImageResource(R.drawable.swma_kanape_1);
-                imgbBody2.setImageResource(R.drawable.swma_kanape_2);
-                imgbBody3.setImageResource(R.drawable.swma_kanape_3);
+                imgbBody1.setImageResource(R.drawable.swma_krevatiou_1);
+                imgbBody2.setImageResource(R.drawable.swma_krevatiou_2);
+                imgbBody3.setImageResource(R.drawable.swma_krevatiou_3);
                 break;
             default:
                 break;

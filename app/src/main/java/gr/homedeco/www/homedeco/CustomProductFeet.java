@@ -24,6 +24,28 @@ public class CustomProductFeet extends Fragment {
         imgbFeet2 = (ImageButton) view.findViewById(R.id.imgbFeet2);
         imgbFeet3 = (ImageButton) view.findViewById(R.id.imgbFeet3);
 
+        String product = ((CustomProduct) getActivity()).getCustomProduct();
+        String[] parts = product.split("-");
+        switch (parts[0]) {
+            case "1":
+                imgbFeet1.setImageResource(R.drawable.podia_grafeiou_1);
+                imgbFeet2.setImageResource(R.drawable.podia_grafeiou_2);
+                imgbFeet3.setImageResource(R.drawable.podia_grafeiou_3);
+                break;
+            case "2":
+                imgbFeet1.setImageResource(R.drawable.kalymma_kanape_1);
+                imgbFeet2.setImageResource(R.drawable.kalymma_kanape_2);
+                imgbFeet3.setImageResource(R.drawable.kalymma_kanape_3);
+                break;
+            case "3":
+                imgbFeet1.setImageResource(R.drawable.podia_krevatiou_1);
+                imgbFeet2.setImageResource(R.drawable.podia_krevatiou_2);
+                imgbFeet3.setImageResource(R.drawable.podia_krevatiou_3);
+                break;
+            default:
+                break;
+        }
+
         imgbFeet1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

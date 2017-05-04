@@ -27,19 +27,19 @@ public class CustomProductColor extends Fragment {
         bColor1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                registerChoiceAndReroute("3");
+                registerChoiceAndReroute("#3E2723");
             }
         });
         bColor2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                registerChoiceAndReroute("3");
+                registerChoiceAndReroute("#000000");
             }
         });
         bColor3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                registerChoiceAndReroute("3");
+                registerChoiceAndReroute("#B71C1C");
             }
         });
         return view;
