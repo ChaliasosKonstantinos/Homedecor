@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/linearLayout"
     android:orientation="vertical"
+    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -10,25 +11,42 @@
         android:id="@+id/imgbBody1"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.33"
+        android:layout_weight="0.30"
+        android:backgroundTint="@color/transparent_full"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:contentDescription="@string/content_description"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/light_gray" />
 
     <ImageButton
         android:id="@+id/imgbBody2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.33"
+        android:backgroundTint="@color/transparent_full"
+        android:layout_weight="0.30"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:contentDescription="@string/content_description"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/light_gray" />
 
     <ImageButton
         android:id="@+id/imgbBody3"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.33"
+        android:layout_weight="0.30"
+        android:backgroundTint="@color/transparent_full"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:contentDescription="@string/content_description"/>

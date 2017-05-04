@@ -10,6 +10,7 @@ public class CustomProduct extends AppCompatActivity {
     private SectionsPageAdapter sectionsPageAdapter;
     private ViewPager viewPager;
     private TabLayout tabLayout;
+    private String customProduct;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +29,7 @@ public class CustomProduct extends AppCompatActivity {
     // Adds the fragments to the View Pager
     private void setupViewAdapter(ViewPager viewPager) {
         SectionsPageAdapter adapter = new SectionsPageAdapter(getSupportFragmentManager());
+        adapter.addFragment(new CustomProductType(), "ΤΥΠΟΣ");
         adapter.addFragment(new CustomProductColor(), "ΧΡΩΜΑ");
         adapter.addFragment(new CustomProductBody(), "ΣΩΜΑ");
         adapter.addFragment(new CustomProductFeet(), "ΠΟΔΙΑ");
@@ -38,6 +40,25 @@ public class CustomProduct extends AppCompatActivity {
     // Let the fragment getPager
     public ViewPager getPager() {
         return viewPager;
+    }
+
+    // Set custom product choices
+    public void setCustomProduct(String choice) {
+        if (customProduct.isEmpty()) {
+            customProduct = choice;
+        } else {
+            customProduct += "-" + choice;
+        }
+    }
+
+    // Get custom product choices
+    public String getCustomProduct() {
+        return customProduct;
+    }
+
+    // Clear custom product choices
+    public void clearCustomProduct() {
+        customProduct = "";
     }
 
 

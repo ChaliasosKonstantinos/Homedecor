@@ -12,6 +12,8 @@ import android.widget.LinearLayout;
 
 import com.squareup.picasso.Picasso;
 
+import java.lang.reflect.Array;
+
 public class CustomProductBody extends Fragment {
 
     private ImageButton imgbBody1, imgbBody2, imgbBody3;
@@ -25,22 +27,64 @@ public class CustomProductBody extends Fragment {
         imgbBody1 = (ImageButton) view.findViewById(R.id.imgbBody1);
         imgbBody2 = (ImageButton) view.findViewById(R.id.imgbBody2);
         imgbBody3 = (ImageButton) view.findViewById(R.id.imgbBody3);
-        String image_url = "http://www.ikea.gr/images/110x110/20276941/tidafors-dithesios-kanapes-0.jpg";
-        Picasso.with(getContext()).load(image_url).into(imgbBody1);
-        image_url = "http://www.ikea.gr/images/110x110/20276941/tidafors-dithesios-kanapes-0.jpg";
-        Picasso.with(getContext()).load(image_url).into(imgbBody2);
-        image_url = "http://www.ikea.gr/images/110x110/20276941/tidafors-dithesios-kanapes-0.jpg";
-        Picasso.with(getContext()).load(image_url).into(imgbBody3);
+
+        String product = ((CustomProduct) getActivity()).getCustomProduct();
+        System.out.println("Product");
+        System.out.println(product);
+        String[] parts = product.split("-");
+        System.out.println("PRODUCT TYPE");
+        System.out.println(parts[0]);
+        switch (parts[0]) {
+            case "1":
+                // TODO: CHANGE
+                imgbBody1.setImageResource(R.drawable.swma_kanape_1);
+                imgbBody2.setImageResource(R.drawable.swma_kanape_2);
+                imgbBody3.setImageResource(R.drawable.swma_kanape_3);
+                break;
+            case "2":
+                imgbBody1.setImageResource(R.drawable.swma_kanape_1);
+                imgbBody2.setImageResource(R.drawable.swma_kanape_2);
+                imgbBody3.setImageResource(R.drawable.swma_kanape_3);
+                break;
+            case "3":
+                // TODO: CHANGE
+                imgbBody1.setImageResource(R.drawable.swma_kanape_1);
+                imgbBody2.setImageResource(R.drawable.swma_kanape_2);
+                imgbBody3.setImageResource(R.drawable.swma_kanape_3);
+                break;
+            default:
+                break;
+        }
 
         imgbBody1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar snackbar = Snackbar.make(linearLayout, "Το σώμα αποθηκεύτηκε", Snackbar.LENGTH_LONG);
-                snackbar.show();
-                ((CustomProduct) getActivity()).getPager().setCurrentItem(2);
+                registerChoiceAndReroute("1");
+            }
+        });
+        imgbBody2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                registerChoiceAndReroute("2");
+            }
+        });
+        imgbBody3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                registerChoiceAndReroute("3");
             }
         });
         return view;
+    }
+
+    // ----------------------------------- HELPERS -------------------------------------------------//
+
+    // Register the choice and routes to next tab
+    private void registerChoiceAndReroute(String choice) {
+        ((CustomProduct) getActivity()).setCustomProduct(choice);
+        Snackbar snackbar = Snackbar.make(linearLayout, "Το σώμα αποθηκεύτηκε", Snackbar.LENGTH_LONG);
+        snackbar.show();
+        ((CustomProduct) getActivity()).getPager().setCurrentItem(3);
     }
 
 }

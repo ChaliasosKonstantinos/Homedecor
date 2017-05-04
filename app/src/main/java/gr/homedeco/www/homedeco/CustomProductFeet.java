@@ -27,11 +27,31 @@ public class CustomProductFeet extends Fragment {
         imgbFeet1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar snackbar = Snackbar.make(linearLayout, "Το προιόν ολοκληρώθηκε", Snackbar.LENGTH_LONG);
-                snackbar.show();
-                ((CustomProduct) getActivity()).getPager().setCurrentItem(4);
+                registerChoiceAndReroute("1");
+            }
+        });
+        imgbFeet2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                registerChoiceAndReroute("2");
+            }
+        });
+        imgbFeet3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                registerChoiceAndReroute("3");
             }
         });
         return view;
+    }
+
+    // ----------------------------------- HELPERS -------------------------------------------------//
+
+    // Register the choice and routes to next tab
+    private void registerChoiceAndReroute(String choice) {
+        ((CustomProduct) getActivity()).setCustomProduct(choice);
+        Snackbar snackbar = Snackbar.make(linearLayout, "Το προιόν ολοκληρώθηκε", Snackbar.LENGTH_LONG);
+        snackbar.show();
+        ((CustomProduct) getActivity()).getPager().setCurrentItem(4);
     }
 }

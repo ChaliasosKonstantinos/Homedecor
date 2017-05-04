@@ -27,12 +27,32 @@ public class CustomProductColor extends Fragment {
         bColor1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar snackbar = Snackbar.make(linearLayout, "Το χρώμα αποθηκεύτηκε", Snackbar.LENGTH_LONG);
-                snackbar.show();
-                ((CustomProduct) getActivity()).getPager().setCurrentItem(1);
+                registerChoiceAndReroute("3");
+            }
+        });
+        bColor2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                registerChoiceAndReroute("3");
+            }
+        });
+        bColor3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                registerChoiceAndReroute("3");
             }
         });
         return view;
+    }
+
+    // ----------------------------------- HELPERS -------------------------------------------------//
+
+    // Register the choice and routes to next tab
+    private void registerChoiceAndReroute(String choice) {
+        ((CustomProduct) getActivity()).setCustomProduct(choice);
+        Snackbar snackbar = Snackbar.make(linearLayout, "Το χρώμα αποθηκεύτηκε", Snackbar.LENGTH_LONG);
+        snackbar.show();
+        ((CustomProduct) getActivity()).getPager().setCurrentItem(2);
     }
 
 }
