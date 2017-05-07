@@ -189,4 +189,74 @@ public class JSONparser {
 
         return user;
     }
+
+//------------------------------------------------------------------------------------------------//
+//                                    CONVERSATION
+//------------------------------------------------------------------------------------------------//
+
+    /**
+     * Returns a private messages list of user's conversation
+     *
+     * @param result the whole conversation server's response as a string
+     * @return the whole conversation as a List of PrivateMessage objects
+     */
+    public List<PrivateMessage> toConversation(String result) throws JSONException {
+
+        List<PrivateMessage> conv = new ArrayList<>();
+        PrivateMessage returnedMessage;
+        JSONArray jArray = new JSONArray(result);
+
+        int length = jArray.length();
+        for (int i = 0; i < length; i++) {
+            JSONObject jObject = jArray.getJSONObject(i);
+
+            if (jObject.length() != 0) {
+                int id = jObject.getInt("id");
+                String message = jObject.getString("Message");
+                String image = jObject.getString("Image");
+                int isUser = jObject.getInt("IsUser");
+                String date = jObject.getString("Date");
+
+                returnedMessage = new PrivateMessage();
+                returnedMessage.setMessageID(id);
+                returnedMessage.setMessage(message);
+                returnedMessage.setImage(image);
+                returnedMessage.setIsUser(isUser);
+                returnedMessage.setDate(date);
+
+                conv.add(returnedMessage);
+            }
+        }
+
+        return conv;
+    }
+
+    /**
+     * Returns server's response of a private message
+     *
+     * @param result server's response of a private message
+     * @return server's response of a private message
+     */
+    public String sendMessageResponse(String result) throws JSONException {
+
+        String response = "";
+        JSONObject jObject = new JSONObject(result);
+        response = jObject.getString("Message");
+        return response;
+    }
+
+    /**
+     * Returns a private message as a JSONObject
+     *
+     * @param message a PrivateMessage object with either a Message or an Image
+     * @return private message as a JSONObject
+     */
+    public JSONObject toPrivateMessage(PrivateMessage message) throws JSONException {
+
+        JSONObject json = new JSONObject();
+        json.put("Message", message.getMessage());
+        json.put("Image", "");
+        return json;
+    }
+
 }

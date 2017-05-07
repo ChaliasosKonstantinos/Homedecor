@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class GenericProducts extends AppCompatActivity {
@@ -81,6 +82,9 @@ public class GenericProducts extends AppCompatActivity {
             @Override
             public void done(List<Product> returnedList) {
                 products = returnedList;
+                for (int i=0; i < 3; i++) {
+                    products.remove(products.size() - 1);
+                }
                 populateProductsList(returnedList);
                 initListeners();
             }

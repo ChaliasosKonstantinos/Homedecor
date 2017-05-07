@@ -298,5 +298,129 @@ public class ServerRequests {
         }
     }
 
+//------------------------------------------------------------------------------------------------//
+//                                    CHAT
+//------------------------------------------------------------------------------------------------//
+
+    // Get user's chat
+    public void getConversation(GetConversationCallback conversationCallback) {
+        new getConversationAsyncTask(conversationCallback).execute();
+    }
+
+    public class getConversationAsyncTask extends AsyncTask<Void, Void, List<PrivateMessage>> {
+        GetConversationCallback conversationCallback;
+
+        public getConversationAsyncTask(GetConversationCallback conversationCallback) {
+            this.conversationCallback = conversationCallback;
+        }
+
+        @Override
+        protected List<PrivateMessage> doInBackground(Void... params) {
+            ServerConnection connection = new ServerConnection();
+            List<PrivateMessage> returnedList = new ArrayList<>();
+            HttpURLConnection urlConnection;
+            JSONparser parser = new JSONparser();
+
+            urlConnection = connection.openGetConnection("/message");
+            urlConnection.setRequestProperty("android", "true");
+            urlConnection.setRequestProperty("android-token", localDatabase.getAuthToken());
+
+            try {
+                urlConnection.connect();
+
+                int status = urlConnection.getResponseCode();
+                System.out.println(status);
+
+                InputStream is = urlConnection.getInputStream();
+                reader = new BufferedReader(new InputStreamReader(is));
+
+                StringBuilder strBuilder = new StringBuilder();
+
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    strBuilder.append(line);
+                }
+
+                String result = strBuilder.toString();
+                returnedList = parser.toConversation(result);
+                System.out.println("RESULT CHAT");
+                System.out.println(result);
+
+
+            } catch (IOException | JSONException e) {
+                e.printStackTrace();
+            }
+            return returnedList;
+        }
+
+        @Override
+        protected void onPostExecute(List<PrivateMessage> returnedList) {
+            progressDialog.dismiss();
+            conversationCallback.done(returnedList);
+            super.onPostExecute(returnedList);
+        }
+    }
+
+    // Send user message
+    public void sendMessage(PrivateMessage messageToSend, GetMessageCallback messageCallback) {
+        new setMessageAsyncTask(messageToSend, messageCallback).execute();
+    }
+
+    public class setMessageAsyncTask extends AsyncTask<PrivateMessage, Void, String> {
+        PrivateMessage messageToSend = new PrivateMessage();
+        GetMessageCallback messageCallback;
+
+        public setMessageAsyncTask(PrivateMessage messageToSend, GetMessageCallback messageCallback) {
+            this.messageToSend = messageToSend;
+            this.messageCallback = messageCallback;
+        }
+
+        @Override
+        protected String doInBackground(PrivateMessage... params) {
+            ServerConnection connection = new ServerConnection();
+            HttpURLConnection urlConnection;
+            String response = "";
+            JSONparser parser = new JSONparser();
+
+            urlConnection = connection.openPostConnection("/message");
+            urlConnection.setRequestProperty("android", "true");
+            urlConnection.setRequestProperty("android-token", localDatabase.getAuthToken());
+
+            try {
+                urlConnection.connect();
+
+                JSONObject json = parser.toPrivateMessage(messageToSend);
+                OutputStreamWriter out = new OutputStreamWriter(urlConnection.getOutputStream());
+                out.write(json.toString());
+                out.close();
+
+                InputStream is = urlConnection.getInputStream();
+                reader = new BufferedReader(new InputStreamReader(is));
+
+                StringBuilder strBuilder = new StringBuilder();
+
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    strBuilder.append(line);
+                }
+
+                String result = strBuilder.toString();
+                response = parser.sendMessageResponse(result);
+
+
+            } catch (IOException | JSONException e) {
+                e.printStackTrace();
+            }
+
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(String response) {
+            progressDialog.dismiss();
+            messageCallback.done(response);
+            super.onPostExecute(response);
+        }
+    }
 }
 

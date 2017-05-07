@@ -2,31 +2,18 @@ package gr.homedeco.www.homedeco;
 
 public class PrivateMessage {
 
-    private String sender, receiver, message;
+    private int messageID, isUser;
+    private String message, date, image;
 
     public PrivateMessage() {
     }
 
-    public PrivateMessage(String sender, String receiver, String message) {
-        this.sender = sender;
-        this.receiver = receiver;
-        this.message = message;
+    public int getMessageID() {
+        return messageID;
     }
 
-    public String getSender() {
-        return sender;
-    }
-
-    public void setSender(String sender) {
-        this.sender = sender;
-    }
-
-    public String getReceiver() {
-        return receiver;
-    }
-
-    public void setReceiver(String receiver) {
-        this.receiver = receiver;
+    public void setMessageID(int messageID) {
+        this.messageID = messageID;
     }
 
     public String getMessage() {
@@ -35,5 +22,29 @@ public class PrivateMessage {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public int getIsUser() {
+        return isUser;
+    }
+
+    public void setIsUser(int isUser) {
+        this.isUser = isUser;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

@@ -12,14 +12,8 @@ import java.util.Objects;
 
 public class ChatAdapter extends ArrayAdapter<PrivateMessage> {
 
-    private LocalDatabase localDatabase;
-    private String username;
-
     public ChatAdapter(Context context, List<PrivateMessage> message) {
         super(context, R.layout.custom_chat_bubble, message);
-        // MOCKUP - TODO: MODIFY IT
-//        username = localDatabase.getUsername();
-        username = "Kostas";
     }
 
     @Override
@@ -30,7 +24,7 @@ public class ChatAdapter extends ArrayAdapter<PrivateMessage> {
         Button bMessage;
         PrivateMessage message = getItem(position);
 
-        if (Objects.equals(message.getSender(), username)) {
+        if (message.getIsUser() == 1) {
             customView = myInflater.inflate(R.layout.custom_chat_bubble, parent, false);
             bMessage = (Button) customView.findViewById(R.id.bChatBubble);
             bMessage.setText(message.getMessage());
