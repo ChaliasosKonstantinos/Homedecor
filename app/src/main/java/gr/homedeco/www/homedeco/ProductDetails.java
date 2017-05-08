@@ -2,12 +2,14 @@ package gr.homedeco.www.homedeco;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +23,7 @@ public class ProductDetails extends AppCompatActivity {
     private TextView tvProductName, tvProductPrice, tvProductDesc;
     private int productID;
     private LocalDatabase localDatabase;
+    private LinearLayout layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +36,7 @@ public class ProductDetails extends AppCompatActivity {
         tvProductName = (TextView) findViewById(R.id.tvProductName);
         tvProductPrice = (TextView) findViewById(R.id.tvProductPrice);
         tvProductDesc = (TextView) findViewById(R.id.tvProductDesc);
+        layout = (LinearLayout) findViewById(R.id.activity_product_details);
         localDatabase = new LocalDatabase(this);
 
         //Server Request for specific product details
@@ -59,7 +63,8 @@ public class ProductDetails extends AppCompatActivity {
 
     public void addToCart(View view) {
         localDatabase.addToCart(productID);
-        Toast.makeText(getApplicationContext(), "Product added to cart", Toast.LENGTH_SHORT).show();
+        Snackbar snackbar = Snackbar.make(layout, R.string.cart_added_product, Snackbar.LENGTH_LONG);
+        snackbar.show();
     }
 
     public void checkout(View view) {

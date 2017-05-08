@@ -38,6 +38,7 @@
             android:visibility="gone" />
 
         <ImageButton
+            android:id="@+id/btnCartRemoveProduct"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorPrimary"
@@ -46,7 +47,7 @@
             android:elevation="0dp"
             android:src="@drawable/ic_action_delete"
             android:textColor="@color/white"
-            android:textStyle="bold" />
+            android:textStyle="bold"/>
 
     </LinearLayout>
 

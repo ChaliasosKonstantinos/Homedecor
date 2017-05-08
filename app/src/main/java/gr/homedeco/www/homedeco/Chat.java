@@ -14,6 +14,7 @@ public class Chat extends AppCompatActivity {
 
     private EditText etMessage;
     private ListView lvPrivateChat;
+    private List<PrivateMessage> conversation = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,34 +27,35 @@ public class Chat extends AppCompatActivity {
     }
 
     private void getConversation() {
-        // TODO: HTTP 401 ERROR
         ServerRequests serverRequests = new ServerRequests(this);
         serverRequests.getConversation(new GetConversationCallback() {
             @Override
             public void done(List<PrivateMessage> returnedList) {
-                populateChatView(returnedList);
+                conversation = returnedList;
+                populateChatView(conversation);
             }
         });
     }
 
     private void populateChatView(List<PrivateMessage> messages) {
-
         ListAdapter myAdapter = new ChatAdapter(this, messages);
-        ListView privateChatListView = (ListView) findViewById(R.id.lvPrivateChat);
-        privateChatListView.setAdapter(myAdapter);
-        privateChatListView.setItemsCanFocus(true);
+        lvPrivateChat = (ListView) findViewById(R.id.lvPrivateChat);
+        lvPrivateChat.setAdapter(myAdapter);
+        lvPrivateChat.setItemsCanFocus(true);
     }
 
     //Sends the private Message
     public void sendMessage(View view) {
-        // TODO: HTTP 401 ERROR
-        PrivateMessage message = new PrivateMessage();
+        final PrivateMessage message = new PrivateMessage();
         message.setMessage(etMessage.getText().toString());
         ServerRequests serverRequests = new ServerRequests(this);
         serverRequests.sendMessage(message, new GetMessageCallback() {
             @Override
             public void done(String response) {
                 etMessage.setText("");
+                message.setIsUser(1);
+                conversation.add(message);
+                populateChatView(conversation);
             }
         });
     }

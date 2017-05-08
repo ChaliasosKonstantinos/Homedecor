@@ -11,6 +11,17 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="gr.homedeco.www.homedeco.Cart">
 
+    <TextView
+        android:id="@+id/tvCartIsEmpty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:gravity="center_horizontal"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="@color/black"
+        android:text="@string/cart_is_empty"
+        android:visibility="gone"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvCart"
         android:layout_width="match_parent"
@@ -26,15 +37,18 @@
         android:background="@color/light_gray" />
 
     <RelativeLayout
+        android:id="@+id/rlCartPrices"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
+            android:layout_alignBottom="@+id/tvProductPrice"
             android:layout_toStartOf="@+id/tvProductPrice"
             android:text="@string/default_product_price"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
@@ -45,24 +59,17 @@
             android:id="@+id/tvProductPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:layout_alignParentEnd="true"
-            android:text="348.98€"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="@color/black" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
             android:layout_toStartOf="@+id/tvProductVAT"
+            android:layout_alignBottom="@id/tvProductVAT"
             android:text="@string/vat"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="@color/black"
@@ -72,24 +79,18 @@
             android:id="@+id/tvProductVAT"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:layout_alignParentEnd="true"
-            android:text="83.76€"
+            android:layout_below="@+id/tvProductPrice"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="@color/black" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
             android:layout_toStartOf="@+id/tvProductTotalPrice"
+            android:layout_alignBottom="@id/tvProductTotalPrice"
             android:text="@string/price_total"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="@color/black"
@@ -99,23 +100,28 @@
             android:id="@+id/tvProductTotalPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:layout_alignParentEnd="true"
-            android:text="432.74€"
+            android:layout_below="@id/tvProductVAT"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="@color/price"
             android:textStyle="bold" />
 
-    </RelativeLayout>
+        <Button
+            android:id="@+id/btnCartCheckout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="5dp"
+            android:layout_alignParentEnd="true"
+            android:backgroundTint="@color/colorPrimary"
+            android:onClick="checkout"
+            android:text="@string/buy_now"
+            android:layout_below="@id/tvProductTotalPrice"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:layout_marginTop="10dp"
-        android:backgroundTint="@color/colorPrimary"
-        android:onClick="checkout"
-        android:text="@string/buy_now"
-        android:textColor="@color/white"
-        android:textStyle="bold" />
+    </RelativeLayout>
 
 </LinearLayout>

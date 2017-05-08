@@ -93,8 +93,6 @@ public class ServerRequests {
 
         @Override
         protected void onPostExecute(List<Product> products) {
-            System.out.println("PRODUCT RESULTS");
-            System.out.println(products.toString());
             progressDialog.dismiss();
             productCallback.done(products);
             super.onPostExecute(products);
@@ -343,8 +341,6 @@ public class ServerRequests {
 
                 String result = strBuilder.toString();
                 returnedList = parser.toConversation(result);
-                System.out.println("RESULT CHAT");
-                System.out.println(result);
 
 
             } catch (IOException | JSONException e) {

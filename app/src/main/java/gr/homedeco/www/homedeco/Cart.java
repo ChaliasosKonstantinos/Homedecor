@@ -1,9 +1,9 @@
 package gr.homedeco.www.homedeco;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +12,10 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,96 +23,97 @@ import java.util.List;
 public class Cart extends AppCompatActivity {
 
     private LocalDatabase localDatabase;
-    private RecyclerView recyclerView;
-    private CartAdapter adapter;
-    private Context context;
+    private double totalPriceBeforeVAT = 0;
+    private TextView tvProductPrice, tvProductVAT, tvProductTotalPrice, tvCartIsEmpty;
+    private RelativeLayout rlCartPrices;
+    private LinearLayout layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
         localDatabase = new LocalDatabase(this);
-        context = getApplicationContext();
-        getCart();
+        tvProductPrice = (TextView) findViewById(R.id.tvProductPrice);
+        tvProductVAT = (TextView) findViewById(R.id.tvProductVAT);
+        tvProductTotalPrice = (TextView) findViewById(R.id.tvProductTotalPrice);
+        tvCartIsEmpty = (TextView) findViewById(R.id.tvCartIsEmpty);
+        rlCartPrices = (RelativeLayout) findViewById(R.id.rlCartPrices);
+        layout = (LinearLayout) findViewById(R.id.activity_cart);
+
+        getProducts();
     }
 
+//------------------------------------- MENU -------------------------------------------------//
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.generic_menu, menu);
+        getMenuInflater().inflate(R.menu.cart_menu_logged_in, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
-    private void getCart() {
-        // Get cart
-        String cart = localDatabase.getCart();
-        String[] parts = cart.split(",");
+//------------------------------------- HELPERS -------------------------------------------------//
 
-        System.out.println("DIKO MOU!");
-        for (String part : parts) {
-            System.out.println(part);
-        }
-
-        // Mockup - TODO: Delete this
-        List<Product> returnedList = new ArrayList<>();
-
-        Product product1 = new Product();
-        product1.setProductID(1);
-        product1.setSKU("123ABC");
-        product1.setName("BRIMNES");
-        product1.setPrice(119);
-        product1.setDiscountPrice(10);
-        product1.setWeight(1);
-        product1.setDescription("Αυτό το έπιπλο πρέπει να στερεώνεται στον τοίχο, με την βοήθεια του εξαρτήματος στερέωσης στον τοίχο που περιλαμβάνεται στην συσκευασία. Τα διαφορετικά υλικά τοίχου, απαιτούν και διαφορετικούς τύπους μηχανισμών στερέωσης. Χρησιμοποιείτε μηχανισμούς, οι οποίοι να είναι οι κατάλληλοι για τους τοίχους του σπιτιού σας, πωλούνται χωριστά. Μπορεί να συνδυαστεί και με άλλα έπιπλα της σειράς των προϊόντων BRIMNES. ");
-        product1.setShortDescription("Οι πόρτες σάς επιτρέπουν να κρύψετε τα πράγματά σας και να τα προστατέψετε από τη σκόνη");
-        product1.setImage("http://www.ikea.gr/images/250x250/00300664/brimnes_ntoylapi_me_portes_gyali_mayro_0.jpg?v=1");
-        product1.setStock(35);
-        product1.setCategoryID(1);
-
-        Product product2 = new Product();
-        product2.setProductID(2);
-        product2.setSKU("123ABC");
-        product2.setName("ALEX");
-        product2.setPrice(79.99);
-        product2.setDiscountPrice(10);
-        product2.setWeight(1);
-        product2.setDescription("Σκουπίστε με ένα πανί, ελαφρά βρεγμένο με ένα ήπιο καθαριστικό. Στεγνώστε με ένα καθαρό πανί. ");
-        product2.setShortDescription("Τα φρένα για τα συρτάρια εμποδίζουν τα συρτάρια να βγουν πολύ έξω");
-        product2.setImage("http://www.ikea.gr/images/250x250/10192824/alex_syrtariera_0.jpg?v=0");
-        product2.setStock(20);
-        product2.setCategoryID(1);
-
-        Product product3 = new Product();
-        product3.setProductID(2);
-        product3.setSKU("123ABC");
-        product3.setName("BILLY/OXBERG");
-        product3.setPrice(149.99);
-        product3.setDiscountPrice(10);
-        product3.setWeight(1);
-        product3.setDescription("Ρυθμιζόμενα ράφια. Προσαρμόστε το χώρο μεταξύ των ραφιών ανάλογα με τις ανάγκες σας.\n" +
-                "Η επιφάνεια είναι κατασκευασμένη με όψη φυσικού ξύλου.\n" +
-                "Οι ρυθμιζόμενοι μεντεσέδες σάς επιτρέπουν να προσαρμόσετε την πόρτα στη σωστή θέση.\n" +
-                "Οι γυάλινες πόρτες προφυλάσσουν τα αγαπημένα σας αντικείμενα από τη σκόνη και επιτρέπουν να είναι ορατά. ");
-        product3.setShortDescription("Ρυθμιζόμενα ράφια. Προσαρμόστε το χώρο μεταξύ των ραφιών ανάλογα με τις ανάγκες σας.");
-        product3.setImage("http://www.ikea.gr/images/250x250/79020482/billy_oxberg_bibliothiki_skoyro_kafe_0.jpg?v=5");
-        product3.setStock(20);
-        product3.setCategoryID(1);
-
-        returnedList.add(product1);
-        returnedList.add(product2);
-        returnedList.add(product3);
-
-        populateCartList(returnedList);
+    // Retrieves products from the server
+    private void getProducts() {
+        ServerRequests serverRequests = new ServerRequests(this);
+        serverRequests.fetchProductDataInBackground(0, new GetProductCallback() {
+            @Override
+            public void done(List<Product> returnedList) {
+                getCart(returnedList);
+            }
+        });
     }
 
-    private void populateCartList(List<Product> returnedList) {
+    // Retrieves the cart from local database
+    private void getCart(List<Product> products) {
+        String cart = localDatabase.getCart();
+        if (!cart.isEmpty()) {
+            String[] parts = cart.split(",");
+            List<Integer> cartIDs = new ArrayList<>();
+            // Save parts into a productID list
+            for (String part : parts) {
+                cartIDs.add(Integer.parseInt(part));
+            }
+            makeProductList(products, cartIDs);
+            rlCartPrices.setVisibility(View.VISIBLE);
+        } else {
+            tvCartIsEmpty.setVisibility(View.VISIBLE);
+            rlCartPrices.setVisibility(View.GONE);
+        }
+    }
 
-        recyclerView = (RecyclerView) findViewById(R.id.rvCart);
-        adapter = new CartAdapter(returnedList);
+    // Creates a list with cart's given product IDs
+    private void makeProductList(List<Product> products, List<Integer> IDs) {
+        List<Product> returnedProducts = new ArrayList<>();
+
+        for(int i=0; i < IDs.size(); i++) {
+            int id = IDs.get(i);
+            returnedProducts.add(products.get(id-3));
+            totalPriceBeforeVAT += products.get(id-3).getPrice();
+        }
+        populateCartList(returnedProducts);
+    }
+
+    // Populates the UI
+    private void populateCartList(List<Product> products) {
+
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rvCart);
+        CartAdapter adapter = new CartAdapter(products);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(Cart.this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+        tvProductPrice.setText(totalPriceBeforeVAT + "€");
+        double VAT = (totalPriceBeforeVAT / 100) * 24;
+        VAT = Math.floor(VAT * 100) / 100;
+        tvProductVAT.setText(VAT + "€");
+        double totalPriceAfterVAT = totalPriceBeforeVAT + VAT;
+        totalPriceAfterVAT = Math.floor(totalPriceAfterVAT * 100) / 100;
+        tvProductTotalPrice.setText(totalPriceAfterVAT + "€");
+
     }
 
+//------------------------------------- LISTENERS -------------------------------------------------//
+
+    // Checkout
     public void checkout(View view) {
         AlertDialog builder = new AlertDialog.Builder(Cart.this).create();
         LayoutInflater inflater = Cart.this.getLayoutInflater();
@@ -128,18 +133,26 @@ public class Cart extends AppCompatActivity {
         builder.show();
     }
 
-    //Start Login Activity
-    public void showLogin(MenuItem item) {
-        Intent intent = new Intent(this, Login.class);
-        startActivity(intent);
-    }
-
+    // Dialog for checkout
     private void showLoginDialog() {
         Intent intent = new Intent(this, Login.class);
         startActivity(intent);
     }
 
-    //Start About Us Activity
+    // MENU: Login
+    public void showLogin(MenuItem item) {
+        Intent intent = new Intent(this, Login.class);
+        startActivity(intent);
+    }
+
+    // MENU: Delete cart
+    public void deleteCart(MenuItem item) {
+        localDatabase.clearCart();
+        Snackbar snackbar = Snackbar.make(layout, R.string.cart_deleted, Snackbar.LENGTH_LONG);
+        snackbar.show();
+    }
+
+    // MENU: About us
     public void showAboutUs(MenuItem item) {
         Intent intent = new Intent(this, AboutUs.class);
         startActivity(intent);

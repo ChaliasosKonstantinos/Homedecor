@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import java.util.List;
+import java.util.Objects;
 
 public class LocalDatabase {
 
@@ -46,12 +47,9 @@ public class LocalDatabase {
         return localDatabase.getString("username", "");
     }
 
-    // Stores a list of all the products
-    public void saveProducts(List<Product> products) {
+//--------------------------------------- CART ----------------------------------------------------//
 
-    }
-
-    // Add to user's cart
+    // Add a product to cart
     public void addToCart(int productID) {
         String cart = localDatabase.getString("cart", "");
         SharedPreferences.Editor spEditor = localDatabase.edit();
@@ -59,26 +57,42 @@ public class LocalDatabase {
         spEditor.apply();
     }
 
+    // Remove a product from cart
+    public void removeFromCart(int productID) {
+        String cart = localDatabase.getString("cart", "");
+        if (!cart.isEmpty()) {
+            String[] parts = cart.split(",");
+            String newCart = "";
+            for (String part : parts) {
+                if (!Objects.equals(part, String.valueOf(productID))) {
+                    newCart += part + ",";
+                }
+            }
+            SharedPreferences.Editor spEditor = localDatabase.edit();
+            spEditor.putString("cart", newCart);
+            spEditor.apply();
+        }
+    }
+
     // Get user's cart
     public String getCart() {
         return localDatabase.getString("cart", "");
     }
 
-    // Check if the user is logged in
-    public boolean isLoggedIn() {
-        return localDatabase.getBoolean("loggedIn", false);
-    }
-
-    // Clears local user Database
-    public void clearLocalDatabase() {
+    public void clearCart() {
         SharedPreferences.Editor spEditor = localDatabase.edit();
-        spEditor.clear().apply();
+        spEditor.putString("cart", "");
+        spEditor.apply();
     }
 
+//---------------------------------------- USER ---------------------------------------------------//
+
+    // Retrieve logged user's auth token
     public String getAuthToken() {
         return localDatabase.getString("authToken", "");
     }
 
+    // Set remember me credentials
     public void setRememberMe(User user) {
         SharedPreferences.Editor spEditor = localDatabase.edit();
         spEditor.putString("usernameRemember", user.getUsername());
@@ -86,10 +100,24 @@ public class LocalDatabase {
         spEditor.apply();
     }
 
+    // Get remember me credentials
     public User getRememberMe() {
         User user = new User();
         user.setUsername(localDatabase.getString("usernameRemember", ""));
         user.setPassword(localDatabase.getString("passwordRemember", ""));
         return user;
+    }
+
+    // Check if the user is logged in
+    public boolean isLoggedIn() {
+        return localDatabase.getBoolean("loggedIn", false);
+    }
+
+//------------------------------------------ CLEAR ------------------------------------------------//
+
+    // Clears local user Database
+    public void clearLocalDatabase() {
+        SharedPreferences.Editor spEditor = localDatabase.edit();
+        spEditor.clear().apply();
     }
 }

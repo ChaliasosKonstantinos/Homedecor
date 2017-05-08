@@ -1,10 +1,12 @@
 package gr.homedeco.www.homedeco;
 
 import android.content.Context;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,8 +26,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         myContext = parent.getContext();
         View view = layoutInflater.inflate(R.layout.custom_cart_row, parent, false);
-        System.out.println("DIKO MOU!");
-        System.out.println(dataList);
         return new CartAdapter.CartViewHolder(view);
     }
 
@@ -36,8 +36,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         holder.tvProductsName.setText(dataList.get(position).getName());
         String price = String.valueOf(dataList.get(position).getPrice()) + " €";
         holder.tvProductsPrice.setText(price);
-        // MOCKUP TODO: DELETE IT
-        // String image_url = "http://83.212.107.169/" + dataList.get(position).getImage();
     }
 
     @Override
@@ -48,6 +46,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     class CartViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView tvProductsName, tvProductsPrice, tvProductsID;
+        ImageButton btnCartRemoveProduct;
 
         CartViewHolder(View itemView) {
             super(itemView);
@@ -55,17 +54,20 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             tvProductsID = (TextView) itemView.findViewById(R.id.tvProductsID);
             tvProductsName = (TextView) itemView.findViewById(R.id.tvProductsName);
             tvProductsPrice = (TextView) itemView.findViewById(R.id.tvProductsPrice);
+            btnCartRemoveProduct = (ImageButton) itemView.findViewById(R.id.btnCartRemoveProduct);
         }
 
         @Override
         public void onClick(View v) {
             int productID;
-            TextView tvProductID;
-
-            tvProductID = (TextView) v.findViewById(R.id.tvProductsID);
+            TextView tvProductID = (TextView) v.findViewById(R.id.tvProductsID);
             productID = Integer.parseInt(tvProductID.getText().toString());
-            // TODO: Remove item from cart
-            Toast.makeText(myContext, "Product removed from cart", Toast.LENGTH_SHORT).show();
+
+            if (productID > 0) {
+                LocalDatabase localDatabase = new LocalDatabase(myContext);
+                localDatabase.removeFromCart(productID);
+                Toast.makeText(myContext, R.string.cart_removed_product , Toast.LENGTH_LONG).show();
+            }
         }
     }
 }

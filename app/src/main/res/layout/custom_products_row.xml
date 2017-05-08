@@ -33,7 +33,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
-                android:text="@string/default_product_short_desc"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textColor="@color/black" />
@@ -44,7 +43,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
-                android:text="@string/default_product_short_desc"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textColor="@color/price"
@@ -66,7 +64,6 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="10dp"
-            android:text="@string/default_product_short_desc"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@color/black" />
 

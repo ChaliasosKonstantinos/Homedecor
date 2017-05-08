@@ -24,10 +24,9 @@
     <string name="how_to">Οδηγίες</string>
     <string name="default_product_name">Όνομα</string>
     <string name="default_product_price">Τιμή :</string>
-    <string name="default_product_desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
-    <string name="default_product_short_desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed</string>
     <string name="buy_now">Αγορα</string>
     <string name="add_to_cart">Προσθηκη στο καλαθι</string>
+    <string name="delete_cart">Άδειασμα καλαθιού</string>
     <string name="products">Προϊόντα</string>
     <string name="productDetails">Προϊόν</string>
     <string name="cart">Καλάθι</string>
@@ -37,7 +36,7 @@
     <string name="checkoutDialog_title">Αγορά ως..</string>
     <string name="noAccount_goToRegister">Δεν έχετε λογαριασμό; Εγγραφή εδώ</string>
     <string name="custom_product_overview"><u>Σύνοψη</u></string>
-    <string name="custom_product_product">Προιόν:</string>
+    <string name="custom_product_product">Προϊόν:</string>
     <string name="custom_product_color">- Χρώμα :</string>
     <string name="custom_product_body">- Σώμα :</string>
     <string name="custom_product_feet">- Πόδια :</string>
@@ -47,6 +46,10 @@
     <string name="bed">Κρεβάτι</string>
     <string name="sofa">Καναπές</string>
     <string name="desk">Γραφείο</string>
+    <string name="cart_deleted">Το καλάθι άδειασε!</string>
+    <string name="cart_added_product">Το προϊόν προστέθηκε στο καλάθι!</string>
+    <string name="cart_removed_product">Το προϊόν αφαιρέθηκε από το καλάθι!</string>
+    <string name="cart_is_empty">Το καλάδι είναι άδειο</string>
 
     <string-array name="product_filters_category">
         <item>Κατηγορία</item>
