@@ -28,8 +28,6 @@ public class ServerRequests {
         localDatabase = new LocalDatabase(context);
         progressDialog = new ProgressDialog(context);
         progressDialog.setCancelable(false);
-        progressDialog.setTitle("Φόρτωση");
-        progressDialog.setMessage("Παρακαλώ περιμένετε...");
     }
 
 //------------------------------------------------------------------------------------------------//
@@ -100,7 +98,7 @@ public class ServerRequests {
     }
 
 //------------------------------------------------------------------------------------------------//
-//                                    LOGIN
+//                                     LOGIN
 //------------------------------------------------------------------------------------------------//
 
     // Try to log user in
@@ -167,7 +165,7 @@ public class ServerRequests {
     }
 
 //------------------------------------------------------------------------------------------------//
-//                                    USER DETAILS
+//                                  USER DETAILS
 //------------------------------------------------------------------------------------------------//
 
     // Get user's details
@@ -415,6 +413,84 @@ public class ServerRequests {
         protected void onPostExecute(String response) {
             progressDialog.dismiss();
             messageCallback.done(response);
+            super.onPostExecute(response);
+        }
+    }
+
+//------------------------------------------------------------------------------------------------//
+//                                    ORDERS
+//------------------------------------------------------------------------------------------------//
+
+    // Send user message
+    public void createOrder(Order order, GetOrderCallback orderCallback) {
+        new createOrderAsyncTask(order, orderCallback).execute();
+    }
+
+    public class createOrderAsyncTask extends AsyncTask<Order, Void, ServerResponse> {
+        Order order = new Order();
+        List<Integer> cartIDs = new ArrayList<>();
+        GetOrderCallback orderCallback;
+
+        public createOrderAsyncTask(Order order, GetOrderCallback orderCallback) {
+            this.order = order;
+            this.order.setPrice(localDatabase.getCartPrice());
+            this.orderCallback = orderCallback;
+            String cart = localDatabase.getCart();
+            if (!cart.isEmpty()) {
+                String[] parts = cart.split(",");
+                // Save parts into a productID list
+                for (String part : parts) {
+                    cartIDs.add(Integer.parseInt(part));
+                }
+            }
+        }
+
+        @Override
+        protected ServerResponse doInBackground(Order... params) {
+            ServerConnection connection = new ServerConnection();
+            HttpURLConnection urlConnection;
+            ServerResponse response = new ServerResponse();
+            JSONparser parser = new JSONparser();
+
+            urlConnection = connection.openPostConnection("/order");
+            if (localDatabase.isLoggedIn()) {
+                urlConnection.setRequestProperty("android", "true");
+                urlConnection.setRequestProperty("android-token", localDatabase.getAuthToken());
+            }
+
+            try {
+                urlConnection.connect();
+
+                JSONObject json = parser.toOrder(order, cartIDs);
+                OutputStreamWriter out = new OutputStreamWriter(urlConnection.getOutputStream());
+                out.write(json.toString());
+                out.close();
+
+                InputStream is = urlConnection.getInputStream();
+                reader = new BufferedReader(new InputStreamReader(is));
+
+                StringBuilder strBuilder = new StringBuilder();
+
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    strBuilder.append(line);
+                }
+
+                String result = strBuilder.toString();
+                response = parser.orderResponse(result);
+
+
+            } catch (IOException | JSONException e) {
+                e.printStackTrace();
+            }
+
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(ServerResponse response) {
+            progressDialog.dismiss();
+            orderCallback.done(response);
             super.onPostExecute(response);
         }
     }

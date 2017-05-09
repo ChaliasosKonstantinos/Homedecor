@@ -35,8 +35,8 @@
         <activity android:name=".CheckoutDialog" />
         <activity
             android:name=".CustomProduct"
-            android:theme="@style/Theme.Design.Light.NoActionBar"
-            android:parentActivityName=".Products"/>
+            android:parentActivityName=".Products"
+            android:theme="@style/Theme.Design.Light.NoActionBar" />
         <activity
             android:name=".Login"
             android:label="Είσοδος χρήστη"
@@ -64,6 +64,7 @@
             android:name=".Products"
             android:label="Τύποι Προϊόντων"
             android:parentActivityName=".Main" />
+        <activity android:name=".OrderCreation"></activity>
     </application>
 
 </manifest>

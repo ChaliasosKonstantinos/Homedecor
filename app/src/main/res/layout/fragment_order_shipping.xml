@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragment_order_shipping_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginStart="@dimen/activity_horizontal_margin"
+    android:layout_marginEnd="@dimen/activity_horizontal_margin"
+    android:layout_marginTop="@dimen/activity_vertical_margin"
+    android:layout_marginBottom="@dimen/activity_vertical_margin"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/etOrderCountry"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/country"
+        android:backgroundTint="@color/transparent_full"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:inputType="text" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/light_gray" />
+
+    <EditText
+        android:id="@+id/etOrderState"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/state"
+        android:backgroundTint="@color/transparent_full"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:inputType="text" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/light_gray" />
+
+    <EditText
+        android:id="@+id/etOrderCity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/city"
+        android:backgroundTint="@color/transparent_full"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:inputType="text" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/light_gray" />
+
+    <EditText
+        android:id="@+id/etOrderShippingAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/address"
+        android:backgroundTint="@color/transparent_full"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:inputType="text" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/light_gray" />
+
+    <EditText
+        android:id="@+id/etOrderPostalCode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/postal_code"
+        android:backgroundTint="@color/transparent_full"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:inputType="text" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="25dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/light_gray" />
+
+    <Spinner
+        android:id="@+id/spOrderShippingMethod"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/order_shipping_method"
+        android:spinnerMode="dropdown"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/light_gray" />
+
+    <Button
+        android:id="@+id/btnCompleteOrder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:backgroundTint="@color/colorPrimaryDark"
+        android:elevation="4dp"
+        android:padding="15dp"
+        android:text="@string/button_make_order"
+        android:textColor="@color/white" />
+
+</LinearLayout>

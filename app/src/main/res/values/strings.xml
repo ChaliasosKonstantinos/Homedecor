@@ -47,9 +47,13 @@
     <string name="sofa">Καναπές</string>
     <string name="desk">Γραφείο</string>
     <string name="cart_deleted">Το καλάθι άδειασε!</string>
-    <string name="cart_added_product">Το προϊόν προστέθηκε στο καλάθι!</string>
-    <string name="cart_removed_product">Το προϊόν αφαιρέθηκε από το καλάθι!</string>
+    <string name="cart_added_product">Προστέθηκε στο καλάθι!</string>
+    <string name="cart_removed_product">Αφαιρέθηκε από το καλάθι!</string>
     <string name="cart_is_empty">Το καλάδι είναι άδειο</string>
+    <string name="button_next">Επομενο</string>
+    <string name="button_make_order">Ολοκληρωση παραγγελιας</string>
+    <string name="order_created">Η παραγγελία έγινε!</string>
+    <string name="order_creation_failed">Η παραγγελία απέτυχε! Προσπαθήστε ξανά</string>
 
     <string-array name="product_filters_category">
         <item>Κατηγορία</item>
@@ -78,4 +82,12 @@
         <item>Ντουλάπες</item>
         <item>Συρταριέρες αποθήκευσης</item>
     </string-array>
+
+    <string-array name="order_shipping_method">
+        <item>Μέθοδος αποστολής</item>
+        <item>UPS</item>
+        <item>UPS Express</item>
+        <item>Παραλαβή από το κατάστημα</item>
+    </string-array>
+
 </resources>

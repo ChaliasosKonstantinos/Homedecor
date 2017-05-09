@@ -108,6 +108,7 @@ public class Cart extends AppCompatActivity {
         double totalPriceAfterVAT = totalPriceBeforeVAT + VAT;
         totalPriceAfterVAT = Math.floor(totalPriceAfterVAT * 100) / 100;
         tvProductTotalPrice.setText(totalPriceAfterVAT + "€");
+        localDatabase.setCartPrice(totalPriceAfterVAT);
 
     }
 
@@ -127,7 +128,7 @@ public class Cart extends AppCompatActivity {
         builder.setButton(AlertDialog.BUTTON_POSITIVE, "Επισκεπτης",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
+                        showCart();
                     }
                 });
         builder.show();
@@ -136,6 +137,12 @@ public class Cart extends AppCompatActivity {
     // Dialog for checkout
     private void showLoginDialog() {
         Intent intent = new Intent(this, Login.class);
+        startActivity(intent);
+    }
+
+    // Navigates to cart
+    private void showCart() {
+        Intent intent = new Intent(this, OrderCreation.class);
         startActivity(intent);
     }
 

@@ -259,4 +259,60 @@ public class JSONparser {
         return json;
     }
 
+//------------------------------------------------------------------------------------------------//
+//                                    LOGIN
+//------------------------------------------------------------------------------------------------//
+
+    /**
+     * Returns an order
+     *
+     * @param order Order Object containing order infos
+     * @param productIDs List with Integers containing order's product IDs
+     * @return an order as a JSONObject
+     */
+    public JSONObject toOrder(Order order, List<Integer> productIDs) throws JSONException {
+
+        JSONObject jObject = new JSONObject();
+        JSONArray products = new JSONArray();
+
+        jObject.put("ShipAddress",order.getShipAddress());
+        jObject.put("BilAddress",order.getBillAddress());
+        jObject.put("PostalCode",order.getPostalCode());
+        jObject.put("City",order.getCity());
+        jObject.put("Country",order.getCountry());
+        jObject.put("State",order.getState());
+        jObject.put("MobilePhone",order.getMobilePhone());
+        jObject.put("Phone",order.getPhone());
+        jObject.put("ShippingMethod",order.getShippingMethod());
+        jObject.put("Email",order.getEmail());
+        jObject.put("FullName",order.getFullName());
+        jObject.put("Price",order.getPrice());
+        for(int id: productIDs) {
+            JSONObject product = new JSONObject();
+            product.put("ProductID",id);
+            product.put("Quantity",1);
+            products.put(product);
+        }
+        jObject.put("Products",products);
+
+        return jObject;
+    }
+
+    /**
+     * Returns server's response of an order creation
+     *
+     * @return a order creation response as a ServerResponse
+     */
+    public ServerResponse orderResponse(String result) throws JSONException {
+
+        ServerResponse response = new ServerResponse();
+        JSONObject jObject = new JSONObject(result);
+
+        if (jObject.has("Message")) {
+            response.setMessage(jObject.getString("Message"));
+        }
+
+        return response;
+    }
+
 }

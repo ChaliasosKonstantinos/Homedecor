@@ -75,7 +75,7 @@ public class CustomProductPrice extends Fragment {
             @Override
             public void onClick(View view) {
                 localDatabase.addToCart(productID);
-                Snackbar snackbar = Snackbar.make(relativeLayout, "Προστέθηκε στο καλάθι!", Snackbar.LENGTH_LONG);
+                Snackbar snackbar = Snackbar.make(relativeLayout, R.string.cart_added_product, Snackbar.LENGTH_LONG);
                 snackbar.show();
             }
         });
