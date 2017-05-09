@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_contact_us"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginStart="@dimen/activity_horizontal_margin"
@@ -11,6 +12,7 @@
     android:orientation="vertical">
 
     <EditText
+        android:id="@+id/etContactName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/first_name"
@@ -26,6 +28,7 @@
         android:background="@color/light_gray" />
 
     <EditText
+        android:id="@+id/etContactEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/email"
@@ -41,6 +44,7 @@
         android:background="@color/light_gray" />
 
     <EditText
+        android:id="@+id/etContactMessage"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:gravity="top"
@@ -53,7 +57,7 @@
         android:padding="5dp" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btnContactUs"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -61,6 +65,7 @@
         android:elevation="4dp"
         android:padding="15dp"
         android:text="@string/send_Email_button"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        android:onClick="sendEmail"/>
 
 </LinearLayout>

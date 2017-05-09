@@ -55,6 +55,9 @@
     <string name="order_created">Η παραγγελία έγινε!</string>
     <string name="order_creation_failed">Η παραγγελία απέτυχε! Προσπαθήστε ξανά</string>
 
+    <string name="contact_us_success">Το μήνυμα στάλθηκε!</string>
+    <string name="contact_us_error">Αποτυχία αποστολής! Προσπαθήστε ξανά</string>
+
     <string-array name="product_filters_category">
         <item>Κατηγορία</item>
         <item>Γραφείο</item>
