@@ -4,7 +4,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class JSONparser {
@@ -260,7 +263,7 @@ public class JSONparser {
     }
 
 //------------------------------------------------------------------------------------------------//
-//                                    LOGIN
+//                                    ORDERS
 //------------------------------------------------------------------------------------------------//
 
     /**
@@ -313,6 +316,55 @@ public class JSONparser {
         }
 
         return response;
+    }
+
+    /**
+     * Returns an Order history list
+     *
+     * @return an Order history list as a list with Order Objects
+     */
+    public List<Order> toOrderHistory(String result) throws JSONException, ParseException {
+
+        List<Order> orders = new ArrayList<>();
+        JSONArray jArray = new JSONArray(result);
+        int length = jArray.length();
+
+        for (int i=0; i < length; i++) {
+            JSONObject jObject = jArray.getJSONObject(i);
+
+            if (jObject.length() > 0) {
+                Order order = new Order();
+                order.setOrderID(jObject.getInt("OrderID"));
+                order.setShipAddress(jObject.getString("ShipAddress"));
+                order.setBillAddress(jObject.getString("BilAddress"));
+                order.setPostalCode(jObject.getString("PostalCode"));
+                order.setCity(jObject.getString("City"));
+                order.setState(jObject.getString("State"));
+                order.setCountry(jObject.getString("Country"));
+                order.setMobilePhone(jObject.getString("MobilePhone"));
+                order.setPhone(jObject.getString("Phone"));
+                order.setShippingMethod(jObject.getString("ShippingMethod"));
+                order.setEmail(jObject.getString("Email"));
+                order.setFullName(jObject.getString("FullName"));
+                order.setStatus(jObject.getString("OrderStatus"));
+                order.setPrice(jObject.getDouble("Price"));
+                Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(jObject.getString("Date"));
+                System.out.println("IMEROMINIA");
+                System.out.println(date);
+                order.setDate(date);
+                JSONArray products = jObject.getJSONArray("products");
+                List<Integer> productsID = new ArrayList<>();
+                for (int j = 0; j < products.length(); j++) {
+                    JSONObject product = products.getJSONObject(j);
+                    productsID.add(product.getInt("ProductID"));
+                }
+                order.setProductsID(productsID);
+
+                orders.add(order);
+            }
+        }
+
+        return orders;
     }
 
 }

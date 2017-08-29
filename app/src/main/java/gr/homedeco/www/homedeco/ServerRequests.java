@@ -3,7 +3,6 @@ package gr.homedeco.www.homedeco;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -14,6 +13,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +36,6 @@ public class ServerRequests {
 
     // Fetches Product's data from the server
     public User fetchProductDataInBackground(int productID, GetProductCallback productCallback) {
-        progressDialog.show();
         new FetchProductDataAsyncTask(productID, productCallback).execute();
         return null;
     }
@@ -103,7 +102,6 @@ public class ServerRequests {
 
     // Try to log user in
     public void login(User user, GetLoginCallback loginCallback) {
-        progressDialog.show();
         new loginAsyncTask(user, loginCallback).execute();
     }
 
@@ -233,7 +231,6 @@ public class ServerRequests {
 
     // Try to log user in
     public void register(User user, GetRegisterCallback registerCallback) {
-        progressDialog.show();
         new registerAsyncTask(user, registerCallback).execute();
     }
 
@@ -421,7 +418,7 @@ public class ServerRequests {
 //                                    ORDERS
 //------------------------------------------------------------------------------------------------//
 
-    // Send user message
+    // Send user's order
     public void createOrder(Order order, GetOrderCallback orderCallback) {
         new createOrderAsyncTask(order, orderCallback).execute();
     }
@@ -492,6 +489,64 @@ public class ServerRequests {
             progressDialog.dismiss();
             orderCallback.done(response);
             super.onPostExecute(response);
+        }
+    }
+
+    // Get user's order history
+    public void getOrderHistory(GetOrderHistoryCallback orderHistoryCallback) {
+        new getOrderHistoryAsyncTask(orderHistoryCallback).execute();
+    }
+
+    public class getOrderHistoryAsyncTask extends AsyncTask<Void, Void, List<Order>> {
+        GetOrderHistoryCallback orderHistoryCallback;
+
+        public getOrderHistoryAsyncTask(GetOrderHistoryCallback orderHistoryCallback) {
+            this.orderHistoryCallback = orderHistoryCallback;
+        }
+
+        @Override
+        protected List<Order> doInBackground(Void... params) {
+            ServerConnection connection = new ServerConnection();
+            List<Order> returnedList = new ArrayList<>();
+            HttpURLConnection urlConnection;
+            JSONparser parser = new JSONparser();
+
+            urlConnection = connection.openGetConnection("/order/self");
+            urlConnection.setRequestProperty("android", "true");
+            urlConnection.setRequestProperty("android-token", localDatabase.getAuthToken());
+
+            try {
+                urlConnection.connect();
+
+                int status = urlConnection.getResponseCode();
+                System.out.println(status);
+
+                InputStream is = urlConnection.getInputStream();
+                reader = new BufferedReader(new InputStreamReader(is));
+
+                StringBuilder strBuilder = new StringBuilder();
+
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    strBuilder.append(line);
+                }
+
+                String result = strBuilder.toString();
+                System.out.println(result);
+                returnedList = parser.toOrderHistory(result);
+
+
+            } catch (IOException | JSONException | ParseException e) {
+                e.printStackTrace();
+            }
+            return returnedList;
+        }
+
+        @Override
+        protected void onPostExecute(List<Order> returnedList) {
+            progressDialog.dismiss();
+            orderHistoryCallback.done(returnedList);
+            super.onPostExecute(returnedList);
         }
     }
 }

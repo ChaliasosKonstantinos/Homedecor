@@ -39,7 +39,7 @@ public class Cart extends AppCompatActivity {
         tvCartIsEmpty = (TextView) findViewById(R.id.tvCartIsEmpty);
         rlCartPrices = (RelativeLayout) findViewById(R.id.rlCartPrices);
         layout = (LinearLayout) findViewById(R.id.activity_cart);
-
+        toggleOrderHistory();
         getProducts();
     }
 
@@ -51,6 +51,14 @@ public class Cart extends AppCompatActivity {
     }
 
 //------------------------------------- HELPERS -------------------------------------------------//
+
+    // Toggles enable/disable Order History button based on if user is logged in
+    private void toggleOrderHistory() {
+        if (localDatabase.isLoggedIn()) {
+            Button btnOrderHistory = (Button) findViewById(R.id.btnOrderHistory);
+            btnOrderHistory.setEnabled(true);
+        }
+    }
 
     // Retrieves products from the server
     private void getProducts() {
@@ -116,22 +124,26 @@ public class Cart extends AppCompatActivity {
 
     // Checkout
     public void checkout(View view) {
-        AlertDialog builder = new AlertDialog.Builder(Cart.this).create();
-        LayoutInflater inflater = Cart.this.getLayoutInflater();
-        builder.setView(inflater.inflate(R.layout.activity_checkout_dialog, null));
-        builder.setButton(AlertDialog.BUTTON_NEUTRAL, "Χρηστης",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        showLoginDialog();
-                    }
-                });
-        builder.setButton(AlertDialog.BUTTON_POSITIVE, "Επισκεπτης",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        showCart();
-                    }
-                });
-        builder.show();
+        if (localDatabase.isLoggedIn()) {
+            showCheckout();
+        } else {
+            AlertDialog builder = new AlertDialog.Builder(Cart.this).create();
+            LayoutInflater inflater = Cart.this.getLayoutInflater();
+            builder.setView(inflater.inflate(R.layout.activity_checkout_dialog, null));
+            builder.setButton(AlertDialog.BUTTON_NEUTRAL, "Χρηστης",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            showLoginDialog();
+                        }
+                    });
+            builder.setButton(AlertDialog.BUTTON_POSITIVE, "Επισκεπτης",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            showCheckout();
+                        }
+                    });
+            builder.show();
+        }
     }
 
     // Dialog for checkout
@@ -141,8 +153,14 @@ public class Cart extends AppCompatActivity {
     }
 
     // Navigates to cart
-    private void showCart() {
+    private void showCheckout() {
         Intent intent = new Intent(this, OrderCreation.class);
+        startActivity(intent);
+    }
+
+    // Navigates to order history
+    public void showOrderHistory(View view) {
+        Intent intent = new Intent(this, OrderHistory.class);
         startActivity(intent);
     }
 
@@ -150,6 +168,11 @@ public class Cart extends AppCompatActivity {
     public void showLogin(MenuItem item) {
         Intent intent = new Intent(this, Login.class);
         startActivity(intent);
+    }
+
+    // MENU: Logout
+    public void logout(MenuItem item) {
+        localDatabase.setLoggedIn(false, "");
     }
 
     // MENU: Delete cart

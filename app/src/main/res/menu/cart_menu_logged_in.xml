@@ -12,7 +12,7 @@
 
     <item
         android:id="@+id/action_settings"
-        android:onClick="showLogin"
+        android:onClick="logout"
         android:orderInCategory="2"
         android:title="@string/logout"
         app:showAsAction="never" />

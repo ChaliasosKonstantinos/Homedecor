@@ -1,15 +1,26 @@
 package gr.homedeco.www.homedeco;
 
+import java.util.Date;
 import java.util.List;
 
 public class Order{
 
+    private int orderID;
     private String shipAddress, billAddress, postalCode, city, state, country,
-            mobilePhone, phone, shippingMethod, email, fullName;
+            mobilePhone, phone, shippingMethod, email, fullName, status;
     private double price;
-    private List<Product> products;
+    private Date date;
+    private List<Integer> productsID;
 
     public Order() {
+    }
+
+    public int getOrderID() {
+        return orderID;
+    }
+
+    public void setOrderID(int orderID) {
+        this.orderID = orderID;
     }
 
     public String getBillAddress() {
@@ -28,12 +39,12 @@ public class Order{
         this.postalCode = postalCode;
     }
 
-    public List<Product> getProducts() {
-        return products;
+    public List<Integer> getProductsID() {
+        return productsID;
     }
 
-    public void setProducts(List<Product> products) {
-        this.products = products;
+    public void setProductsID(List<Integer> productsID) {
+        this.productsID = productsID;
     }
 
     public String getShipAddress() {
@@ -114,5 +125,21 @@ public class Order{
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

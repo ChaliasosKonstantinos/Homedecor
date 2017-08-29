@@ -64,7 +64,13 @@
             android:name=".Products"
             android:label="Τύποι Προϊόντων"
             android:parentActivityName=".Main" />
-        <activity android:name=".OrderCreation"></activity>
+        <activity
+            android:name=".OrderCreation"
+            android:parentActivityName=".Cart"/>
+        <activity
+            android:name=".OrderHistory"
+            android:label="Ιστορικό Παραγγελιών"
+            android:parentActivityName=".Cart"/>
     </application>
 
 </manifest>

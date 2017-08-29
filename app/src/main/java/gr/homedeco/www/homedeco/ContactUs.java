@@ -2,9 +2,9 @@ package gr.homedeco.www.homedeco;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -34,7 +34,7 @@ public class ContactUs extends AppCompatActivity {
         message += "Μήνυμα:\n\n" + etMessage.getText().toString();
 
         Intent intent = new Intent(Intent.ACTION_SENDTO);
-        intent.setType("text/plain");
+        intent.setType("message/rfc822");
         intent.putExtra(Intent.EXTRA_SUBJECT, "Android App | Επικοινωνία");
         intent.putExtra(Intent.EXTRA_TEXT, message);
         intent.setData(Uri.parse("mailto:chaliasos@gmail.com"));

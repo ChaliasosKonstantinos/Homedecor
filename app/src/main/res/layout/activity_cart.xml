@@ -124,4 +124,18 @@
 
     </RelativeLayout>
 
+    <Button
+        android:id="@+id/btnOrderHistory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorPrimary"
+        android:layout_gravity="end"
+        android:layout_marginTop="20dp"
+        android:text="@string/order_history"
+        android:textColor="@color/white"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:drawableEnd="@drawable/ic_action_arrow_right_white"
+        android:onClick="showOrderHistory"
+        android:enabled="false" />
+
 </LinearLayout>

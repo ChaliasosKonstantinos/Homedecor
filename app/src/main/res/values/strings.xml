@@ -57,6 +57,8 @@
 
     <string name="contact_us_success">Το μήνυμα στάλθηκε!</string>
     <string name="contact_us_error">Αποτυχία αποστολής! Προσπαθήστε ξανά</string>
+    <string name="order_header">Παραγγελία:</string>
+    <string name="order_history">Παραγελλιες</string>
 
     <string-array name="product_filters_category">
         <item>Κατηγορία</item>

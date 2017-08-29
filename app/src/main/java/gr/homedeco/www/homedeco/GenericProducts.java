@@ -2,8 +2,8 @@ package gr.homedeco.www.homedeco;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -14,13 +14,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class GenericProducts extends AppCompatActivity {
 
-    private RecyclerView recyclerView;
-    private ProductsAdapter adapter;
     private List<Product> products;
     private Spinner spCategory, spSubCategory;
     private ArrayAdapter<String> adapterSpSubcategory;
@@ -43,7 +40,7 @@ public class GenericProducts extends AppCompatActivity {
         spSubCategory.setAdapter(adapterSpSubcategory);
     }
 
-    // ---------------------------------------- MENU  ------------------------------------------------//
+//---------------------------------------- MENU  --------------------------------------------------//
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -67,8 +64,8 @@ public class GenericProducts extends AppCompatActivity {
 
     private void populateProductsList(List<Product> returnedList) {
 
-        recyclerView = (RecyclerView) findViewById(R.id.rvProducts);
-        adapter = new ProductsAdapter(returnedList);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rvProducts);
+        ProductsAdapter adapter = new ProductsAdapter(returnedList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(GenericProducts.this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
