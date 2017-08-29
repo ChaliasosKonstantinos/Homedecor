@@ -6,7 +6,7 @@
     android:background="@color/white"
     android:orientation="vertical"
     android:padding="10dp"
-    tools:context="gr.homedeco.www.homedeco.Chat">
+    tools:context="gr.homedeco.www.homedeco.contact.chat.Chat">
 
     <ListView
         android:id="@+id/lvPrivateChat"

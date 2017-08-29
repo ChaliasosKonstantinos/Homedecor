@@ -21,56 +21,56 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".AboutUs"
+            android:name=".aboutUs.AboutUs"
             android:label="Λίγα λόγια"
             android:parentActivityName=".Main" />
         <activity
-            android:name=".Cart"
+            android:name=".cart.Cart"
             android:label="Καλάθι"
             android:parentActivityName=".Main" />
         <activity
-            android:name=".Chat"
+            android:name=".contact.chat.Chat"
             android:parentActivityName=".Main"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".CheckoutDialog" />
+        <activity android:name=".cart.CheckoutDialog" />
         <activity
-            android:name=".CustomProduct"
-            android:parentActivityName=".Products"
+            android:name=".product.custom.CustomProduct"
+            android:parentActivityName=".product.generic.Products"
             android:theme="@style/Theme.Design.Light.NoActionBar" />
         <activity
-            android:name=".Login"
+            android:name=".user.login.Login"
             android:label="Είσοδος χρήστη"
             android:parentActivityName=".Main"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".ProductDetails"
+            android:name=".product.generic.ProductDetails"
             android:label="Λεπτομέρειες"
-            android:parentActivityName=".GenericProducts"
+            android:parentActivityName=".product.generic.GenericProducts"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".GenericProducts"
+            android:name=".product.generic.GenericProducts"
             android:label="Προϊόντα"
-            android:parentActivityName=".Products" />
+            android:parentActivityName=".product.generic.Products" />
         <activity
-            android:name=".Register"
+            android:name=".user.register.Register"
             android:label="Εγγραφή"
-            android:parentActivityName=".Login"
+            android:parentActivityName=".user.login.Login"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".ContactUs"
+            android:name=".contact.regular.ContactUs"
             android:label="Επικοινωνία"
             android:parentActivityName=".Main" />
         <activity
-            android:name=".Products"
+            android:name=".product.generic.Products"
             android:label="Τύποι Προϊόντων"
             android:parentActivityName=".Main" />
         <activity
-            android:name=".OrderCreation"
-            android:parentActivityName=".Cart"/>
+            android:name=".order.creation.OrderCreation"
+            android:parentActivityName=".cart.Cart"/>
         <activity
-            android:name=".OrderHistory"
+            android:name=".order.history.OrderHistory"
             android:label="Ιστορικό Παραγγελιών"
-            android:parentActivityName=".Cart"/>
+            android:parentActivityName=".cart.Cart"/>
     </application>
 
 </manifest>

@@ -1,9 +1,16 @@
 package gr.homedeco.www.homedeco;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+
+import gr.homedeco.www.homedeco.cart.Cart;
+import gr.homedeco.www.homedeco.contact.chat.Chat;
+import gr.homedeco.www.homedeco.contact.regular.ContactUs;
+import gr.homedeco.www.homedeco.localDatabase.LocalDatabase;
+import gr.homedeco.www.homedeco.product.generic.Products;
+import gr.homedeco.www.homedeco.user.login.Login;
 
 public class Main extends AppCompatActivity {
 
