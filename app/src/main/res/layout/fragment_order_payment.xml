@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/fragment_order_payment_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginStart="@dimen/activity_horizontal_margin"
+    android:layout_marginEnd="@dimen/activity_horizontal_margin"
+    android:layout_marginTop="@dimen/activity_vertical_margin"
+    android:layout_marginBottom="@dimen/activity_vertical_margin"
+    android:orientation="vertical">
+
+    <Spinner
+        android:id="@+id/spOrderPaymentMethod"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="20dp"
+        android:entries="@array/order_payment_method"
+        android:spinnerMode="dropdown"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/light_gray" />
+
+    <LinearLayout
+        android:id="@+id/orderPaymentCreditCardLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <com.vinaygaba.creditcardview.CreditCardView
+            android:id="@+id/ccOrderCreditCard"
+            android:layout_width="match_parent"
+            android:layout_height="225dp"
+            android:background="@drawable/cardbackground_world"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="16dp"
+            app:cardNumberTextColor="#cccccc"
+            app:cardNumberFormat="all_digits"
+            app:cardNameTextColor="#cccccc"
+            app:type="auto"
+            app:brandLogo="@drawable/homedeco_logo"
+            app:putChip="true"
+            app:expiryDateTextColor="#cccccc"
+            app:isEditable="true"
+            app:validTillTextColor="#cccccc"
+            app:hintTextColor = "#cccccc"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/orderPaymentPayPalLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/orderPaymentCODLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""/>
+
+
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/btnCompleteOrder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:backgroundTint="@color/colorPrimaryDark"
+        android:elevation="4dp"
+        android:padding="15dp"
+        android:enabled="false"
+        android:text="@string/button_make_order"
+        android:textColor="@color/white" />
+
+</LinearLayout>

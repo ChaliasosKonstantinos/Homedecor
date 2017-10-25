@@ -56,9 +56,6 @@ public class OrderShipping extends Fragment {
             public void onClick(View view) {
                 if (infosAreValid) {
                     Order order = ((OrderCreation) getActivity()).getOrderState();
-                    System.out.println("ORDER");
-                    System.out.println(order);
-                    System.out.println(order.toString());
                     order.setCountry(etCountry.getText().toString());
                     order.setState(etState.getText().toString());
                     order.setCity(etCity.getText().toString());
@@ -67,22 +64,25 @@ public class OrderShipping extends Fragment {
                     order.setPostalCode(etPostalCode.getText().toString());
                     order.setShippingMethod(spShippingMethod.getSelectedItem().toString());
 
-                    ServerRequests serverRequests = new ServerRequests(getContext());
-                    serverRequests.createOrder(order, new GetOrderCallback() {
-                        @Override
-                        public void done(ServerResponse response) {
-                            if (!response.getMessage().isEmpty()) {
-                                Snackbar snackbar = Snackbar.make(layout, R.string.order_created, Snackbar.LENGTH_LONG);
-                                snackbar.show();
-                                LocalDatabase localDatabase = new LocalDatabase(getContext());
-                                localDatabase.clearCart();
-                                // TODO: Redirect to Order history
-                            } else {
-                                Snackbar snackbar = Snackbar.make(layout, R.string.order_creation_failed, Snackbar.LENGTH_LONG);
-                                snackbar.show();
-                            }
-                        }
-                    });
+                    ((OrderCreation) getActivity()).saveOrderState(order);
+                    ((OrderCreation) getActivity()).getPager().setCurrentItem(2);
+
+//                    ServerRequests serverRequests = new ServerRequests(getContext());
+//                    serverRequests.createOrder(order, new GetOrderCallback() {
+//                        @Override
+//                        public void done(ServerResponse response) {
+//                            if (!response.getMessage().isEmpty()) {
+//                                Snackbar snackbar = Snackbar.make(layout, R.string.order_created, Snackbar.LENGTH_LONG);
+//                                snackbar.show();
+//                                LocalDatabase localDatabase = new LocalDatabase(getContext());
+//                                localDatabase.clearCart();
+//                                // TODO: Redirect to Order history
+//                            } else {
+//                                Snackbar snackbar = Snackbar.make(layout, R.string.order_creation_failed, Snackbar.LENGTH_LONG);
+//                                snackbar.show();
+//                            }
+//                        }
+//                    });
                 }
             }
         });

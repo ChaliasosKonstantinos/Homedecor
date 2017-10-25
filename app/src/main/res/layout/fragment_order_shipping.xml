@@ -111,7 +111,7 @@
         android:backgroundTint="@color/colorPrimaryDark"
         android:elevation="4dp"
         android:padding="15dp"
-        android:text="@string/button_make_order"
+        android:text="@string/button_next"
         android:textColor="@color/white" />
 
 </LinearLayout>

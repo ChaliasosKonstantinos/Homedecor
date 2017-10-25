@@ -34,6 +34,7 @@ public class OrderCreation extends AppCompatActivity {
         SectionsPageAdapter adapter = new SectionsPageAdapter(getSupportFragmentManager());
         adapter.addFragment(new OrderInfo(), "ΠΛΗΡΟΦΟΡΙΕΣ");
         adapter.addFragment(new OrderShipping(), "ΑΠΟΣΤΟΛΗ");
+        adapter.addFragment(new OrderPayment(), "ΠΛΗΡΩΜΗ");
         viewPager.setAdapter(adapter);
     }
 

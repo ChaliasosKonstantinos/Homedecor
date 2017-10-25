@@ -1,5 +1,10 @@
 <resources>
+    <!-- COMMON -->
     <string name="app_name">Homedecor</string>
+    <string name="content_description">ImageView</string>
+
+    <!-- LOGIN/REGISTER -->
+    <string name="noAccount_goToRegister">Δεν έχετε λογαριασμό; Εγγραφή εδώ</string>
     <string name="username">Όνομα Χρήστη</string>
     <string name="password">Κωδικός</string>
     <string name="last_name">Επώνυμο</string>
@@ -16,14 +21,14 @@
     <string name="phone">Σταθερό</string>
     <string name="mobilePhone">Κινητό</string>
     <string name="remember_me">Αποθήκευση στοιχείων</string>
-    <string name="content_description">ImageView</string>
-    <string name="message">Μήνυμα:</string>
+
+    <!-- MENU -->
     <string name="settings">Ρυθμίσεις</string>
     <string name="logout">Αποσύνδεση</string>
     <string name="about_us">Λίγα λόγια..</string>
     <string name="how_to">Οδηγίες</string>
-    <string name="default_product_name">Όνομα</string>
-    <string name="default_product_price">Τιμή :</string>
+
+    <!-- CART -->
     <string name="buy_now">Αγορα</string>
     <string name="add_to_cart">Προσθηκη στο καλαθι</string>
     <string name="delete_cart">Άδειασμα καλαθιού</string>
@@ -31,35 +36,23 @@
     <string name="productDetails">Προϊόν</string>
     <string name="cart">Καλάθι</string>
     <string name="title_activity_cart">Καλάθι</string>
-    <string name="chat">Συνομιλία</string>
-    <string name="category">Κατηγορία</string>
-    <string name="checkoutDialog_title">Αγορά ως..</string>
-    <string name="noAccount_goToRegister">Δεν έχετε λογαριασμό; Εγγραφή εδώ</string>
-    <string name="custom_product_overview"><u>Σύνοψη</u></string>
-    <string name="custom_product_product">Προϊόν:</string>
-    <string name="custom_product_color">- Χρώμα :</string>
-    <string name="custom_product_body">- Σώμα :</string>
-    <string name="custom_product_feet">- Πόδια :</string>
     <string name="vat">ΦΠΑ :</string>
     <string name="price_total">Σύνολο:</string>
-    <string name="send_Email_button">Αποστολη</string>
-    <string name="bed">Κρεβάτι</string>
-    <string name="sofa">Καναπές</string>
-    <string name="desk">Γραφείο</string>
     <string name="cart_deleted">Το καλάθι άδειασε!</string>
     <string name="cart_added_product">Προστέθηκε στο καλάθι!</string>
     <string name="cart_removed_product">Αφαιρέθηκε από το καλάθι!</string>
     <string name="cart_is_empty">Το καλάδι είναι άδειο</string>
-    <string name="button_next">Επομενο</string>
-    <string name="button_make_order">Ολοκληρωση παραγγελιας</string>
-    <string name="order_created">Η παραγγελία έγινε!</string>
-    <string name="order_creation_failed">Η παραγγελία απέτυχε! Προσπαθήστε ξανά</string>
+    <string name="category">Κατηγορία</string>
+    <string name="checkoutDialog_title">Αγορά ως..</string>
 
+    <!-- CHAT -->
+    <string name="chat">Συνομιλία</string>
+    <string name="message">Μήνυμα:</string>
     <string name="contact_us_success">Το μήνυμα στάλθηκε!</string>
     <string name="contact_us_error">Αποτυχία αποστολής! Προσπαθήστε ξανά</string>
-    <string name="order_header">Παραγγελία:</string>
-    <string name="order_history">Παραγελλιες</string>
+    <string name="send_Email_button">Αποστολη</string>
 
+    <!-- PRODUCTS -->
     <string-array name="product_filters_category">
         <item>Κατηγορία</item>
         <item>Γραφείο</item>
@@ -88,11 +81,51 @@
         <item>Συρταριέρες αποθήκευσης</item>
     </string-array>
 
+
+    <!-- CUSTOM PRODUCTS -->
+    <string name="custom_product_overview"><u>Σύνοψη</u></string>
+    <string name="custom_product_product">Προϊόν:</string>
+    <string name="custom_product_color">- Χρώμα :</string>
+    <string name="custom_product_body">- Σώμα :</string>
+    <string name="custom_product_feet">- Πόδια :</string>
+    <string name="default_product_name">Όνομα</string>
+    <string name="default_product_price">Τιμή :</string>
+    <string name="bed">Κρεβάτι</string>
+    <string name="sofa">Καναπές</string>
+    <string name="desk">Γραφείο</string>
+
+    <!-- ORDER -->
+    <string name="button_next">Επομενο</string>
+    <string name="button_make_order">Ολοκληρωση παραγγελιας</string>
+    <string name="order_created">Η παραγγελία έγινε!</string>
+    <string name="order_creation_failed">Η παραγγελία απέτυχε! Προσπαθήστε ξανά</string>
+    <string name="order_header">Παραγγελία:</string>
+    <string name="order_history">Παραγελλιες</string>
+
     <string-array name="order_shipping_method">
         <item>Μέθοδος αποστολής</item>
         <item>UPS</item>
         <item>UPS Express</item>
         <item>Παραλαβή από το κατάστημα</item>
     </string-array>
+
+    <string-array name="order_payment_method">
+        <item>Μέθοδος πληρωμής</item>
+        <item>Πιστωτική/Χρεωστική</item>
+        <item>Paypal</item>
+        <item>Αντικαταβολή</item>
+    </string-array>
+
+    <string-array name="credit_card_types">
+        <item>Τύπος κάρτας</item>
+        <item>VISA</item>
+        <item>MASTERCARD</item>
+    </string-array>
+
+    <!-- CREDIT CARD STRINGS (LIBRARY)-->
+    <string name="card_number_hint">ΠΡΟΣΘΗΚΗ ΝΟΥΜΕΡΟΥ</string>
+    <string name="expiry_date_hint">MM/YY</string>
+    <string name="card_name_hint">ΠΡΟΣΘΗΚΗ ΟΝΟΜΑΤΟΣ</string>
+    <string name="valid_till">ΛΗΓΕΙ</string>
 
 </resources>
