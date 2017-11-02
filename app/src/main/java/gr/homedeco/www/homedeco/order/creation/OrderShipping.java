@@ -25,7 +25,7 @@ import gr.homedeco.www.homedeco.user.User;
 public class OrderShipping extends Fragment {
 
     private EditText etCountry, etState, etCity, etAddress, etPostalCode;
-    private Button btnCompleteOrder;
+    private Button btnGoToOrderPayment;
     private Spinner spShippingMethod;
     private LinearLayout layout;
     private boolean infosAreValid = false;
@@ -40,7 +40,7 @@ public class OrderShipping extends Fragment {
         etAddress = (EditText) view.findViewById(R.id.etOrderShippingAddress);
         etPostalCode = (EditText) view.findViewById(R.id.etOrderPostalCode);
         spShippingMethod = (Spinner) view.findViewById(R.id.spOrderShippingMethod);
-        btnCompleteOrder = (Button) view.findViewById(R.id.btnCompleteOrder);
+        btnGoToOrderPayment = (Button) view.findViewById(R.id.btnGoToOrderPayment);
 
         initListeners();
         populateView();
@@ -51,7 +51,7 @@ public class OrderShipping extends Fragment {
 
     // Init UI listeners
     private void initListeners() {
-        btnCompleteOrder.setOnClickListener(new View.OnClickListener() {
+        btnGoToOrderPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (infosAreValid) {
@@ -66,23 +66,6 @@ public class OrderShipping extends Fragment {
 
                     ((OrderCreation) getActivity()).saveOrderState(order);
                     ((OrderCreation) getActivity()).getPager().setCurrentItem(2);
-
-//                    ServerRequests serverRequests = new ServerRequests(getContext());
-//                    serverRequests.createOrder(order, new GetOrderCallback() {
-//                        @Override
-//                        public void done(ServerResponse response) {
-//                            if (!response.getMessage().isEmpty()) {
-//                                Snackbar snackbar = Snackbar.make(layout, R.string.order_created, Snackbar.LENGTH_LONG);
-//                                snackbar.show();
-//                                LocalDatabase localDatabase = new LocalDatabase(getContext());
-//                                localDatabase.clearCart();
-//                                // TODO: Redirect to Order history
-//                            } else {
-//                                Snackbar snackbar = Snackbar.make(layout, R.string.order_creation_failed, Snackbar.LENGTH_LONG);
-//                                snackbar.show();
-//                            }
-//                        }
-//                    });
                 }
             }
         });

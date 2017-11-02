@@ -101,6 +101,13 @@
     <string name="order_creation_failed">Η παραγγελία απέτυχε! Προσπαθήστε ξανά</string>
     <string name="order_header">Παραγγελία:</string>
     <string name="order_history">Παραγελλιες</string>
+    <string name="order_cod">Η πληρωμή θα γίνει την ώρα της παράδοσης στον οδηγό της εταιρείας την
+        ώρα της παραλαβής. <b>Χωρίς καμία δική σας επιβάρυνση!</b></string>
+    <string name="order_bank_transfer_alphabank"><b>Alpha Bank</b> \nGR2901405080408002107094052</string>
+    <string name="order_bank_transfer_ethniki"><b>Εθνική</b> \nGR4101103140010021494923721</string>
+    <string name="order_bank_transfer_peiraios"><b>Πειραιώς</b> \nGR5501716810006583107131471</string>
+    <string name="order_bank_transfer_receipt">Στείλτε μας την απόδειξη πληρωμής σε ηλεκτρονική μορφή
+        στο <b>sales@homedecor.gr</b></string>
 
     <string-array name="order_shipping_method">
         <item>Μέθοδος αποστολής</item>
@@ -113,6 +120,7 @@
         <item>Μέθοδος πληρωμής</item>
         <item>Πιστωτική/Χρεωστική</item>
         <item>Paypal</item>
+        <item>Κατάθεση</item>
         <item>Αντικαταβολή</item>
     </string-array>
 

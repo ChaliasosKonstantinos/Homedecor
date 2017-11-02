@@ -8,7 +8,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import gr.homedeco.www.homedeco.contact.chat.PrivateMessage;
 import gr.homedeco.www.homedeco.order.Order;
@@ -296,6 +298,16 @@ public class JSONparser {
         jObject.put("Email",order.getEmail());
         jObject.put("FullName",order.getFullName());
         jObject.put("Price",order.getPrice());
+        String paymentMethod = order.getPaymentMethod();
+        jObject.put("PaymentMethod",paymentMethod);
+        if (Objects.equals(paymentMethod, "Πιστωτική/Χρεωστική")) {
+            JSONObject obj = new JSONObject();
+            HashMap<String,String> creditCard = order.getCreditCard();
+            obj.put("number",creditCard.get("number"));
+            obj.put("expire",creditCard.get("expire"));
+            obj.put("name",creditCard.get("name"));
+            jObject.put("CreditCard", obj);
+        }
         for(int id: productIDs) {
             JSONObject product = new JSONObject();
             product.put("ProductID",id);

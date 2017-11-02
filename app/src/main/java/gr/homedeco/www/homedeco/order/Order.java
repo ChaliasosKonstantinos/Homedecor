@@ -1,16 +1,18 @@
 package gr.homedeco.www.homedeco.order;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 public class Order{
 
     private int orderID;
     private String shipAddress, billAddress, postalCode, city, state, country,
-            mobilePhone, phone, shippingMethod, email, fullName, status;
+            mobilePhone, phone, shippingMethod, email, fullName, status, paymentMethod;
     private double price;
     private Date date;
     private List<Integer> productsID;
+    private HashMap<String,String> creditCard = new HashMap<>();
 
     public Order() {
     }
@@ -141,5 +143,21 @@ public class Order{
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+
+    public HashMap<String, String> getCreditCard() {
+        return creditCard;
+    }
+
+    public void setCreditCard(HashMap<String, String> creditCard) {
+        this.creditCard = creditCard;
     }
 }

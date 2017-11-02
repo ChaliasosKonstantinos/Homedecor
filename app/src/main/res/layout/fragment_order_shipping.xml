@@ -104,7 +104,7 @@
         android:background="@color/light_gray" />
 
     <Button
-        android:id="@+id/btnCompleteOrder"
+        android:id="@+id/btnGoToOrderPayment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
