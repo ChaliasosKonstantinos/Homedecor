@@ -6,6 +6,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
 import gr.homedeco.www.homedeco.R;
+import gr.homedeco.www.homedeco.localDatabase.LocalDatabase;
 import gr.homedeco.www.homedeco.order.Order;
 import gr.homedeco.www.homedeco.product.custom.SectionsPageAdapter;
 
@@ -20,8 +21,10 @@ public class OrderCreation extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_creation);
 
+        LocalDatabase localDatabase = new LocalDatabase(this);
+        order = new Order();
+        order.setPrice(localDatabase.getCartPrice());
         sectionsPageAdapter = new SectionsPageAdapter(getSupportFragmentManager());
-
         viewPager = (ViewPager) findViewById(R.id.container);
         setupViewAdapter(viewPager);
 

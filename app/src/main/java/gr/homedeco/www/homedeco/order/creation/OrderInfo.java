@@ -44,7 +44,7 @@ public class OrderInfo extends Fragment {
             @Override
             public void onClick(View view) {
                 if (infosAreValid) {
-                    Order order = new Order();
+                    Order order = ((OrderCreation) getActivity()).getOrderState();
                     order.setFullName(etFullname.getText().toString());
                     order.setEmail(etEmail.getText().toString());
                     order.setPhone(etPhone.getText().toString());

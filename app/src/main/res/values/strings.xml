@@ -108,6 +108,7 @@
     <string name="order_bank_transfer_peiraios"><b>Πειραιώς</b> \nGR5501716810006583107131471</string>
     <string name="order_bank_transfer_receipt">Στείλτε μας την απόδειξη πληρωμής σε ηλεκτρονική μορφή
         στο <b>sales@homedecor.gr</b></string>
+    <string name="order_pay_with_paypal_success">Εξοφλήθηκε! Ολοκληρώστε την παραγγελία!</string>
 
     <string-array name="order_shipping_method">
         <item>Μέθοδος αποστολής</item>

@@ -86,9 +86,6 @@ public class GenericProducts extends AppCompatActivity {
             @Override
             public void done(List<Product> returnedList) {
                 products = returnedList;
-                for (int i=0; i < 3; i++) {
-                    products.remove(products.size() - 1);
-                }
                 populateProductsList(returnedList);
                 initListeners();
             }

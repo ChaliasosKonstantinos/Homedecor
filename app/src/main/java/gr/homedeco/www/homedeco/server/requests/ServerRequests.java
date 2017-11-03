@@ -447,7 +447,6 @@ public class ServerRequests {
 
         public createOrderAsyncTask(Order order, GetOrderCallback orderCallback) {
             this.order = order;
-            this.order.setPrice(localDatabase.getCartPrice());
             this.orderCallback = orderCallback;
             String cart = localDatabase.getCart();
             if (!cart.isEmpty()) {

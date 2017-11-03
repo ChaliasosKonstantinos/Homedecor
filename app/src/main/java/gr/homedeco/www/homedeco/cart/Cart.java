@@ -37,6 +37,7 @@ public class Cart extends AppCompatActivity {
     private TextView tvProductPrice, tvProductVAT, tvProductTotalPrice, tvCartIsEmpty;
     private RelativeLayout rlCartPrices;
     private LinearLayout layout;
+    private RecyclerView rvCart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +49,7 @@ public class Cart extends AppCompatActivity {
         tvProductTotalPrice = (TextView) findViewById(R.id.tvProductTotalPrice);
         tvCartIsEmpty = (TextView) findViewById(R.id.tvCartIsEmpty);
         rlCartPrices = (RelativeLayout) findViewById(R.id.rlCartPrices);
+        rvCart = (RecyclerView) findViewById(R.id.rvCart);
         layout = (LinearLayout) findViewById(R.id.activity_cart);
         toggleOrderHistory();
         getProducts();
@@ -114,11 +116,10 @@ public class Cart extends AppCompatActivity {
     // Populates the UI
     private void populateCartList(List<Product> products) {
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rvCart);
         CartAdapter adapter = new CartAdapter(products);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(Cart.this);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
+        rvCart.setLayoutManager(layoutManager);
+        rvCart.setAdapter(adapter);
         tvProductPrice.setText(totalPriceBeforeVAT + "€");
         double VAT = (totalPriceBeforeVAT / 100) * 24;
         VAT = Math.floor(VAT * 100) / 100;
@@ -188,6 +189,9 @@ public class Cart extends AppCompatActivity {
     // MENU: Delete cart
     public void deleteCart(MenuItem item) {
         localDatabase.clearCart();
+        tvCartIsEmpty.setVisibility(View.VISIBLE);
+        rlCartPrices.setVisibility(View.GONE);
+        rvCart.setVisibility(View.GONE);
         Snackbar snackbar = Snackbar.make(layout, R.string.cart_deleted, Snackbar.LENGTH_LONG);
         snackbar.show();
     }

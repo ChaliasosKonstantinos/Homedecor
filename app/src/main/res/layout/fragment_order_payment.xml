@@ -63,8 +63,20 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
+
+        <ImageButton
+            android:id="@+id/btnPaypal"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:elevation="4dp"
+            android:enabled="true"
+            android:background="@drawable/paypal_logo"
+            android:contentDescription="@string/content_description"/>
     </LinearLayout>
 
     <LinearLayout
