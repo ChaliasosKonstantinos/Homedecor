@@ -535,7 +535,6 @@ public class ServerRequests {
                 urlConnection.connect();
 
                 int status = urlConnection.getResponseCode();
-                System.out.println(status);
 
                 InputStream is = urlConnection.getInputStream();
                 reader = new BufferedReader(new InputStreamReader(is));
@@ -548,7 +547,6 @@ public class ServerRequests {
                 }
 
                 String result = strBuilder.toString();
-                System.out.println(result);
                 returnedList = parser.toOrderHistory(result);
 
 

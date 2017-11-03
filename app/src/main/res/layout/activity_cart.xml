@@ -136,6 +136,6 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:drawableEnd="@drawable/ic_action_arrow_right_white"
         android:onClick="showOrderHistory"
-        android:enabled="false" />
+        android:visibility="gone"/>
 
 </LinearLayout>

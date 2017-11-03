@@ -367,10 +367,8 @@ public class JSONparser {
                 order.setStatus(jObject.getString("OrderStatus"));
                 order.setPrice(jObject.getDouble("Price"));
                 Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(jObject.getString("Date"));
-                System.out.println("IMEROMINIA");
-                System.out.println(date);
                 order.setDate(date);
-                JSONArray products = jObject.getJSONArray("product");
+                JSONArray products = jObject.getJSONArray("products");
                 List<Integer> productsID = new ArrayList<>();
                 for (int j = 0; j < products.length(); j++) {
                     JSONObject product = products.getJSONObject(j);

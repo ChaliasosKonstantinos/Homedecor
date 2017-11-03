@@ -68,7 +68,7 @@ public class Cart extends AppCompatActivity {
     private void toggleOrderHistory() {
         if (localDatabase.isLoggedIn()) {
             Button btnOrderHistory = (Button) findViewById(R.id.btnOrderHistory);
-            btnOrderHistory.setEnabled(true);
+            btnOrderHistory.setVisibility(View.VISIBLE);
         }
     }
 
