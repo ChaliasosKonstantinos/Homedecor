@@ -10,12 +10,20 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 import gr.homedeco.www.homedeco.R;
+import gr.homedeco.www.homedeco.product.CustomProduct;
 
 public class CustomProductBody extends Fragment {
 
     private ImageButton imgbBody1, imgbBody2, imgbBody3;
     private LinearLayout linearLayout;
+    private List<CustomProduct> cProductsFiltered = new ArrayList<>();
 
     @Nullable
     @Override
@@ -25,49 +33,39 @@ public class CustomProductBody extends Fragment {
         imgbBody1 = (ImageButton) view.findViewById(R.id.imgbBody1);
         imgbBody2 = (ImageButton) view.findViewById(R.id.imgbBody2);
         imgbBody3 = (ImageButton) view.findViewById(R.id.imgbBody3);
-
-        String product = ((CustomProduct) getActivity()).getCustomProduct();
-        System.out.println("Product");
-        System.out.println(product);
-        String[] parts = product.split("-");
-        System.out.println("PRODUCT TYPE");
-        System.out.println(parts[0]);
-        switch (parts[0]) {
-            case "1":
-                imgbBody1.setImageResource(R.drawable.swma_grafeiou_1);
-                imgbBody2.setImageResource(R.drawable.swma_grafeiou_2);
-                imgbBody3.setImageResource(R.drawable.swma_grafeiou_3);
-                break;
-            case "2":
-                imgbBody1.setImageResource(R.drawable.swma_kanape_1);
-                imgbBody2.setImageResource(R.drawable.swma_kanape_2);
-                imgbBody3.setImageResource(R.drawable.swma_kanape_3);
-                break;
-            case "3":
-                imgbBody1.setImageResource(R.drawable.swma_krevatiou_1);
-                imgbBody2.setImageResource(R.drawable.swma_krevatiou_2);
-                imgbBody3.setImageResource(R.drawable.swma_krevatiou_3);
-                break;
-            default:
-                break;
+        // Filter custom products for body items
+        List<CustomProduct> cPFiltered = ((CustomProducts) getActivity()).getFilteredCustomProducts();
+        for (Integer i=0; i < cPFiltered.size(); i++) {
+            CustomProduct cProduct = cPFiltered.get(i);
+            String[] parts = cProduct.getPart().split("_");
+            if (Objects.equals(parts[1], "body")) {
+                cProductsFiltered.add(cProduct);
+            }
         }
+        // Load images
+        String image_url = "http://83.212.101.162/" + cProductsFiltered.get(0).getImage();
+        Picasso.with(getContext()).load(image_url).into(imgbBody1);
+        image_url = "http://83.212.101.162/" + cProductsFiltered.get(1).getImage();
+        Picasso.with(getContext()).load(image_url).into(imgbBody2);
+        image_url = "http://83.212.101.162/" + cProductsFiltered.get(2).getImage();
+        Picasso.with(getContext()).load(image_url).into(imgbBody3);
 
         imgbBody1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                registerChoiceAndReroute("1");
+                registerChoiceAndReroute(String.valueOf(cProductsFiltered.get(0).getId()) + "-" + cProductsFiltered.get(0).getPrice());
             }
         });
         imgbBody2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                registerChoiceAndReroute("2");
+                registerChoiceAndReroute(String.valueOf(cProductsFiltered.get(1).getId()) + "-" + cProductsFiltered.get(1).getPrice());
             }
         });
         imgbBody3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                registerChoiceAndReroute("3");
+                registerChoiceAndReroute(String.valueOf(cProductsFiltered.get(2).getId()) + "-" + cProductsFiltered.get(2).getPrice());
             }
         });
         return view;
@@ -77,10 +75,10 @@ public class CustomProductBody extends Fragment {
 
     // Register the choice and routes to next tab
     private void registerChoiceAndReroute(String choice) {
-        ((CustomProduct) getActivity()).setCustomProduct(choice);
+        ((CustomProducts) getActivity()).setCustomProduct(choice);
         Snackbar snackbar = Snackbar.make(linearLayout, "Το σώμα αποθηκεύτηκε", Snackbar.LENGTH_LONG);
         snackbar.show();
-        ((CustomProduct) getActivity()).getPager().setCurrentItem(3);
+        ((CustomProducts) getActivity()).getPager().setCurrentItem(3);
     }
 
 }

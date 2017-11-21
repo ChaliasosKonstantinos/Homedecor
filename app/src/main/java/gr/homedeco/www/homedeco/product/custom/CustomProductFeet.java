@@ -10,12 +10,20 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 import gr.homedeco.www.homedeco.R;
+import gr.homedeco.www.homedeco.product.CustomProduct;
 
 public class CustomProductFeet extends Fragment {
 
     private ImageButton imgbFeet1, imgbFeet2, imgbFeet3;
     private LinearLayout linearLayout;
+    private List<CustomProduct> cProductsFiltered = new ArrayList<>();
 
     @Nullable
     @Override
@@ -25,45 +33,39 @@ public class CustomProductFeet extends Fragment {
         imgbFeet1 = (ImageButton) view.findViewById(R.id.imgbFeet1);
         imgbFeet2 = (ImageButton) view.findViewById(R.id.imgbFeet2);
         imgbFeet3 = (ImageButton) view.findViewById(R.id.imgbFeet3);
-
-        String product = ((CustomProduct) getActivity()).getCustomProduct();
-        String[] parts = product.split("-");
-        switch (parts[0]) {
-            case "1":
-                imgbFeet1.setImageResource(R.drawable.podia_grafeiou_1);
-                imgbFeet2.setImageResource(R.drawable.podia_grafeiou_2);
-                imgbFeet3.setImageResource(R.drawable.podia_grafeiou_3);
-                break;
-            case "2":
-                imgbFeet1.setImageResource(R.drawable.kalymma_kanape_1);
-                imgbFeet2.setImageResource(R.drawable.kalymma_kanape_2);
-                imgbFeet3.setImageResource(R.drawable.kalymma_kanape_3);
-                break;
-            case "3":
-                imgbFeet1.setImageResource(R.drawable.podia_krevatiou_1);
-                imgbFeet2.setImageResource(R.drawable.podia_krevatiou_2);
-                imgbFeet3.setImageResource(R.drawable.podia_krevatiou_3);
-                break;
-            default:
-                break;
+        // Filter custom products for feet item
+        List<CustomProduct> cPFiltered = ((CustomProducts) getActivity()).getFilteredCustomProducts();
+        for (Integer i=0; i < cPFiltered.size(); i++) {
+            CustomProduct cProduct = cPFiltered.get(i);
+            String[] parts = cProduct.getPart().split("_");
+            if (Objects.equals(parts[1], "leg")) {
+                cProductsFiltered.add(cProduct);
+            }
         }
+        // Load images
+        String image_url = "http://83.212.101.162/" + cProductsFiltered.get(0).getImage();
+        Picasso.with(getContext()).load(image_url).into(imgbFeet1);
+        image_url = "http://83.212.101.162/" + cProductsFiltered.get(1).getImage();
+        Picasso.with(getContext()).load(image_url).into(imgbFeet2);
+        image_url = "http://83.212.101.162/" + cProductsFiltered.get(2).getImage();
+        Picasso.with(getContext()).load(image_url).into(imgbFeet3);
 
         imgbFeet1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                registerChoiceAndReroute("1");
+                registerChoiceAndReroute(String.valueOf(cProductsFiltered.get(0).getId()) + "-" + cProductsFiltered.get(0).getPrice());
             }
         });
         imgbFeet2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                registerChoiceAndReroute("2");
+                registerChoiceAndReroute(String.valueOf(cProductsFiltered.get(1).getId()) + "-" + cProductsFiltered.get(1).getPrice());
             }
         });
         imgbFeet3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                registerChoiceAndReroute("3");
+                registerChoiceAndReroute(String.valueOf(cProductsFiltered.get(2).getId()) + "-" + cProductsFiltered.get(2).getPrice());
             }
         });
         return view;
@@ -73,9 +75,9 @@ public class CustomProductFeet extends Fragment {
 
     // Register the choice and routes to next tab
     private void registerChoiceAndReroute(String choice) {
-        ((CustomProduct) getActivity()).setCustomProduct(choice);
+        ((CustomProducts) getActivity()).setCustomProduct(choice);
         Snackbar snackbar = Snackbar.make(linearLayout, "Το προιόν ολοκληρώθηκε", Snackbar.LENGTH_LONG);
         snackbar.show();
-        ((CustomProduct) getActivity()).getPager().setCurrentItem(4);
+        ((CustomProducts) getActivity()).getPager().setCurrentItem(4);
     }
 }

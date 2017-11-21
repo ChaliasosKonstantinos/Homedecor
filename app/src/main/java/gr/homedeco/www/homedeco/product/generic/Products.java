@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import gr.homedeco.www.homedeco.R;
-import gr.homedeco.www.homedeco.product.custom.CustomProduct;
+import gr.homedeco.www.homedeco.product.custom.CustomProducts;
 
 public class Products extends AppCompatActivity {
 
@@ -22,7 +22,7 @@ public class Products extends AppCompatActivity {
     }
 
     public void showCustomProducts(View view) {
-        Intent intent = new Intent(this, CustomProduct.class);
+        Intent intent = new Intent(this, CustomProducts.class);
         startActivity(intent);
     }
 }

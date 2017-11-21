@@ -25,7 +25,6 @@ public class CustomProductColor extends Fragment {
         bColor1 = (Button) view.findViewById(R.id.bColor1);
         bColor2 = (Button) view.findViewById(R.id.bColor2);
         bColor3 = (Button) view.findViewById(R.id.bColor3);
-
         bColor1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -51,10 +50,10 @@ public class CustomProductColor extends Fragment {
 
     // Register the choice and routes to next tab
     private void registerChoiceAndReroute(String choice) {
-        ((CustomProduct) getActivity()).setCustomProduct(choice);
+        ((CustomProducts) getActivity()).setCustomProduct(choice);
         Snackbar snackbar = Snackbar.make(linearLayout, "Το χρώμα αποθηκεύτηκε", Snackbar.LENGTH_LONG);
         snackbar.show();
-        ((CustomProduct) getActivity()).getPager().setCurrentItem(2);
+        ((CustomProducts) getActivity()).getPager().setCurrentItem(2);
     }
 
 }

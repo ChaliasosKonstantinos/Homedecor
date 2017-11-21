@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import gr.homedeco.www.homedeco.contact.chat.PrivateMessage;
 import gr.homedeco.www.homedeco.order.Order;
+import gr.homedeco.www.homedeco.product.CustomProduct;
 import gr.homedeco.www.homedeco.product.Product;
 import gr.homedeco.www.homedeco.server.response.ServerResponse;
 import gr.homedeco.www.homedeco.user.User;
@@ -80,6 +81,44 @@ public class JSONparser {
         }
 
         return products;
+    }
+
+    /**
+     * Returns a product list of all custom products
+     *
+     * @param result all custom product server's response as a string
+     * @return all custom product as an List of CustomProduct objects
+     */
+    public List<CustomProduct> toCustomProduct(String result) throws JSONException {
+
+        List<CustomProduct> customProducts = new ArrayList<>();
+        CustomProduct returnedCustomProduct;
+        JSONArray jArray = new JSONArray(result);
+
+        for (int i = 0; i < jArray.length(); i++) {
+            JSONObject jObject = jArray.getJSONObject(i);
+
+            if (jObject.length() != 0) {
+                int id = jObject.getInt("id");
+                String name = jObject.getString("name");
+                int categoryId = jObject.getInt("category_id");
+                String part = jObject.getString("part");
+                String image = jObject.getString("image");
+                double price = jObject.getDouble("price");
+
+                returnedCustomProduct = new CustomProduct();
+                returnedCustomProduct.setId(id);
+                returnedCustomProduct.setName(name);
+                returnedCustomProduct.setCategoryId(categoryId);
+                returnedCustomProduct.setPart(part);
+                returnedCustomProduct.setImage(image);
+                returnedCustomProduct.setPrice(price);
+
+                customProducts.add(returnedCustomProduct);
+            }
+        }
+
+        return customProducts;
     }
 
 //------------------------------------------------------------------------------------------------//

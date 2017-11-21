@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,25 +42,26 @@ public class CustomProductPrice extends Fragment {
         btnAddToCart = (Button) view.findViewById(R.id.btnAddToCart);
         localDatabase = new LocalDatabase(getContext());
 
-        String product = ((CustomProduct) getActivity()).getCustomProduct();
+        String product = ((CustomProducts) getActivity()).getCustomProduct();
+        Log.d("CUSTOM PRODUCT FINAL", product);
         String[] parts = product.split("-");
-        double price = 0, vat, total;
+        double bodyPrice = Double.parseDouble(parts[3]);
+        double feetPrice = 10;
+        if (parts.length > 4) {
+            feetPrice = Double.parseDouble(parts[5]);
+        }
+        double price = bodyPrice + feetPrice;
+        double vat, total;
 
         switch (parts[0]) {
             case "1":
                 tvProductName.setText(R.string.desk);
-                price = 89.00;
-                productID = 12;
                 break;
             case "2":
                 tvProductName.setText(R.string.sofa);
-                price = 299.00;
-                productID = 13;
                 break;
             case "3":
                 tvProductName.setText(R.string.bed);
-                price = 359.00;
-                productID = 14;
                 break;
             default:
                 tvProductName.setText("-");
@@ -77,7 +79,7 @@ public class CustomProductPrice extends Fragment {
         btnAddToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                localDatabase.addToCart(productID);
+                // TODO: CUSTOM PRODUCT ORDER
                 Snackbar snackbar = Snackbar.make(relativeLayout, R.string.cart_added_product, Snackbar.LENGTH_LONG);
                 snackbar.show();
             }

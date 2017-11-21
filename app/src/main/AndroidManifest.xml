@@ -34,7 +34,7 @@
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".cart.CheckoutDialog" />
         <activity
-            android:name=".product.custom.CustomProduct"
+            android:name=".product.custom.CustomProducts"
             android:parentActivityName=".product.generic.Products"
             android:theme="@style/Theme.Design.Light.NoActionBar" />
         <activity

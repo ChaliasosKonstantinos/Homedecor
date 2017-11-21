@@ -21,8 +21,10 @@ import gr.homedeco.www.homedeco.contact.chat.PrivateMessage;
 import gr.homedeco.www.homedeco.helpers.JSONparser;
 import gr.homedeco.www.homedeco.localDatabase.LocalDatabase;
 import gr.homedeco.www.homedeco.order.Order;
+import gr.homedeco.www.homedeco.product.CustomProduct;
 import gr.homedeco.www.homedeco.product.Product;
 import gr.homedeco.www.homedeco.server.callbacks.GetConversationCallback;
+import gr.homedeco.www.homedeco.server.callbacks.GetCustomProductCallback;
 import gr.homedeco.www.homedeco.server.callbacks.GetLoginCallback;
 import gr.homedeco.www.homedeco.server.callbacks.GetMessageCallback;
 import gr.homedeco.www.homedeco.server.callbacks.GetOrderCallback;
@@ -38,7 +40,6 @@ public class ServerRequests {
     private ProgressDialog progressDialog;
     private BufferedReader reader = null;
     private LocalDatabase localDatabase;
-    public HttpURLConnection urlConnection2;
 
 
     public ServerRequests(Context context) {
@@ -57,12 +58,12 @@ public class ServerRequests {
         return null;
     }
 
-    // AsyncTask that get User's data from the server
-    public class FetchProductDataAsyncTask extends AsyncTask<Void, Void, List<Product>> {
+    // AsyncTask that get products from the server
+    private class FetchProductDataAsyncTask extends AsyncTask<Void, Void, List<Product>> {
         int productID;
         GetProductCallback productCallback;
 
-        public FetchProductDataAsyncTask(int productID, GetProductCallback productCallback) {
+        private FetchProductDataAsyncTask(int productID, GetProductCallback productCallback) {
             this.productID = productID;
             this.productCallback = productCallback;
         }
@@ -113,6 +114,60 @@ public class ServerRequests {
         }
     }
 
+    // Fetches Custom Product's data from the server
+    public User fetchCustomProductDataInBackground(GetCustomProductCallback customProductCallback) {
+        new FetchCustomProductDataAsyncTask(customProductCallback).execute();
+        return null;
+    }
+
+    // AsyncTask that get custom products from the server
+    private class FetchCustomProductDataAsyncTask extends AsyncTask<Void, Void, List<CustomProduct>> {
+        GetCustomProductCallback customProductCallback;
+
+        private FetchCustomProductDataAsyncTask(GetCustomProductCallback customProductCallback) {
+            this.customProductCallback = customProductCallback;
+        }
+
+        @Override
+        protected List<CustomProduct> doInBackground(Void... params) {
+            List<CustomProduct> customProducts = new ArrayList<>();
+            ServerConnection connection = new ServerConnection();
+            HttpURLConnection urlConnection;
+            urlConnection = connection.openGetConnection("/custom_product");
+
+            try {
+                urlConnection.connect();
+
+                InputStream is = urlConnection.getInputStream();
+                reader = new BufferedReader(new InputStreamReader(is));
+
+                StringBuilder buffer = new StringBuilder();
+
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    buffer.append(line);
+                }
+
+                String result = buffer.toString();
+                JSONparser parser = new JSONparser();
+                customProducts = parser.toCustomProduct(result);
+
+
+            } catch (IOException | JSONException e) {
+                e.printStackTrace();
+            }
+
+            return customProducts;
+        }
+
+        @Override
+        protected void onPostExecute(List<CustomProduct> customProducts) {
+            progressDialog.dismiss();
+            customProductCallback.done(customProducts);
+            super.onPostExecute(customProducts);
+        }
+    }
+
 //------------------------------------------------------------------------------------------------//
 //                                     LOGIN
 //------------------------------------------------------------------------------------------------//
@@ -123,11 +178,11 @@ public class ServerRequests {
     }
 
     //AsyncTask that try to log user in
-    public class loginAsyncTask extends AsyncTask<User, Void, String> {
+    private class loginAsyncTask extends AsyncTask<User, Void, String> {
         User user = new User();
         GetLoginCallback loginCallback;
 
-        public loginAsyncTask(User user, GetLoginCallback loginCallback) {
+        private loginAsyncTask(User user, GetLoginCallback loginCallback) {
             this.user = user;
             this.loginCallback = loginCallback;
         }
@@ -189,10 +244,10 @@ public class ServerRequests {
     }
 
     // AsyncTask that try to log user in
-    public class getUserDetailsAsyncTask extends AsyncTask<Void, Void, User> {
+    private class getUserDetailsAsyncTask extends AsyncTask<Void, Void, User> {
         GetUserDetailsCallback userDetailsCallback;
 
-        public getUserDetailsAsyncTask(GetUserDetailsCallback userDetailsCallback) {
+        private getUserDetailsAsyncTask(GetUserDetailsCallback userDetailsCallback) {
             this.userDetailsCallback = userDetailsCallback;
         }
 
@@ -252,11 +307,11 @@ public class ServerRequests {
     }
 
     //AsyncTask that try to log user in
-    public class registerAsyncTask extends AsyncTask<User, Void, ServerResponse> {
+    private class registerAsyncTask extends AsyncTask<User, Void, ServerResponse> {
         User user = new User();
         GetRegisterCallback registerCallback;
 
-        public registerAsyncTask(User user, GetRegisterCallback registerCallback) {
+        private registerAsyncTask(User user, GetRegisterCallback registerCallback) {
             this.user = user;
             this.registerCallback = registerCallback;
         }
@@ -317,10 +372,10 @@ public class ServerRequests {
         new getConversationAsyncTask(conversationCallback).execute();
     }
 
-    public class getConversationAsyncTask extends AsyncTask<Void, Void, List<PrivateMessage>> {
+    private class getConversationAsyncTask extends AsyncTask<Void, Void, List<PrivateMessage>> {
         GetConversationCallback conversationCallback;
 
-        public getConversationAsyncTask(GetConversationCallback conversationCallback) {
+        private getConversationAsyncTask(GetConversationCallback conversationCallback) {
             this.conversationCallback = conversationCallback;
         }
 
@@ -374,11 +429,11 @@ public class ServerRequests {
         new setMessageAsyncTask(messageToSend, messageCallback).execute();
     }
 
-    public class setMessageAsyncTask extends AsyncTask<PrivateMessage, Void, String> {
+    private class setMessageAsyncTask extends AsyncTask<PrivateMessage, Void, String> {
         PrivateMessage messageToSend = new PrivateMessage();
         GetMessageCallback messageCallback;
 
-        public setMessageAsyncTask(PrivateMessage messageToSend, GetMessageCallback messageCallback) {
+        private setMessageAsyncTask(PrivateMessage messageToSend, GetMessageCallback messageCallback) {
             this.messageToSend = messageToSend;
             this.messageCallback = messageCallback;
         }
@@ -440,12 +495,12 @@ public class ServerRequests {
         new createOrderAsyncTask(order, orderCallback).execute();
     }
 
-    public class createOrderAsyncTask extends AsyncTask<Order, Void, ServerResponse> {
+    private class createOrderAsyncTask extends AsyncTask<Order, Void, ServerResponse> {
         Order order = new Order();
         List<Integer> cartIDs = new ArrayList<>();
         GetOrderCallback orderCallback;
 
-        public createOrderAsyncTask(Order order, GetOrderCallback orderCallback) {
+        private createOrderAsyncTask(Order order, GetOrderCallback orderCallback) {
             this.order = order;
             this.orderCallback = orderCallback;
             String cart = localDatabase.getCart();
@@ -513,10 +568,10 @@ public class ServerRequests {
         new getOrderHistoryAsyncTask(orderHistoryCallback).execute();
     }
 
-    public class getOrderHistoryAsyncTask extends AsyncTask<Void, Void, List<Order>> {
+    private class getOrderHistoryAsyncTask extends AsyncTask<Void, Void, List<Order>> {
         GetOrderHistoryCallback orderHistoryCallback;
 
-        public getOrderHistoryAsyncTask(GetOrderHistoryCallback orderHistoryCallback) {
+        private getOrderHistoryAsyncTask(GetOrderHistoryCallback orderHistoryCallback) {
             this.orderHistoryCallback = orderHistoryCallback;
         }
 
@@ -533,8 +588,6 @@ public class ServerRequests {
 
             try {
                 urlConnection.connect();
-
-                int status = urlConnection.getResponseCode();
 
                 InputStream is = urlConnection.getInputStream();
                 reader = new BufferedReader(new InputStreamReader(is));
