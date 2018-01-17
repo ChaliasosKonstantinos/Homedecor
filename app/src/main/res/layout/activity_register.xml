@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:labelFor="@+id/etRegUsername"
-            android:text="@string/username" />
+            android:text="Όνομα Χρήστη *" />
 
         <EditText
             android:id="@id/etRegUsername"
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:labelFor="@+id/etRegPassword"
-            android:text="@string/password" />
+            android:text="Κωδικός *" />
 
         <EditText
             android:id="@id/etRegPassword"
