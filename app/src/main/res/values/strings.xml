@@ -90,6 +90,7 @@
     <string name="custom_product_feet">- Πόδια :</string>
     <string name="default_product_name">Όνομα</string>
     <string name="default_product_price">Τιμή :</string>
+    <string name="default_product_price_underlined"><u>Τιμή</u></string>
     <string name="bed">Κρεβάτι</string>
     <string name="sofa">Καναπές</string>
     <string name="desk">Γραφείο</string>

@@ -12,9 +12,9 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import gr.homedeco.www.homedeco.R;
-import gr.homedeco.www.homedeco.localDatabase.LocalDatabase;
 import gr.homedeco.www.homedeco.order.Order;
 import gr.homedeco.www.homedeco.user.User;
+import gr.homedeco.www.homedeco.user.UserController;
 
 public class OrderInfo extends Fragment {
 
@@ -108,9 +108,9 @@ public class OrderInfo extends Fragment {
 
     // Populates the View only if user is logged in
     private void populateView() {
-        LocalDatabase localDatabase = new LocalDatabase(getContext());
-        if (localDatabase.isLoggedIn()) {
-            User user = localDatabase.getUserDetails();
+        UserController uController = new UserController(getContext());
+        if (uController.isUserLoggedIn()) {
+            User user = uController.getUserDetails();
             etFullname.setText(user.getFirstName() + " " + user.getLastName());
             etEmail.setText(user.getEmail());
             etPhone.setText(user.getPhone());

@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import gr.homedeco.www.homedeco.R;
@@ -33,6 +34,7 @@ public class OrderHistory extends AppCompatActivity {
             @Override
             public void done(List<Order> returnedList) {
                 orders = returnedList;
+                Collections.reverse(orders);
                 populateView(orders);
             }
         });

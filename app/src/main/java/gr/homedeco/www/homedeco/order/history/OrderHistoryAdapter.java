@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -59,6 +60,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         TextView tvOrderID, tvOrderDate, tvOrderPrice, tvOrderShipAddress, tvOrderPhone, tvOrderShippingMethod,
                 tvOrderStatus;
         RelativeLayout detailsLayout;
+        ImageView imgExpandIcon;
 
         OrderViewHolder(View itemView) {
             super(itemView);
@@ -71,6 +73,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
             tvOrderPhone = (TextView) itemView.findViewById(R.id.tvOrderPhoneText);
             tvOrderShippingMethod = (TextView) itemView.findViewById(R.id.tvOrderShippingMethodText);
             detailsLayout = (RelativeLayout) itemView.findViewById(R.id.layoutOrderDetails);
+            imgExpandIcon = (ImageView) itemView.findViewById(R.id.imgOrderDetails);
         }
 
         @Override
@@ -84,8 +87,10 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
             int vis = detailsLayout.getVisibility();
             if (vis == View.GONE) {
                 detailsLayout.setVisibility(View.VISIBLE);
+                imgExpandIcon.setImageResource(R.drawable.ic_action_arrow_up);
             } else if (vis == View.VISIBLE) {
                 detailsLayout.setVisibility(View.GONE);
+                imgExpandIcon.setImageResource(R.drawable.ic_action_arrow_down);
             }
         }
     }
