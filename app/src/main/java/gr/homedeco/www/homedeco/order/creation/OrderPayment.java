@@ -29,7 +29,7 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 
 import gr.homedeco.www.homedeco.R;
-import gr.homedeco.www.homedeco.localDatabase.LocalDatabase;
+import gr.homedeco.www.homedeco.cart.CartController;
 import gr.homedeco.www.homedeco.order.Order;
 import gr.homedeco.www.homedeco.server.callbacks.GetOrderCallback;
 import gr.homedeco.www.homedeco.server.requests.ServerRequests;
@@ -194,8 +194,8 @@ public class OrderPayment extends Fragment {
                             if (!response.getMessage().isEmpty()) {
                                 Snackbar snackbar = Snackbar.make(layout, R.string.order_created, Snackbar.LENGTH_LONG);
                                 snackbar.show();
-                                LocalDatabase localDatabase = new LocalDatabase(getContext());
-                                localDatabase.clearCart();
+                                CartController cController = new CartController(getContext());
+                                cController.clearCart();
                                 // TODO: Redirect to Order history
                             } else {
                                 Snackbar snackbar = Snackbar.make(layout, R.string.order_creation_failed, Snackbar.LENGTH_LONG);

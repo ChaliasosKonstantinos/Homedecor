@@ -50,7 +50,7 @@
 
     <TextView
         android:id="@+id/tvProductColorText"
-        android:layout_width="wrap_content"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -122,7 +122,7 @@
         android:layout_below="@+id/separator"
         android:layout_centerHorizontal="true"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:text="@string/default_product_price"/>
+        android:text="@string/default_product_price_underlined"/>
 
     <TextView
         android:id="@+id/tvProductPrice"

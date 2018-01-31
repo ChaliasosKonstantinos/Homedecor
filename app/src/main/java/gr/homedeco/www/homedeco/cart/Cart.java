@@ -22,28 +22,30 @@ import java.util.List;
 
 import gr.homedeco.www.homedeco.R;
 import gr.homedeco.www.homedeco.aboutUs.AboutUs;
-import gr.homedeco.www.homedeco.localDatabase.LocalDatabase;
 import gr.homedeco.www.homedeco.order.creation.OrderCreation;
 import gr.homedeco.www.homedeco.order.history.OrderHistory;
 import gr.homedeco.www.homedeco.product.Product;
 import gr.homedeco.www.homedeco.server.callbacks.GetProductCallback;
 import gr.homedeco.www.homedeco.server.requests.ServerRequests;
+import gr.homedeco.www.homedeco.user.UserController;
 import gr.homedeco.www.homedeco.user.login.Login;
 
 public class Cart extends AppCompatActivity {
 
-    private LocalDatabase localDatabase;
     private double totalPriceBeforeVAT = 0;
     private TextView tvProductPrice, tvProductVAT, tvProductTotalPrice, tvCartIsEmpty;
     private RelativeLayout rlCartPrices;
     private LinearLayout layout;
     private RecyclerView rvCart;
+    private CartController controller;
+    private UserController uController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
-        localDatabase = new LocalDatabase(this);
+        controller = new CartController(this);
+        uController = new UserController(this);
         tvProductPrice = (TextView) findViewById(R.id.tvProductPrice);
         tvProductVAT = (TextView) findViewById(R.id.tvProductVAT);
         tvProductTotalPrice = (TextView) findViewById(R.id.tvProductTotalPrice);
@@ -66,7 +68,7 @@ public class Cart extends AppCompatActivity {
 
     // Toggles enable/disable Order History button based on if user is logged in
     private void toggleOrderHistory() {
-        if (localDatabase.isLoggedIn()) {
+        if (uController.isUserLoggedIn()) {
             Button btnOrderHistory = (Button) findViewById(R.id.btnOrderHistory);
             btnOrderHistory.setVisibility(View.VISIBLE);
         }
@@ -85,7 +87,7 @@ public class Cart extends AppCompatActivity {
 
     // Retrieves the cart from local database
     private void getCart(List<Product> products) {
-        String cart = localDatabase.getCart();
+        String cart = controller.getCart();
         if (!cart.isEmpty()) {
             String[] parts = cart.split(",");
             List<Integer> cartIDs = new ArrayList<>();
@@ -127,7 +129,7 @@ public class Cart extends AppCompatActivity {
         double totalPriceAfterVAT = totalPriceBeforeVAT + VAT;
         totalPriceAfterVAT = Math.floor(totalPriceAfterVAT * 100) / 100;
         tvProductTotalPrice.setText(totalPriceAfterVAT + "€");
-        localDatabase.setCartPrice(totalPriceAfterVAT);
+        controller.setCartPrice(totalPriceAfterVAT);
 
     }
 
@@ -135,7 +137,7 @@ public class Cart extends AppCompatActivity {
 
     // Checkout
     public void checkout(View view) {
-        if (localDatabase.isLoggedIn()) {
+        if (uController.isUserLoggedIn()) {
             showCheckout();
         } else {
             AlertDialog builder = new AlertDialog.Builder(Cart.this).create();
@@ -183,17 +185,22 @@ public class Cart extends AppCompatActivity {
 
     // MENU: Logout
     public void logout(MenuItem item) {
-        localDatabase.setLoggedIn(false, "");
+        if (uController.logoutUser()) {
+            Snackbar snackbar = Snackbar.make(layout, "Αποσύνδεση επιτυχής", Snackbar.LENGTH_LONG);
+            snackbar.show();
+        }
     }
 
     // MENU: Delete cart
     public void deleteCart(MenuItem item) {
-        localDatabase.clearCart();
-        tvCartIsEmpty.setVisibility(View.VISIBLE);
-        rlCartPrices.setVisibility(View.GONE);
-        rvCart.setVisibility(View.GONE);
-        Snackbar snackbar = Snackbar.make(layout, R.string.cart_deleted, Snackbar.LENGTH_LONG);
-        snackbar.show();
+        boolean isDeleted = controller.clearCart();
+        if (isDeleted) {
+            tvCartIsEmpty.setVisibility(View.VISIBLE);
+            rlCartPrices.setVisibility(View.GONE);
+            rvCart.setVisibility(View.GONE);
+            Snackbar snackbar = Snackbar.make(layout, R.string.cart_deleted, Snackbar.LENGTH_LONG);
+            snackbar.show();
+        }
     }
 
     // MENU: About us

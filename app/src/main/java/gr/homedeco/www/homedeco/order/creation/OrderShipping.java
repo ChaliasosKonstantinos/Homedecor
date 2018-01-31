@@ -3,7 +3,6 @@ package gr.homedeco.www.homedeco.order.creation;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
@@ -15,12 +14,9 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import gr.homedeco.www.homedeco.R;
-import gr.homedeco.www.homedeco.localDatabase.LocalDatabase;
 import gr.homedeco.www.homedeco.order.Order;
-import gr.homedeco.www.homedeco.server.callbacks.GetOrderCallback;
-import gr.homedeco.www.homedeco.server.requests.ServerRequests;
-import gr.homedeco.www.homedeco.server.response.ServerResponse;
 import gr.homedeco.www.homedeco.user.User;
+import gr.homedeco.www.homedeco.user.UserController;
 
 public class OrderShipping extends Fragment {
 
@@ -134,9 +130,9 @@ public class OrderShipping extends Fragment {
 
     // Populates the View only if user is logged in
     private void populateView() {
-        LocalDatabase localDatabase = new LocalDatabase(getContext());
-        if (localDatabase.isLoggedIn()) {
-            User user = localDatabase.getUserDetails();
+        UserController uController = new UserController(getContext());
+        if (uController.isUserLoggedIn()) {
+            User user = uController.getUserDetails();
             etCountry.setText(user.getCountry());
             etState.setText(user.getState());
             etCity.setText(user.getCity());

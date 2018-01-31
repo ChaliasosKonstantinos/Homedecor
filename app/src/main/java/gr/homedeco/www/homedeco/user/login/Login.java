@@ -12,19 +12,19 @@ import android.widget.LinearLayout;
 
 import gr.homedeco.www.homedeco.R;
 import gr.homedeco.www.homedeco.helpers.Helpers;
-import gr.homedeco.www.homedeco.localDatabase.LocalDatabase;
 import gr.homedeco.www.homedeco.server.callbacks.GetLoginCallback;
 import gr.homedeco.www.homedeco.server.callbacks.GetUserDetailsCallback;
 import gr.homedeco.www.homedeco.server.requests.ServerRequests;
 import gr.homedeco.www.homedeco.user.User;
+import gr.homedeco.www.homedeco.user.UserController;
 import gr.homedeco.www.homedeco.user.register.Register;
 
 public class Login extends AppCompatActivity {
 
     private EditText etUsername, etPassword;
     private CheckBox cbRememberMe;
-    private LocalDatabase localDatabase;
     private LinearLayout layout;
+    private UserController uController = new UserController(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,11 +35,10 @@ public class Login extends AppCompatActivity {
         etPassword = (EditText) findViewById(R.id.etPassword);
         cbRememberMe = (CheckBox) findViewById(R.id.cbRememberMe);
         layout = (LinearLayout) findViewById(R.id.activity_login);
-        localDatabase = new LocalDatabase(this);
 
         // Remembered user
-        User user = localDatabase.getRememberMe();
-        if (!user.getUsername().isEmpty()) {
+        if (uController.isRemembered()) {
+            User user = uController.getRemembered();
             etUsername.setText(user.getUsername());
             etPassword.setText(user.getPassword());
             cbRememberMe.setChecked(true);
@@ -59,25 +58,27 @@ public class Login extends AppCompatActivity {
             @Override
             public void done(String response) {
                 if (response != null) {
-                    Snackbar snackbar = Snackbar.make(layout, "Σύνδεση επιτυχής", Snackbar.LENGTH_LONG);
-                    snackbar.show();
-                    localDatabase.setLoggedIn(true, response);
-                    if (cbRememberMe.isChecked()) {
-                        localDatabase.setRememberMe(userToLogin);
-                    }
-                    serverRequest.getUserDetails(new GetUserDetailsCallback() {
-                        @Override
-                        public void done(User returnedUser) {
-                            localDatabase.setUserDetails(returnedUser);
-                            // Navigates to parent Activity after 1sec
-                            new android.os.Handler().postDelayed(
-                                new Runnable() {
-                                    public void run() {
-                                        NavUtils.navigateUpFromSameTask(Login.this);
-                                    }
-                                }, 1000);
+                    boolean isLoggedIn = uController.loginUser(response);
+                    if (isLoggedIn) {
+                        Snackbar snackbar = Snackbar.make(layout, "Σύνδεση επιτυχής", Snackbar.LENGTH_LONG);
+                        snackbar.show();
+                        if (cbRememberMe.isChecked()) {
+                            uController.setRemembered(userToLogin);
                         }
-                    });
+                        serverRequest.getUserDetails(new GetUserDetailsCallback() {
+                            @Override
+                            public void done(User returnedUser) {
+                                uController.setUserDetails(returnedUser);
+                                // Navigates to parent Activity after 1sec
+                                new android.os.Handler().postDelayed(
+                                        new Runnable() {
+                                            public void run() {
+                                                NavUtils.navigateUpFromSameTask(Login.this);
+                                            }
+                                        }, 1000);
+                            }
+                        });
+                    }
                 } else {
                     Snackbar snackbar = Snackbar.make(layout, "Λάθος συνδυασμός όνομα χρήστη/κωδικού", Snackbar.LENGTH_LONG);
                     snackbar.show();
