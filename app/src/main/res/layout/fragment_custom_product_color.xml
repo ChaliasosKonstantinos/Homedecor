@@ -5,31 +5,76 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/bColor1"
+    <!--<Button-->
+        <!--android:id="@+id/bColor1"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_weight="0.33"-->
+        <!--android:layout_marginStart="16dp"-->
+        <!--android:layout_marginEnd="16dp"-->
+        <!--android:backgroundTint="@color/darkBrown" />-->
+
+    <!--<Button-->
+        <!--android:id="@+id/bColor2"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_weight="0.33"-->
+        <!--android:layout_marginStart="16dp"-->
+        <!--android:layout_marginEnd="16dp"-->
+        <!--android:backgroundTint="@color/black" />-->
+
+    <!--<Button-->
+        <!--android:id="@+id/bColor3"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_weight="0.33"-->
+        <!--android:layout_marginStart="16dp"-->
+        <!--android:layout_marginEnd="16dp"-->
+        <!--android:backgroundTint="@color/colorPrimaryDark" />-->
+
+    <ImageButton
+        android:id="@+id/imgbColor1"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.33"
+        android:layout_weight="0.30"
+        android:backgroundTint="@color/transparent_full"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:backgroundTint="@color/darkBrown" />
+        android:layout_marginTop="10dp"
+        android:contentDescription="@string/content_description"/>
 
-    <Button
-        android:id="@+id/bColor2"
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/light_gray" />
+
+    <ImageButton
+        android:id="@+id/imgbColor2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.33"
+        android:backgroundTint="@color/transparent_full"
+        android:layout_weight="0.30"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:backgroundTint="@color/black" />
+        android:contentDescription="@string/content_description"/>
 
-    <Button
-        android:id="@+id/bColor3"
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/light_gray" />
+
+    <ImageButton
+        android:id="@+id/imgbColor3"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.33"
+        android:layout_weight="0.30"
+        android:backgroundTint="@color/transparent_full"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:backgroundTint="@color/colorPrimaryDark" />
-
+        android:layout_marginBottom="10dp"
+        android:contentDescription="@string/content_description"/>
 </LinearLayout>

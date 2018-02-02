@@ -20,6 +20,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import gr.homedeco.www.homedeco.Main;
 import gr.homedeco.www.homedeco.R;
 import gr.homedeco.www.homedeco.aboutUs.AboutUs;
 import gr.homedeco.www.homedeco.order.creation.OrderCreation;
@@ -55,13 +56,6 @@ public class Cart extends AppCompatActivity {
         layout = (LinearLayout) findViewById(R.id.activity_cart);
         toggleOrderHistory();
         getProducts();
-    }
-
-//------------------------------------- MENU -------------------------------------------------//
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.cart_menu_logged_in, menu);
-        return super.onCreateOptionsMenu(menu);
     }
 
 //------------------------------------- HELPERS -------------------------------------------------//
@@ -177,35 +171,50 @@ public class Cart extends AppCompatActivity {
         startActivity(intent);
     }
 
-    // MENU: Login
-    public void showLogin(MenuItem item) {
-        Intent intent = new Intent(this, Login.class);
-        startActivity(intent);
+//------------------------------------------ MENU -------------------------------------------------//
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.cart_menu_logged_in, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
-    // MENU: Logout
-    public void logout(MenuItem item) {
-        if (uController.logoutUser()) {
-            Snackbar snackbar = Snackbar.make(layout, "Αποσύνδεση επιτυχής", Snackbar.LENGTH_LONG);
-            snackbar.show();
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        System.out.println("USER IS LOGGED IN: " + uController.isUserLoggedIn());
+        if (uController.isUserLoggedIn()) {
+            menu.findItem(R.id.action_login).setVisible(false);
+        } else {
+            menu.findItem(R.id.action_logout).setVisible(false);
         }
+        return super.onPrepareOptionsMenu(menu);
     }
 
-    // MENU: Delete cart
-    public void deleteCart(MenuItem item) {
-        boolean isDeleted = controller.clearCart();
-        if (isDeleted) {
-            tvCartIsEmpty.setVisibility(View.VISIBLE);
-            rlCartPrices.setVisibility(View.GONE);
-            rvCart.setVisibility(View.GONE);
-            Snackbar snackbar = Snackbar.make(layout, R.string.cart_deleted, Snackbar.LENGTH_LONG);
-            snackbar.show();
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId())
+        {
+            case R.id.action_delete_cart:
+                boolean isDeleted = controller.clearCart();
+                if (isDeleted) {
+                    tvCartIsEmpty.setVisibility(View.VISIBLE);
+                    rlCartPrices.setVisibility(View.GONE);
+                    rvCart.setVisibility(View.GONE);
+                    Snackbar snackbar = Snackbar.make(layout, R.string.cart_deleted, Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+                break;
+            case R.id.action_login:
+                startActivity(new Intent(this, Login.class));
+                break;
+            case R.id.action_logout:
+                UserController uc = new UserController(this);
+                uc.logoutUser();
+                startActivity(new Intent(this, Main.class));
+                break;
+            case R.id.action_about:
+                startActivity(new Intent(this, AboutUs.class));
+                break;
         }
-    }
-
-    // MENU: About us
-    public void showAboutUs(MenuItem item) {
-        Intent intent = new Intent(this, AboutUs.class);
-        startActivity(intent);
+        return super.onOptionsItemSelected(item);
     }
 }

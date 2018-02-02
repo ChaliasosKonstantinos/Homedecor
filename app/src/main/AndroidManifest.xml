@@ -30,8 +30,8 @@
             android:parentActivityName=".Main" />
         <activity
             android:name=".contact.chat.Chat"
-            android:parentActivityName=".Main"
             android:label="Συνομιλία"
+            android:parentActivityName=".Main"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".cart.CheckoutDialog" />
         <activity
@@ -68,11 +68,15 @@
         <activity
             android:name=".order.creation.OrderCreation"
             android:label="Δημιουργία παραγγελίας"
-            android:parentActivityName=".cart.Cart"/>
+            android:parentActivityName=".cart.Cart" />
         <activity
             android:name=".order.history.OrderHistory"
             android:label="Ιστορικό Παραγγελιών"
-            android:parentActivityName=".cart.Cart"/>
+            android:parentActivityName=".cart.Cart" />
+        <activity
+            android:name=".user.profile.UserProfile"
+            android:windowSoftInputMode="adjustPan"
+            android:parentActivityName=".Main"/>
     </application>
 
 </manifest>

@@ -45,18 +45,23 @@ public class ProductDetails extends AppCompatActivity {
         layout = (LinearLayout) findViewById(R.id.activity_product_details);
         localDatabase = new LocalDatabase(this);
 
-        //Server Request for specific product details
+        getProductDetails(productID);
+    }
+
+/* ========================================= HELPERS =============================================== */
+
+    private void getProductDetails(int productID) {
         ServerRequests serverRequest = new ServerRequests(this);
         serverRequest.fetchProductDataInBackground(productID, new GetProductCallback() {
             @Override
             public void done(List<Product> returnedList) {
                 Product returnedProduct = returnedList.get(0);
-                populateProductDetails(returnedProduct);
+                populateView(returnedProduct);
             }
         });
     }
 
-    private void populateProductDetails(Product product) {
+    private void populateView(Product product) {
 
         String image_url = "http://83.212.101.162/" + product.getImage();
 

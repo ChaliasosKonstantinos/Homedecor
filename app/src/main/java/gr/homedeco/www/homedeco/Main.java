@@ -8,25 +8,30 @@ import android.view.View;
 import gr.homedeco.www.homedeco.cart.Cart;
 import gr.homedeco.www.homedeco.contact.chat.Chat;
 import gr.homedeco.www.homedeco.contact.regular.ContactUs;
-import gr.homedeco.www.homedeco.localDatabase.LocalDatabase;
 import gr.homedeco.www.homedeco.product.generic.Products;
+import gr.homedeco.www.homedeco.user.UserController;
 import gr.homedeco.www.homedeco.user.login.Login;
+import gr.homedeco.www.homedeco.user.profile.UserProfile;
 
 public class Main extends AppCompatActivity {
 
-    private LocalDatabase localDatabase;
+    private UserController uController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        localDatabase = new LocalDatabase(this);
+        uController = new UserController(this);
     }
 
-    //Show Login Activity
     public void showLogin(View view) {
-        Intent intent = new Intent(this, Login.class);
-        startActivity(intent);
+        if (uController.isUserLoggedIn()) {
+            Intent intent = new Intent(this, UserProfile.class);
+            startActivity(intent);
+        } else {
+            Intent intent = new Intent(this, Login.class);
+            startActivity(intent);
+        }
     }
 
     public void showProducts(View view) {
@@ -40,7 +45,7 @@ public class Main extends AppCompatActivity {
     }
 
     public void showChat(View view) {
-        if (localDatabase.isLoggedIn()) {
+        if (uController.isUserLoggedIn()) {
             Intent intent = new Intent(this, Chat.class);
             startActivity(intent);
         } else {

@@ -28,7 +28,7 @@ public class CustomProductType extends Fragment {
         imgType1 = (ImageView) view.findViewById(R.id.imgType1);
         imgType2 = (ImageView) view.findViewById(R.id.imgType2);
         imgType3 = (ImageView) view.findViewById(R.id.imgType3);
-        ((CustomProducts) getActivity()).clearCustomProduct();
+        ((CustomProducts) getActivity()).getCustomProduct().clearCustomProduct();
 
         imgType1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,15 +67,13 @@ public class CustomProductType extends Fragment {
             String[] parts = cProducts.get(i).getPart().split("_");
             String category = parts[0];
             if (Objects.equals(category, types[typeId])) {
-                ((CustomProducts) getActivity()).setCustomProduct(String.valueOf(cProducts.get(i).getCategoryId()));
+                ((CustomProducts) getActivity()).getCustomProduct().setCategoryId(cProducts.get(i).getCategoryId());
                 found = true;
             }
             i++;
         }
         // Filter products based on category id
-        String customProduct = ((CustomProducts) getActivity()).getCustomProduct();
-        String[] parts = customProduct.split("-");
-        Integer categoryId = Integer.parseInt(parts[0]);
+        Integer categoryId = ((CustomProducts) getActivity()).getCustomProduct().getCategoryId();
         List<CustomProduct> cPFiltered = new ArrayList<>();
         for (i=0; i < cProducts.size(); i++) {
             CustomProduct cProduct = cProducts.get(i);

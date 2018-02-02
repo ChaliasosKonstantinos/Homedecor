@@ -4,7 +4,7 @@
     <color name="colorPrimary">#c62828</color>
     <!--<color name="colorPrimaryDark">#303F9F</color>-->
     <color name="colorPrimaryDark">#b71c1c</color>
-    <color name="colorAccent">#ff4081</color>
+    <color name="colorAccent">#b71c1c</color>
     <color name="hint">#bdbdbd</color>
     <color name="light_gray">#D2D7D3</color>
     <color name="transparent">#D2D7D3</color>

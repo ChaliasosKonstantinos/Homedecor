@@ -1,7 +1,11 @@
 package gr.homedeco.www.homedeco.contact.chat;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListAdapter;
@@ -10,16 +14,23 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
+import gr.homedeco.www.homedeco.Main;
 import gr.homedeco.www.homedeco.R;
+import gr.homedeco.www.homedeco.aboutUs.AboutUs;
 import gr.homedeco.www.homedeco.server.callbacks.GetConversationCallback;
 import gr.homedeco.www.homedeco.server.callbacks.GetMessageCallback;
 import gr.homedeco.www.homedeco.server.requests.ServerRequests;
+import gr.homedeco.www.homedeco.user.UserController;
+import gr.homedeco.www.homedeco.user.profile.UserProfile;
 
 public class Chat extends AppCompatActivity {
 
     private EditText etMessage;
     private ListView lvPrivateChat;
     private List<PrivateMessage> conversation = new ArrayList<>();
+    private ServerRequests serverRequests;
+    private Handler handler = new Handler();
+    private Runnable runnable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,11 +39,27 @@ public class Chat extends AppCompatActivity {
 
         etMessage = (EditText) findViewById(R.id.etMessage);
         lvPrivateChat = (ListView) findViewById(R.id.lvPrivateChat);
-        getConversation();
+        serverRequests = new ServerRequests(this);
+
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+                getConversation();
+                handler.postDelayed(runnable, 1000);
+            }
+        };
+        initConvThread();
     }
 
+    @Override
+    protected void onDestroy() {
+        destroyConvThread();
+        super.onDestroy();
+    }
+
+/* ========================================= HELPERS =============================================== */
+
     private void getConversation() {
-        ServerRequests serverRequests = new ServerRequests(this);
         serverRequests.getConversation(new GetConversationCallback() {
             @Override
             public void done(List<PrivateMessage> returnedList) {
@@ -63,5 +90,38 @@ public class Chat extends AppCompatActivity {
                 populateChatView(conversation);
             }
         });
+    }
+
+    private void initConvThread() {
+        runnable.run();
+    }
+
+    private void destroyConvThread() {
+        handler.removeCallbacks(runnable);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.logged_in_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId())
+        {
+            case R.id.action_userProfile:
+                startActivity(new Intent(this, UserProfile.class));
+                break;
+            case R.id.action_logout:
+                UserController uc = new UserController(this);
+                uc.logoutUser();
+                startActivity(new Intent(this, Main.class));
+                break;
+            case R.id.action_about:
+                startActivity(new Intent(this, AboutUs.class));
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -33,6 +33,37 @@ public class CustomProductBody extends Fragment {
         imgbBody1 = (ImageButton) view.findViewById(R.id.imgbBody1);
         imgbBody2 = (ImageButton) view.findViewById(R.id.imgbBody2);
         imgbBody3 = (ImageButton) view.findViewById(R.id.imgbBody3);
+
+        setupListeners();
+        filterProducts();
+        populateView();
+        return view;
+    }
+
+/* ========================================= HELPERS =============================================== */
+
+    private void setupListeners() {
+        imgbBody1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                registerChoiceAndReroute(cProductsFiltered.get(0).getId(), cProductsFiltered.get(0).getPrice());
+            }
+        });
+        imgbBody2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                registerChoiceAndReroute(cProductsFiltered.get(1).getId(), cProductsFiltered.get(1).getPrice());
+            }
+        });
+        imgbBody3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                registerChoiceAndReroute(cProductsFiltered.get(2).getId(), cProductsFiltered.get(2).getPrice());
+            }
+        });
+    }
+
+    private void filterProducts() {
         // Filter custom products for body items
         List<CustomProduct> cPFiltered = ((CustomProducts) getActivity()).getFilteredCustomProducts();
         for (Integer i=0; i < cPFiltered.size(); i++) {
@@ -42,40 +73,24 @@ public class CustomProductBody extends Fragment {
                 cProductsFiltered.add(cProduct);
             }
         }
-        // Load images
-        String image_url = "http://83.212.101.162/" + cProductsFiltered.get(0).getImage();
-        Picasso.with(getContext()).load(image_url).into(imgbBody1);
-        image_url = "http://83.212.101.162/" + cProductsFiltered.get(1).getImage();
-        Picasso.with(getContext()).load(image_url).into(imgbBody2);
-        image_url = "http://83.212.101.162/" + cProductsFiltered.get(2).getImage();
-        Picasso.with(getContext()).load(image_url).into(imgbBody3);
-
-        imgbBody1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                registerChoiceAndReroute(String.valueOf(cProductsFiltered.get(0).getId()) + "-" + cProductsFiltered.get(0).getPrice());
-            }
-        });
-        imgbBody2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                registerChoiceAndReroute(String.valueOf(cProductsFiltered.get(1).getId()) + "-" + cProductsFiltered.get(1).getPrice());
-            }
-        });
-        imgbBody3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                registerChoiceAndReroute(String.valueOf(cProductsFiltered.get(2).getId()) + "-" + cProductsFiltered.get(2).getPrice());
-            }
-        });
-        return view;
     }
 
-    // ----------------------------------- HELPERS -------------------------------------------------//
+    private void populateView() {
+        // Load images
+        String image_url = "http://83.212.101.162/" + cProductsFiltered.get(0).getImage();
+        Picasso.with(getContext()).load(image_url).fit().into(imgbBody1);
+        image_url = "http://83.212.101.162/" + cProductsFiltered.get(1).getImage();
+        Picasso.with(getContext()).load(image_url).fit().into(imgbBody2);
+        image_url = "http://83.212.101.162/" + cProductsFiltered.get(2).getImage();
+        Picasso.with(getContext()).load(image_url).fit().into(imgbBody3);
+    }
 
     // Register the choice and routes to next tab
-    private void registerChoiceAndReroute(String choice) {
-        ((CustomProducts) getActivity()).setCustomProduct(choice);
+    private void registerChoiceAndReroute(Integer id, double price) {
+        CustomProduct.CPart part = ((CustomProducts) getActivity()).getCustomProduct().createCPart();
+        part.setId(id);
+        part.setPrice(price);
+        ((CustomProducts) getActivity()).getCustomProduct().addCPart(part);
         Snackbar snackbar = Snackbar.make(linearLayout, "Το σώμα αποθηκεύτηκε", Snackbar.LENGTH_LONG);
         snackbar.show();
         ((CustomProducts) getActivity()).getPager().setCurrentItem(3);

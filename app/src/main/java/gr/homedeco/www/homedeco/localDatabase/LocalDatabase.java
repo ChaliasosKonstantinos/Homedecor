@@ -17,7 +17,7 @@ public class LocalDatabase {
         localDatabase = context.getSharedPreferences(PREFS_NAME, 0);
     }
 
-//------------------------------------ AUTHENTICATION ---------------------------------------------//
+/* =================================== AUTHENTICATION ============================================= */
 
     // Set the user as logged in
     public void setLoggedIn(boolean loggedIn, String authToken) {
@@ -37,7 +37,7 @@ public class LocalDatabase {
         return localDatabase.getBoolean("loggedIn", false);
     }
 
-//--------------------------------------- CART ----------------------------------------------------//
+/* ===================================== CART ====================================================== */
 
     // Add a product to cart
     public void addToCart(int productID) {
@@ -88,7 +88,7 @@ public class LocalDatabase {
         spEditor.apply();
     }
 
-//---------------------------------------- USER ---------------------------------------------------//
+/* ========================================= USER ================================================== */
 
     // Set user's details
     public void setUserDetails(User user) {
@@ -111,6 +111,7 @@ public class LocalDatabase {
     // Get user's details
     public User getUserDetails() {
         User user = new User();
+        user.setUsername(localDatabase.getString("username",""));
         user.setFirstName(localDatabase.getString("firstName",""));
         user.setLastName(localDatabase.getString("lastName",""));
         user.setEmail(localDatabase.getString("email",""));
@@ -141,7 +142,7 @@ public class LocalDatabase {
         return user;
     }
 
-//------------------------------------------ CLEAR ------------------------------------------------//
+/* =========================================== CLEAR =============================================== */
 
     // Clears local user Database
     public void clearLocalDatabase() {

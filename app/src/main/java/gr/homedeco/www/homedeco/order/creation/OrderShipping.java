@@ -43,7 +43,7 @@ public class OrderShipping extends Fragment {
         return view;
     }
 
-//------------------------------------- HELPERS ---------------------------------------------------//
+/* ========================================= HELPERS =============================================== */
 
     // Init UI listeners
     private void initListeners() {

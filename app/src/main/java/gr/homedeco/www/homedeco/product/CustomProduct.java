@@ -1,12 +1,16 @@
 package gr.homedeco.www.homedeco.product;
 
+import java.util.ArrayList;
+
 public class CustomProduct {
 
     private Integer id, categoryId;
     private double price;
     private String name, part, image;
+    private ArrayList<CPart> cParts;
 
     public CustomProduct() {
+        this.cParts = new ArrayList<>();
     }
 
     public Integer getId() {
@@ -55,5 +59,48 @@ public class CustomProduct {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    /* Custom Product Part */
+
+    public class CPart {
+        private Integer id;
+        private double price;
+
+        public CPart() {
+        }
+
+        public Integer getId() {
+            return id;
+        }
+
+        public void setId(Integer id) {
+            this.id = id;
+        }
+
+        public double getPrice() {
+            return price;
+        }
+
+        public void setPrice(double price) {
+            this.price = price;
+        }
+    }
+
+    public CPart createCPart() {
+        return new CPart();
+    }
+
+    public void addCPart(CPart p) {
+        this.cParts.add(p);
+    }
+
+    public ArrayList<CPart> getCParts() {
+        return this.cParts;
+    }
+
+    public void clearCustomProduct() {
+        categoryId = 0;
+        cParts = new ArrayList<>();
     }
 }

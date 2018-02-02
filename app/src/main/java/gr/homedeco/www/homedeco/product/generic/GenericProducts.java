@@ -16,12 +16,15 @@ import android.widget.Spinner;
 import java.util.ArrayList;
 import java.util.List;
 
+import gr.homedeco.www.homedeco.Main;
 import gr.homedeco.www.homedeco.R;
 import gr.homedeco.www.homedeco.aboutUs.AboutUs;
 import gr.homedeco.www.homedeco.product.Product;
 import gr.homedeco.www.homedeco.server.callbacks.GetProductCallback;
 import gr.homedeco.www.homedeco.server.requests.ServerRequests;
+import gr.homedeco.www.homedeco.user.UserController;
 import gr.homedeco.www.homedeco.user.login.Login;
+import gr.homedeco.www.homedeco.user.profile.UserProfile;
 
 public class GenericProducts extends AppCompatActivity {
 
@@ -47,27 +50,44 @@ public class GenericProducts extends AppCompatActivity {
         spSubCategory.setAdapter(adapterSpSubcategory);
     }
 
-//---------------------------------------- MENU  --------------------------------------------------//
+/* ========================================= MENU =============================================== */
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.generic_menu, menu);
+        UserController uc = new UserController(this);
+
+        if (uc.isUserLoggedIn()) {
+            getMenuInflater().inflate(R.menu.logged_in_menu, menu);
+        } else {
+            getMenuInflater().inflate(R.menu.generic_menu, menu);
+        }
+
         return super.onCreateOptionsMenu(menu);
     }
 
-    //Start Login Activity
-    public void showLogin(MenuItem item) {
-        Intent intent = new Intent(this, Login.class);
-        startActivity(intent);
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId())
+        {
+            case R.id.action_login:
+                startActivity(new Intent(this, Login.class));
+                break;
+            case R.id.action_logout:
+                UserController uc = new UserController(this);
+                uc.logoutUser();
+                startActivity(new Intent(this, Main.class));
+                break;
+            case R.id.action_userProfile:
+                startActivity(new Intent(this, UserProfile.class));
+                break;
+            case R.id.action_about:
+                startActivity(new Intent(this, AboutUs.class));
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
-    //Start About Us Activity
-    public void showAboutUs(MenuItem item) {
-        Intent intent = new Intent(this, AboutUs.class);
-        startActivity(intent);
-    }
-
-    // ---------------------------------------- HELPERS  ---------------------------------------------//
+/* ========================================= HELPERS =============================================== */
 
     private void populateProductsList(List<Product> returnedList) {
 
@@ -78,7 +98,8 @@ public class GenericProducts extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
-    // ------------------------------------- SERVER REQUESTS  ----------------------------------------//
+/* ====================================== SERVER REQUESTS ========================================== */
+
     private void getProducts() {
 
         ServerRequests serverRequest = new ServerRequests(this);
@@ -92,7 +113,7 @@ public class GenericProducts extends AppCompatActivity {
         });
     }
 
-// ---------------------------------------- LISTENERS --------------------------------------------//
+/* ========================================= LISTENERS ============================================= */
 
     private void initListeners() {
 

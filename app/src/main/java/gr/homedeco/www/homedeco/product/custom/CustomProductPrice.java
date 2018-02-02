@@ -1,12 +1,11 @@
 package gr.homedeco.www.homedeco.product.custom;
 
 
-import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import gr.homedeco.www.homedeco.R;
-import gr.homedeco.www.homedeco.localDatabase.LocalDatabase;
+import gr.homedeco.www.homedeco.product.CustomProduct;
 
 
 public class CustomProductPrice extends Fragment {
@@ -24,8 +23,8 @@ public class CustomProductPrice extends Fragment {
             tvProductPriceText, tvProductVATText, tvProductTotalPriceText;
     private Button btnAddToCart;
     private RelativeLayout relativeLayout;
-    private LocalDatabase localDatabase;
-    private int productID = 0;
+    private Handler handler = new Handler();
+    private Runnable runnable;
 
     @Nullable
     @Override
@@ -40,42 +39,57 @@ public class CustomProductPrice extends Fragment {
         tvProductVATText = (TextView) view.findViewById(R.id.tvProductVATText);
         tvProductTotalPriceText = (TextView) view.findViewById(R.id.tvProductTotalPriceText);
         btnAddToCart = (Button) view.findViewById(R.id.btnAddToCart);
-        localDatabase = new LocalDatabase(getContext());
 
-        String product = ((CustomProducts) getActivity()).getCustomProduct();
-        Log.d("CUSTOM PRODUCT FINAL", product);
-        String[] parts = product.split("-");
-        double bodyPrice = Double.parseDouble(parts[3]);
-        double feetPrice = 10;
-        if (parts.length > 4) {
-            feetPrice = Double.parseDouble(parts[5]);
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+                populateView();
+            }
+        };
+        setupListeners();
+        populateView();
+        return view;
+    }
+
+    private void populateView() {
+        CustomProduct cp = ((CustomProducts) getActivity()).getCustomProduct();
+        if (cp.getCParts().size() == 3) {
+            stopRerender();
+            double bodyPrice = cp.getCParts().get(1).getPrice();
+            double feetPrice = cp.getCParts().get(2).getPrice();
+            double price = bodyPrice + feetPrice;
+            double vat, total;
+
+//        switch (parts[0]) {
+//            case "1":
+//                tvProductName.setText(R.string.desk);
+//                break;
+//            case "2":
+//                tvProductName.setText(R.string.sofa);
+//                break;
+//            case "3":
+//                tvProductName.setText(R.string.bed);
+//                break;
+//            default:
+//                tvProductName.setText("-");
+//                break;
+//        }
+//        tvProductColorText.setBackgroundColor(Color.parseColor(parts[1]));
+            tvProductPriceText.setText(price + "€");
+            vat = (price/100)*24;
+            vat = Math.floor(vat * 100) / 100;
+            tvProductVATText.setText(vat + "€");
+            total = price + vat;
+            total = Math.floor(total * 100) / 100;
+            tvProductTotalPriceText.setText(total + "€");
+        } else {
+            startRerender();
         }
-        double price = bodyPrice + feetPrice;
-        double vat, total;
+    }
 
-        switch (parts[0]) {
-            case "1":
-                tvProductName.setText(R.string.desk);
-                break;
-            case "2":
-                tvProductName.setText(R.string.sofa);
-                break;
-            case "3":
-                tvProductName.setText(R.string.bed);
-                break;
-            default:
-                tvProductName.setText("-");
-                break;
-        }
-        tvProductColorText.setBackgroundColor(Color.parseColor(parts[1]));
-        tvProductPriceText.setText(price + "€");
-        vat = (price/100)*24;
-        vat = Math.floor(vat * 100) / 100;
-        tvProductVATText.setText(vat + "€");
-        total = price + vat;
-        total = Math.floor(total * 100) / 100;
-        tvProductTotalPriceText.setText(total + "€");
+/* ========================================= HELPERS =============================================== */
 
+    private void setupListeners() {
         btnAddToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,6 +98,14 @@ public class CustomProductPrice extends Fragment {
                 snackbar.show();
             }
         });
-        return view;
+    }
+
+    // Re-populates the view because ViewPager pre-renders content when data aren't available
+    private void startRerender() {
+        handler.postDelayed(runnable, 500);
+    }
+
+    private void stopRerender() {
+        handler.removeCallbacks(runnable);
     }
 }

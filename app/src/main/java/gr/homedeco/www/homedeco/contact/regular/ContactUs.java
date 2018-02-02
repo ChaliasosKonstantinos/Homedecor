@@ -1,13 +1,18 @@
 package gr.homedeco.www.homedeco.contact.regular;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import gr.homedeco.www.homedeco.R;
+import gr.homedeco.www.homedeco.aboutUs.AboutUs;
+import gr.homedeco.www.homedeco.user.login.Login;
 
 public class ContactUs extends AppCompatActivity {
 
@@ -25,7 +30,8 @@ public class ContactUs extends AppCompatActivity {
         etMessage = (EditText) findViewById(R.id.etContactMessage);
     }
 
-    // Sends email to Administrator
+/* ========================================= HELPERS =============================================== */
+
     public void sendEmail (View view) {
         String name = etName.getText().toString();
         String email = etEmail.getText().toString();
@@ -39,5 +45,25 @@ public class ContactUs extends AppCompatActivity {
             Snackbar snackbar = Snackbar.make(layout, R.string.contact_us_error, Snackbar.LENGTH_LONG);
             snackbar.show();
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.generic_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId())
+        {
+            case R.id.action_login:
+                startActivity(new Intent(this, Login.class));
+                break;
+            case R.id.action_about:
+                startActivity(new Intent(this, AboutUs.class));
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

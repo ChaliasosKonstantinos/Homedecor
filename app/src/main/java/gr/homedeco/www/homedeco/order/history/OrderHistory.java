@@ -25,7 +25,7 @@ public class OrderHistory extends AppCompatActivity {
         getOrders();
     }
 
-//------------------------------------- LISTENERS -------------------------------------------------//
+/* ====================================== LISTENERS =============================================== */
 
     // Get user's order
     private void getOrders() {

@@ -22,6 +22,12 @@
     <string name="mobilePhone">Κινητό</string>
     <string name="remember_me">Αποθήκευση στοιχείων</string>
 
+    <!-- USER PROFILE -->
+    <string name="profile">Προφίλ</string>
+    <string name="contact">Επικοινωνία</string>
+    <string name="info">Γενικές πληροφορίες</string>
+    <string name="save">Αποθηκευση</string>
+
     <!-- MENU -->
     <string name="settings">Ρυθμίσεις</string>
     <string name="logout">Αποσύνδεση</string>

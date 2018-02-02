@@ -4,8 +4,8 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import gr.homedeco.www.homedeco.R;
@@ -18,8 +18,8 @@ public class CustomProducts extends AppCompatActivity {
     private SectionsPageAdapter sectionsPageAdapter;
     private ViewPager viewPager;
     private TabLayout tabLayout;
-    private String customProduct;
-    private List<CustomProduct> cProducts, cProductsFiltered;
+    final private CustomProduct customProduct = new CustomProduct();
+    private List<CustomProduct> cProducts = new ArrayList<>(), cProductsFiltered = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,25 +51,15 @@ public class CustomProducts extends AppCompatActivity {
         return viewPager;
     }
 
-    // Set custom product choices
-    public void setCustomProduct(String choice) {
-        if (customProduct.isEmpty()) {
-            customProduct = choice;
-        } else {
-            customProduct += "-" + choice;
-        }
-        Log.d("CUSTOM PRODUCT", customProduct);
-    }
 
-    // Get custom product choices
-    public String getCustomProduct() {
+/* =================================== CUSTOM PRODUCT ============================================== */
+
+    // Returns the Custom Product
+    public CustomProduct getCustomProduct() {
         return customProduct;
     }
 
-    // Clear custom product choices
-    public void clearCustomProduct() {
-        customProduct = "";
-    }
+/* =================================== CUSTOM PRODUCTS ============================================= */
 
     // Get custom products from the server
     private void getCustomProductsFromServer() {
@@ -82,7 +72,7 @@ public class CustomProducts extends AppCompatActivity {
         });
     }
 
-    // Get custom products
+    // Returns custom products
     public List<CustomProduct> getCustomProducts() {
         return cProducts;
     }
@@ -92,7 +82,7 @@ public class CustomProducts extends AppCompatActivity {
         this.cProductsFiltered = cProductsFiltered;
     }
 
-    // Get filtered products
+    // Returns filtered custom products
     public List<CustomProduct> getFilteredCustomProducts() {
         return cProductsFiltered;
     }

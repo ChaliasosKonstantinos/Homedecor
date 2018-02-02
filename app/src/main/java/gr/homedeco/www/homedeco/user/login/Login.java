@@ -24,7 +24,7 @@ public class Login extends AppCompatActivity {
     private EditText etUsername, etPassword;
     private CheckBox cbRememberMe;
     private LinearLayout layout;
-    private UserController uController = new UserController(this);
+    private UserController uController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +35,15 @@ public class Login extends AppCompatActivity {
         etPassword = (EditText) findViewById(R.id.etPassword);
         cbRememberMe = (CheckBox) findViewById(R.id.cbRememberMe);
         layout = (LinearLayout) findViewById(R.id.activity_login);
+        uController = new UserController(this);
 
+        populateView();
+    }
+
+
+/* ========================================= HELPERS =============================================== */
+
+    private void populateView() {
         // Remembered user
         if (uController.isRemembered()) {
             User user = uController.getRemembered();

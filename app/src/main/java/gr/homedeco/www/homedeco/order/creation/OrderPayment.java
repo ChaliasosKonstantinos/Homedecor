@@ -62,6 +62,8 @@ public class OrderPayment extends Fragment {
         return view;
     }
 
+/* ========================================= HELPERS =============================================== */
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -100,8 +102,6 @@ public class OrderPayment extends Fragment {
         getActivity().stopService(new Intent(getActivity(), PayPalService.class));
         super.onDestroy();
     }
-
-    //------------------------------------- HELPERS ---------------------------------------------------//
 
     private void initListeners() {
 
