@@ -43,8 +43,11 @@ public class Login extends AppCompatActivity {
 
 /* ========================================= HELPERS =============================================== */
 
+    /**
+     * Checks if any previous logged in user is set as "remembered"
+     * On success: populates the view with user's details
+     */
     private void populateView() {
-        // Remembered user
         if (uController.isRemembered()) {
             User user = uController.getRemembered();
             etUsername.setText(user.getUsername());
@@ -53,6 +56,13 @@ public class Login extends AppCompatActivity {
         }
     }
 
+    /**
+     * Logs in the user
+     * On SUCCESS: saves user data in local storage and redirects to main activity
+     * On ERROR: Displaying an error message
+     *
+     * @param view the View containing the button that was clicked
+     */
     public void logIn(View view) {
 
         final String username = etUsername.getText().toString();
@@ -68,7 +78,8 @@ public class Login extends AppCompatActivity {
                 if (response != null) {
                     boolean isLoggedIn = uController.loginUser(response);
                     if (isLoggedIn) {
-                        Snackbar snackbar = Snackbar.make(layout, "Σύνδεση επιτυχής", Snackbar.LENGTH_LONG);
+                        Snackbar snackbar = Snackbar.make(layout, "Σύνδεση επιτυχής",
+                                Snackbar.LENGTH_LONG);
                         snackbar.show();
                         if (cbRememberMe.isChecked()) {
                             uController.setRemembered(userToLogin);
@@ -88,14 +99,19 @@ public class Login extends AppCompatActivity {
                         });
                     }
                 } else {
-                    Snackbar snackbar = Snackbar.make(layout, "Λάθος συνδυασμός όνομα χρήστη/κωδικού", Snackbar.LENGTH_LONG);
+                    Snackbar snackbar = Snackbar.make(layout, "Λάθος συνδυασμός όνομα χρήστη/κωδικού",
+                            Snackbar.LENGTH_LONG);
                     snackbar.show();
                 }
             }
         });
     }
 
-    //Show Register Activity
+    /**
+     * Launches register Activity
+     *
+     * @param view the View containing the button that was clicked
+     */
     public void showRegister(View view) {
         Intent intent = new Intent(this, Register.class);
         startActivity(intent);

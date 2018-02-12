@@ -25,9 +25,11 @@ public class OrderHistory extends AppCompatActivity {
         getOrders();
     }
 
-/* ====================================== LISTENERS =============================================== */
+/* ====================================== HELPERS =============================================== */
 
-    // Get user's order
+    /**
+     * Fetches user's order history from the server
+     */
     private void getOrders() {
         ServerRequests serverRequests = new ServerRequests(this);
         serverRequests.getOrderHistory(new GetOrderHistoryCallback() {
@@ -40,7 +42,11 @@ public class OrderHistory extends AppCompatActivity {
         });
     }
 
-    // Populates the view with given user's order
+    /**
+     * Populates the view with user's orders
+     *
+     * @param orders a list of Order objects
+     */
     private void populateView(List<Order> orders) {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rvOrders);
         OrderHistoryAdapter adapter = new OrderHistoryAdapter(orders);

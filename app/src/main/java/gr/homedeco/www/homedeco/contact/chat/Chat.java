@@ -51,6 +51,9 @@ public class Chat extends AppCompatActivity {
         initConvThread();
     }
 
+    /**
+     * On Activity destroy destroys the conversation fetching runnable
+     */
     @Override
     protected void onDestroy() {
         destroyConvThread();
@@ -59,6 +62,9 @@ public class Chat extends AppCompatActivity {
 
 /* ========================================= HELPERS =============================================== */
 
+    /**
+     * Fetches user's conversation from the server
+     */
     private void getConversation() {
         serverRequests.getConversation(new GetConversationCallback() {
             @Override
@@ -69,6 +75,9 @@ public class Chat extends AppCompatActivity {
         });
     }
 
+    /**
+     * Populates the view
+     */
     private void populateChatView(List<PrivateMessage> messages) {
         ListAdapter myAdapter = new ChatAdapter(this, messages);
         lvPrivateChat = (ListView) findViewById(R.id.lvPrivateChat);
@@ -76,7 +85,11 @@ public class Chat extends AppCompatActivity {
         lvPrivateChat.setItemsCanFocus(true);
     }
 
-    //Sends the private Message
+    /**
+     * Sends the user's message to server and repopulates the view
+     *
+     * @param view the View containing the button that was clicked
+     */
     public void sendMessage(View view) {
         final PrivateMessage message = new PrivateMessage();
         message.setMessage(etMessage.getText().toString());
@@ -92,20 +105,34 @@ public class Chat extends AppCompatActivity {
         });
     }
 
+    /**
+     * Starts runnable which fetch the conversation every 1 second
+     */
     private void initConvThread() {
         runnable.run();
     }
 
+    /**
+     * Destroy runnable which fetch the conversation
+     */
     private void destroyConvThread() {
         handler.removeCallbacks(runnable);
     }
 
+/* ========================================= MENU =============================================== */
+
+    /**
+     * Creates Menu
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.logged_in_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     * Setting up menu listeners
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId())

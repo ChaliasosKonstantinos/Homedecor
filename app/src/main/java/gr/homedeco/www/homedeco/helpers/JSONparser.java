@@ -240,6 +240,32 @@ public class JSONparser {
         return user;
     }
 
+    /**
+     * Returns a User object from server's JSON response
+     *
+     * @param user a User object with updated details
+     * @return user details as User object
+     */
+    public JSONObject toUpdateUser(User user) throws JSONException {
+
+        JSONObject json = new JSONObject();
+
+        json.put("Firstname", user.getFirstName());
+        json.put("LastName", user.getLastName());
+        json.put("Address", user.getAddress());
+        json.put("PostalCode", user.getPostalCode());
+        json.put("City", user.getCity());
+        json.put("State", user.getState());
+        json.put("Country", user.getCountry());
+        json.put("Phone", user.getPhone());
+        json.put("MobilePhone", user.getMobilePhone());
+        if (!Objects.equals(user.getEmail(), "")) {
+            json.put("email", user.getEmail());
+        }
+        System.out.println(json);
+        return json;
+    }
+
 //------------------------------------------------------------------------------------------------//
 //                                    CONVERSATION
 //------------------------------------------------------------------------------------------------//
@@ -316,14 +342,12 @@ public class JSONparser {
     /**
      * Returns an order
      *
-     * @param order Order Object containing order infos
-     * @param productIDs List with Integers containing order's product IDs
+     * @param order Order Object containing order info
      * @return an order as a JSONObject
      */
-    public JSONObject toOrder(Order order, List<Integer> productIDs) throws JSONException {
+    public JSONObject toOrder(Order order) throws JSONException {
 
         JSONObject jObject = new JSONObject();
-        JSONArray products = new JSONArray();
 
         jObject.put("ShipAddress",order.getShipAddress());
         jObject.put("BilAddress",order.getBillAddress());
@@ -347,13 +371,23 @@ public class JSONparser {
             obj.put("name",creditCard.get("name"));
             jObject.put("CreditCard", obj);
         }
-        for(int id: productIDs) {
-            JSONObject product = new JSONObject();
-            product.put("ProductID",id);
-            product.put("Quantity",1);
-            products.put(product);
+        if (Objects.equals(order.getType(), "generic")) {
+            JSONArray products = new JSONArray();
+            for(int id: order.getProductsID()) {
+                JSONObject product = new JSONObject();
+                product.put("ProductID",id);
+                product.put("Quantity",1);
+                products.put(product);
+            }
+            jObject.put("Products",products);
+        } else {
+            jObject.put("Part1", order.getProductsID().get(0));
+            jObject.put("Part2", order.getProductsID().get(1));
+            jObject.put("Part3", order.getProductsID().get(2));
+            jObject.put("Quantity", 1);
         }
-        jObject.put("Products",products);
+
+        System.out.println(jObject);
 
         return jObject;
     }
@@ -407,13 +441,6 @@ public class JSONparser {
                 order.setPrice(jObject.getDouble("Price"));
                 Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(jObject.getString("Date"));
                 order.setDate(date);
-                JSONArray products = jObject.getJSONArray("products");
-                List<Integer> productsID = new ArrayList<>();
-                for (int j = 0; j < products.length(); j++) {
-                    JSONObject product = products.getJSONObject(j);
-                    productsID.add(product.getInt("ProductID"));
-                }
-                order.setProductsID(productsID);
 
                 orders.add(order);
             }

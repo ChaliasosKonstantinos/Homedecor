@@ -17,6 +17,13 @@ public class ChatAdapter extends ArrayAdapter<PrivateMessage> {
         super(context, R.layout.custom_chat_bubble, message);
     }
 
+    /**
+     * Populates the view holder of the individual chat message
+     *
+     * @param position of the holder on the list
+     * @param convertView
+     * @param parent
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 

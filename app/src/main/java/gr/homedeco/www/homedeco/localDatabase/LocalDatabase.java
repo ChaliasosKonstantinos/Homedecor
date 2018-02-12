@@ -12,14 +12,20 @@ public class LocalDatabase {
     private static final String PREFS_NAME = "LocalDatabase";
     private SharedPreferences localDatabase;
 
-    //Define of local Database
     public LocalDatabase(Context context) {
         localDatabase = context.getSharedPreferences(PREFS_NAME, 0);
     }
 
 /* =================================== AUTHENTICATION ============================================= */
 
-    // Set the user as logged in
+    /**
+     * Logs in / out a user and saves his/her authentication token
+     *
+     * @param loggedIn TRUE if user will be logged in
+     *                 FALSE if user will be logged out
+     * @param authToken an alphanumeric authentication token
+     *                  SET EMPTY if user will be logged out
+     */
     public void setLoggedIn(boolean loggedIn, String authToken) {
         SharedPreferences.Editor spEditor = localDatabase.edit();
         spEditor.putBoolean("loggedIn", loggedIn);
@@ -27,19 +33,32 @@ public class LocalDatabase {
         spEditor.apply();
     }
 
-    // Retrieve logged user's auth token
+    /**
+     * Returns user's authentication token
+     *
+     * @return user's authentication token
+     */
     public String getAuthToken() {
         return localDatabase.getString("authToken", "");
     }
 
-    // Check if the user is logged in
+    /**
+     * Checks if a user is logged in
+     *
+     * @return TRUE if user is logged in
+     *         FALSE if user is logged out
+     */
     public boolean isLoggedIn() {
         return localDatabase.getBoolean("loggedIn", false);
     }
 
 /* ===================================== CART ====================================================== */
 
-    // Add a product to cart
+    /**
+     * Add a product to cart
+     *
+     * @param productID product's ID
+     */
     public void addToCart(int productID) {
         String cart = localDatabase.getString("cart", "");
         SharedPreferences.Editor spEditor = localDatabase.edit();
@@ -47,7 +66,11 @@ public class LocalDatabase {
         spEditor.apply();
     }
 
-    // Remove a product from cart
+    /**
+     * Removes a product from cart
+     *
+     * @param productID product's ID
+     */
     public void removeFromCart(int productID) {
         String cart = localDatabase.getString("cart", "");
         if (!cart.isEmpty()) {
@@ -64,24 +87,38 @@ public class LocalDatabase {
         }
     }
 
-    // Get user's cart
+    /**
+     * Returns user's cart
+     *
+     * @return user's cart
+     */
     public String getCart() {
         return localDatabase.getString("cart", "");
     }
 
-    // Set cart's price
+    /**
+     * Set user's cart price
+     *
+     * @param price cart's price
+     */
     public void setCartPrice(double price) {
         SharedPreferences.Editor spEditor = localDatabase.edit();
         spEditor.putString("cartPrice", String.valueOf(price));
         spEditor.apply();
     }
 
-    // Get cart's price
+    /**
+     * Returns user's cart price
+     *
+     * @return cart's price
+     */
     public double getCartPrice() {
         return Double.parseDouble(localDatabase.getString("cartPrice",""));
     }
 
-    // Empty the cart
+    /**
+     * Clear user's cart
+     */
     public void clearCart() {
         SharedPreferences.Editor spEditor = localDatabase.edit();
         spEditor.putString("cart", "");
@@ -90,7 +127,11 @@ public class LocalDatabase {
 
 /* ========================================= USER ================================================== */
 
-    // Set user's details
+    /**
+     * Set user's details
+     *
+     * @param user a User object containing the user's details
+     */
     public void setUserDetails(User user) {
         SharedPreferences.Editor spEditor = localDatabase.edit();
         spEditor.putString("username", user.getUsername());
@@ -108,7 +149,11 @@ public class LocalDatabase {
         spEditor.apply();
     }
 
-    // Get user's details
+    /**
+     * Returns user's details
+     *
+     * @return a User object containing the user's details
+     */
     public User getUserDetails() {
         User user = new User();
         user.setUsername(localDatabase.getString("username",""));
@@ -126,7 +171,11 @@ public class LocalDatabase {
         return user;
     }
 
-    // Set remember me credentials
+    /**
+     * Saves user's login credentials
+     *
+     * @param user a User object containing the user's login credentials
+     */
     public void setRememberMe(User user) {
         SharedPreferences.Editor spEditor = localDatabase.edit();
         spEditor.putString("usernameRemember", user.getUsername());
@@ -134,7 +183,11 @@ public class LocalDatabase {
         spEditor.apply();
     }
 
-    // Get remember me credentials
+    /**
+     * Returns user's login credentials
+     *
+     * @return  a User object containing the user's login credentials
+     */
     public User getRememberMe() {
         User user = new User();
         user.setUsername(localDatabase.getString("usernameRemember", ""));
@@ -144,7 +197,9 @@ public class LocalDatabase {
 
 /* =========================================== CLEAR =============================================== */
 
-    // Clears local user Database
+    /**
+     * Clears Local storage - USE IT WISELY!!
+     */
     public void clearLocalDatabase() {
         SharedPreferences.Editor spEditor = localDatabase.edit();
         spEditor.clear().apply();

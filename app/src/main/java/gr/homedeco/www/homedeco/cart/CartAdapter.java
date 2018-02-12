@@ -32,6 +32,12 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         return new CartAdapter.CartViewHolder(view);
     }
 
+    /**
+     * Populates the view with carts's details
+     *
+     * @param holder a CartViewHolder to populate
+     * @param position the position of the holder on the list
+     */
     @Override
     public void onBindViewHolder(CartAdapter.CartViewHolder holder, int position) {
         String id = String.valueOf(dataList.get(position).getProductID());
@@ -41,11 +47,19 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         holder.tvProductsPrice.setText(price);
     }
 
+    /**
+     * Returns the number of items on the list
+     *
+     * @return the number of items on the list
+     */
     @Override
     public int getItemCount() {
         return dataList.size();
     }
 
+    /**
+     * Converting the view holder into a recycler view
+     */
     class CartViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView tvProductsName, tvProductsPrice, tvProductsID;
@@ -60,6 +74,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             btnCartRemoveProduct = (ImageButton) itemView.findViewById(R.id.btnCartRemoveProduct);
         }
 
+        /**
+         * Setup listeners on expandable order's details card views
+         */
         @Override
         public void onClick(View v) {
             int productID;

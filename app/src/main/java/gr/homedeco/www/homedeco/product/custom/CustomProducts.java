@@ -35,7 +35,11 @@ public class CustomProducts extends AppCompatActivity {
         getCustomProductsFromServer();
     }
 
-    // Adds the fragments to the View Pager
+/* ========================================= HELPERS =============================================== */
+
+    /**
+     * Adds the fragments to the View Pager
+     */
     private void setupViewAdapter(ViewPager viewPager) {
         SectionsPageAdapter adapter = new SectionsPageAdapter(getSupportFragmentManager());
         adapter.addFragment(new CustomProductType(), "ΤΥΠΟΣ");
@@ -46,7 +50,11 @@ public class CustomProducts extends AppCompatActivity {
         viewPager.setAdapter(adapter);
     }
 
-    // Let the fragment getPager
+    /**
+     * Returns the viewPager to the fragment
+     *
+     * @return a ViewPager object to the fragment
+     */
     public ViewPager getPager() {
         return viewPager;
     }
@@ -54,14 +62,20 @@ public class CustomProducts extends AppCompatActivity {
 
 /* =================================== CUSTOM PRODUCT ============================================== */
 
-    // Returns the Custom Product
+    /**
+     * Returns the custom product
+     *
+     * @return a CustomProduct object
+     */
     public CustomProduct getCustomProduct() {
         return customProduct;
     }
 
 /* =================================== CUSTOM PRODUCTS ============================================= */
 
-    // Get custom products from the server
+    /**
+     * Retrieves custom products from the server
+     */
     private void getCustomProductsFromServer() {
         ServerRequests serverRequest = new ServerRequests(this);
         serverRequest.fetchCustomProductDataInBackground(new GetCustomProductCallback() {
@@ -72,17 +86,27 @@ public class CustomProducts extends AppCompatActivity {
         });
     }
 
-    // Returns custom products
+    /**
+     * Returns the list of custom products
+     *
+     * @return a list of CustomProduct objects
+     */
     public List<CustomProduct> getCustomProducts() {
         return cProducts;
     }
 
-    // Set filtered products
+    /**
+     * Set the list of CustomProduct objects
+     */
     public void setFilteredCustomProducts(List<CustomProduct> cProductsFiltered) {
         this.cProductsFiltered = cProductsFiltered;
     }
 
-    // Returns filtered custom products
+    /**
+     * Returns the filtered list of custom products
+     *
+     * @return a filtered list of CustomProduct objects
+     */
     public List<CustomProduct> getFilteredCustomProducts() {
         return cProductsFiltered;
     }

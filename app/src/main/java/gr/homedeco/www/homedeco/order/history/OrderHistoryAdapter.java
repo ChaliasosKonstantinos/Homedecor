@@ -31,6 +31,12 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         return new OrderViewHolder(view);
     }
 
+    /**
+     * Populates the view with order's details
+     *
+     * @param holder an OrderViewHolder to populate
+     * @param position the position of the holder on the list
+     */
     @Override
     public void onBindViewHolder(OrderViewHolder holder, int position) {
         String id = String.valueOf(dataList.get(position).getOrderID());
@@ -50,11 +56,19 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
                 + dataList.get(position).getMobilePhone());
     }
 
+    /**
+     * Returns the number of items on the list
+     *
+     * @return the number of items on the list
+     */
     @Override
     public int getItemCount() {
         return dataList.size();
     }
 
+    /**
+     * Converting the view holder into a recycler view
+     */
     class OrderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView tvOrderID, tvOrderDate, tvOrderPrice, tvOrderShipAddress, tvOrderPhone, tvOrderShippingMethod,
@@ -76,6 +90,9 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
             imgExpandIcon = (ImageView) itemView.findViewById(R.id.imgOrderDetails);
         }
 
+        /**
+         * Setup listeners on expandable order's details card views
+         */
         @Override
         public void onClick(View v) {
             final Animation in = new AlphaAnimation(0.0f, 1.0f);

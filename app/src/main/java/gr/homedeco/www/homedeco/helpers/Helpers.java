@@ -6,7 +6,11 @@ import android.view.inputmethod.InputMethodManager;
 
 public class Helpers {
 
-    // Closes keyboard
+    /**
+     * Force close the virtual keyboard
+     *
+     * @param activity an Activity object
+     */
     public void hideKeyboard(Activity activity) {
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
         View view = activity.getCurrentFocus();

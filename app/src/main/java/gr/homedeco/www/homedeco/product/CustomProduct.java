@@ -1,10 +1,11 @@
 package gr.homedeco.www.homedeco.product;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class CustomProduct {
+public class CustomProduct implements Serializable {
 
-    private Integer id, categoryId;
+    private int id, categoryId;
     private double price;
     private String name, part, image;
     private ArrayList<CPart> cParts;
@@ -13,7 +14,7 @@ public class CustomProduct {
         this.cParts = new ArrayList<>();
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
@@ -21,7 +22,7 @@ public class CustomProduct {
         this.id = id;
     }
 
-    public Integer getCategoryId() {
+    public int getCategoryId() {
         return categoryId;
     }
 
@@ -63,18 +64,18 @@ public class CustomProduct {
 
     /* Custom Product Part */
 
-    public class CPart {
-        private Integer id;
+    public class CPart implements Serializable {
+        private int id;
         private double price;
 
         public CPart() {
         }
 
-        public Integer getId() {
+        public int getId() {
             return id;
         }
 
-        public void setId(Integer id) {
+        public void setId(int id) {
             this.id = id;
         }
 

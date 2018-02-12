@@ -16,6 +16,7 @@ import java.net.HttpURLConnection;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import gr.homedeco.www.homedeco.contact.chat.PrivateMessage;
 import gr.homedeco.www.homedeco.helpers.JSONparser;
@@ -52,13 +53,20 @@ public class ServerRequests {
 //                                    PRODUCTS
 //------------------------------------------------------------------------------------------------//
 
-    // Fetches Product's data from the server
-    public User fetchProductDataInBackground(int productID, GetProductCallback productCallback) {
+    /**
+     * Fetches product's data from the server in the background (Runs on UI thread)
+     *
+     * @param productID SET to the product ID of a specific product to be retrieved
+     *                  SET 0 to retrieve all products data
+     * @param productCallback the callback to fire when request is completed
+     */
+    public void fetchProductDataInBackground(int productID, GetProductCallback productCallback) {
         new FetchProductDataAsyncTask(productID, productCallback).execute();
-        return null;
     }
 
-    // AsyncTask that get products from the server
+    /**
+     * AsyncTask that fetches the product's data from the server
+     */
     private class FetchProductDataAsyncTask extends AsyncTask<Void, Void, List<Product>> {
         int productID;
         GetProductCallback productCallback;
@@ -114,13 +122,18 @@ public class ServerRequests {
         }
     }
 
-    // Fetches Custom Product's data from the server
-    public User fetchCustomProductDataInBackground(GetCustomProductCallback customProductCallback) {
+    /**
+     * Fetches custom products data from the server in the background (Runs on UI thread)
+     *
+     * @param customProductCallback the callback to fire when request is completed
+     */
+    public void fetchCustomProductDataInBackground(GetCustomProductCallback customProductCallback) {
         new FetchCustomProductDataAsyncTask(customProductCallback).execute();
-        return null;
     }
 
-    // AsyncTask that get custom products from the server
+    /**
+     * AsyncTask that fetches custom products data from the server
+     */
     private class FetchCustomProductDataAsyncTask extends AsyncTask<Void, Void, List<CustomProduct>> {
         GetCustomProductCallback customProductCallback;
 
@@ -172,12 +185,19 @@ public class ServerRequests {
 //                                     LOGIN
 //------------------------------------------------------------------------------------------------//
 
-    // Try to log user in
+    /**
+     * Try to login the user in the background (Runs on UI thread)
+     *
+     * @param user a User object containing the user's credentials to be logged in
+     * @param loginCallback the callback to fire when request is completed
+     */
     public void login(User user, GetLoginCallback loginCallback) {
         new loginAsyncTask(user, loginCallback).execute();
     }
 
-    //AsyncTask that try to log user in
+    /**
+     * AsyncTask that try to login the user in
+     */
     private class loginAsyncTask extends AsyncTask<User, Void, String> {
         User user = new User();
         GetLoginCallback loginCallback;
@@ -238,12 +258,18 @@ public class ServerRequests {
 //                                  USER DETAILS
 //------------------------------------------------------------------------------------------------//
 
-    // Get user's details
+    /**
+     * Fetches user's data from the server in the background (Runs on UI thread)
+     *
+     * @param userDetailsCallback the callback to fire when request is completed
+     */
     public void getUserDetails(GetUserDetailsCallback userDetailsCallback) {
         new getUserDetailsAsyncTask(userDetailsCallback).execute();
     }
 
-    // AsyncTask that try to log user in
+    /**
+     * AsyncTask that fetches user's data from the server
+     */
     private class getUserDetailsAsyncTask extends AsyncTask<Void, Void, User> {
         GetUserDetailsCallback userDetailsCallback;
 
@@ -297,16 +323,89 @@ public class ServerRequests {
         }
     }
 
+    /**
+     * Update user's data on the server in the background (Runs on UI thread)
+     *
+     * @param user a User object containing the user's updated information
+     * @param messageCallback the callback to fire when request is completed
+     */
+    public void updateUserDetails(User user, GetMessageCallback messageCallback) {
+        new updateUserDetailsAsyncTask(user, messageCallback).execute();
+    }
+
+    /**
+     * AsyncTask that update user's data on the server
+     */
+    private class updateUserDetailsAsyncTask extends AsyncTask<User, Void, String> {
+        User user = new User();
+        GetMessageCallback messageCallback;
+
+        private updateUserDetailsAsyncTask(User user, GetMessageCallback messageCallback) {
+            this.user = user;
+            this.messageCallback = messageCallback;
+        }
+
+        @Override
+        protected String doInBackground(User... params) {
+            ServerConnection connection = new ServerConnection();
+            HttpURLConnection urlConnection;
+            JSONparser parser = new JSONparser();
+
+            urlConnection = connection.openPutConnection("/user/self");
+            urlConnection.setRequestProperty("android", "true");
+            urlConnection.setRequestProperty("android-token", localDatabase.getAuthToken());
+
+            try {
+
+                urlConnection.connect();
+
+                JSONObject json = parser.toUpdateUser(user);
+                OutputStreamWriter out = new OutputStreamWriter(urlConnection.getOutputStream());
+                out.write(json.toString());
+                out.close();
+
+//                InputStream is = urlConnection.getInputStream();
+//                reader = new BufferedReader(new InputStreamReader(is));
+//
+//                StringBuilder strBuilder = new StringBuilder();
+//
+//                String line;
+//                while ((line = reader.readLine()) != null) {
+//                    strBuilder.append(line);
+//                }
+
+
+            } catch (IOException | JSONException e) {
+                e.printStackTrace();
+            }
+            return "";
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            progressDialog.dismiss();
+            messageCallback.done(result);
+            super.onPostExecute(result);
+        }
+    }
+
 //------------------------------------------------------------------------------------------------//
 //                                    REGISTER
 //------------------------------------------------------------------------------------------------//
 
-    // Try to log user in
+    /**
+     * Register a user in the background (Runs on UI thread)
+     *
+     * @param user a User object containing the user to be registered
+     * @param registerCallback the callback to fire when request is completed
+     */
     public void register(User user, GetRegisterCallback registerCallback) {
         new registerAsyncTask(user, registerCallback).execute();
     }
 
-    //AsyncTask that try to log user in
+    /**
+     * AsyncTask that register a user
+     */
     private class registerAsyncTask extends AsyncTask<User, Void, ServerResponse> {
         User user = new User();
         GetRegisterCallback registerCallback;
@@ -367,11 +466,18 @@ public class ServerRequests {
 //                                    CHAT
 //------------------------------------------------------------------------------------------------//
 
-    // Get user's chat
+    /**
+     * Fetches user's chat conversation from the server in the background (Runs on UI thread)
+     *
+     * @param conversationCallback the callback to fire when request is completed
+     */
     public void getConversation(GetConversationCallback conversationCallback) {
         new getConversationAsyncTask(conversationCallback).execute();
     }
 
+    /**
+     * AsyncTask that fetches user's chat conversation from the server
+     */
     private class getConversationAsyncTask extends AsyncTask<Void, Void, List<PrivateMessage>> {
         GetConversationCallback conversationCallback;
 
@@ -424,16 +530,24 @@ public class ServerRequests {
         }
     }
 
-    // Send user message
+    /**
+     * Sends user's chat message to the server in the background (Runs on UI thread)
+     *
+     * @param messageToSend a PrivateMessage object containing the message to be send
+     * @param messageCallback the callback to fire when request is completed
+     */
     public void sendMessage(PrivateMessage messageToSend, GetMessageCallback messageCallback) {
-        new setMessageAsyncTask(messageToSend, messageCallback).execute();
+        new sendMessageAsyncTask(messageToSend, messageCallback).execute();
     }
 
-    private class setMessageAsyncTask extends AsyncTask<PrivateMessage, Void, String> {
+    /**
+     * AsyncTask that sends user's chat message to the server
+     */
+    private class sendMessageAsyncTask extends AsyncTask<PrivateMessage, Void, String> {
         PrivateMessage messageToSend = new PrivateMessage();
         GetMessageCallback messageCallback;
 
-        private setMessageAsyncTask(PrivateMessage messageToSend, GetMessageCallback messageCallback) {
+        private sendMessageAsyncTask(PrivateMessage messageToSend, GetMessageCallback messageCallback) {
             this.messageToSend = messageToSend;
             this.messageCallback = messageCallback;
         }
@@ -490,27 +604,26 @@ public class ServerRequests {
 //                                    ORDERS
 //------------------------------------------------------------------------------------------------//
 
-    // Send user's order
+    /**
+     * Sends an order to the server in the background (Runs on UI thread)
+     *
+     * @param order an Order object containing the order to be send
+     * @param orderCallback the callback to fire when request is completed
+     */
     public void createOrder(Order order, GetOrderCallback orderCallback) {
         new createOrderAsyncTask(order, orderCallback).execute();
     }
 
+    /**
+     * AsyncTask that sends an order to the server
+     */
     private class createOrderAsyncTask extends AsyncTask<Order, Void, ServerResponse> {
         Order order = new Order();
-        List<Integer> cartIDs = new ArrayList<>();
         GetOrderCallback orderCallback;
 
         private createOrderAsyncTask(Order order, GetOrderCallback orderCallback) {
             this.order = order;
             this.orderCallback = orderCallback;
-            String cart = localDatabase.getCart();
-            if (!cart.isEmpty()) {
-                String[] parts = cart.split(",");
-                // Save parts into a productID list
-                for (String part : parts) {
-                    cartIDs.add(Integer.parseInt(part));
-                }
-            }
         }
 
         @Override
@@ -520,7 +633,12 @@ public class ServerRequests {
             ServerResponse response = new ServerResponse();
             JSONparser parser = new JSONparser();
 
-            urlConnection = connection.openPostConnection("/order");
+            if (Objects.equals(order.getType(), "generic")) {
+                urlConnection = connection.openPostConnection("/order");
+            } else {
+                urlConnection = connection.openPostConnection("/custom_order");
+            }
+
             if (localDatabase.isLoggedIn()) {
                 urlConnection.setRequestProperty("android", "true");
                 urlConnection.setRequestProperty("android-token", localDatabase.getAuthToken());
@@ -529,7 +647,7 @@ public class ServerRequests {
             try {
                 urlConnection.connect();
 
-                JSONObject json = parser.toOrder(order, cartIDs);
+                JSONObject json = parser.toOrder(order);
                 OutputStreamWriter out = new OutputStreamWriter(urlConnection.getOutputStream());
                 out.write(json.toString());
                 out.close();
@@ -563,11 +681,18 @@ public class ServerRequests {
         }
     }
 
-    // Get user's order history
+    /**
+     * Fetches user's order history from the server in the background (Runs on UI thread)
+     *
+     * @param orderHistoryCallback the callback to fire when request is completed
+     */
     public void getOrderHistory(GetOrderHistoryCallback orderHistoryCallback) {
         new getOrderHistoryAsyncTask(orderHistoryCallback).execute();
     }
 
+    /**
+     * AsyncTask that fetches user's order history from the server
+     */
     private class getOrderHistoryAsyncTask extends AsyncTask<Void, Void, List<Order>> {
         GetOrderHistoryCallback orderHistoryCallback;
 
@@ -601,6 +726,24 @@ public class ServerRequests {
 
                 String result = strBuilder.toString();
                 returnedList = parser.toOrderHistory(result);
+
+                urlConnection = connection.openGetConnection("/custom_order/self");
+                urlConnection.setRequestProperty("android", "true");
+                urlConnection.setRequestProperty("android-token", localDatabase.getAuthToken());
+
+                urlConnection.connect();
+
+                is = urlConnection.getInputStream();
+                reader = new BufferedReader(new InputStreamReader(is));
+
+                strBuilder = new StringBuilder();
+
+                while ((line = reader.readLine()) != null) {
+                    strBuilder.append(line);
+                }
+
+                result = strBuilder.toString();
+                returnedList.addAll(parser.toOrderHistory(result));
 
 
             } catch (IOException | JSONException | ParseException e) {

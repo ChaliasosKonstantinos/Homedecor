@@ -41,6 +41,15 @@ public class Register extends AppCompatActivity {
         layout = (ScrollView) findViewById(R.id.activity_register);
     }
 
+/* ========================================= HELPERS =============================================== */
+
+    /**
+     * Registers the user
+     * On SUCCESS: Redirects to Login activity
+     * On ERROR: Displaying an error message
+     *
+     * @param view the View containing the button that was clicked
+     */
     public void registerUser(View view) {
 
         String username = etUsername.getText().toString();

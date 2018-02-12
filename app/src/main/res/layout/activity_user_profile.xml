@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layoutUserProfile"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -70,6 +71,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textPersonName"
+                            android:backgroundTint="@color/hint"
+                            android:textSize="16sp"
                             android:hint="@string/first_name"/>
 
                     </android.support.design.widget.TextInputLayout>
@@ -83,6 +86,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textPersonName"
+                            android:backgroundTint="@color/hint"
+                            android:textSize="16sp"
                             android:hint="@string/last_name"/>
 
                     </android.support.design.widget.TextInputLayout>
@@ -149,6 +154,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textEmailAddress"
+                            android:backgroundTint="@color/hint"
+                            android:textSize="16sp"
                             android:hint="@string/email"/>
 
                     </android.support.design.widget.TextInputLayout>
@@ -163,6 +170,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="phone"
+                            android:backgroundTint="@color/hint"
+                            android:textSize="16sp"
                             android:hint="@string/phone"/>
 
                     </android.support.design.widget.TextInputLayout>
@@ -177,7 +186,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="phone"
-
+                            android:backgroundTint="@color/hint"
+                            android:textSize="16sp"
                             android:hint="@string/mobilePhone"/>
 
                     </android.support.design.widget.TextInputLayout>
@@ -244,6 +254,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="text"
+                            android:backgroundTint="@color/hint"
+                            android:textSize="16sp"
                             android:hint="@string/address"/>
 
                     </android.support.design.widget.TextInputLayout>
@@ -258,6 +270,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="number"
+                            android:backgroundTint="@color/hint"
+                            android:textSize="16sp"
                             android:hint="@string/postal_code"/>
 
                     </android.support.design.widget.TextInputLayout>
@@ -272,6 +286,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="text"
+                            android:backgroundTint="@color/hint"
+                            android:textSize="16sp"
                             android:hint="@string/city"/>
 
                     </android.support.design.widget.TextInputLayout>
@@ -286,6 +302,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="text"
+                            android:backgroundTint="@color/hint"
+                            android:textSize="16sp"
                             android:hint="@string/state"/>
 
                         <android.support.design.widget.TextInputLayout
@@ -298,6 +316,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="@string/country"
+                                android:backgroundTint="@color/hint"
+                                android:textSize="16sp"
                                 android:inputType="text" />
 
                         </android.support.design.widget.TextInputLayout>

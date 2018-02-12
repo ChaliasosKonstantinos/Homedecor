@@ -16,11 +16,22 @@ public class Products extends AppCompatActivity {
         setContentView(R.layout.activity_products);
     }
 
+
+    /**
+     * Launches Generic Products Activity
+     *
+     * @param view the View containing the button that was clicked
+     */
     public void showGenericProducts(View view) {
         Intent intent = new Intent(this, GenericProducts.class);
         startActivity(intent);
     }
 
+    /**
+     * Launches Custom Products Activity
+     *
+     * @param view the View containing the button that was clicked
+     */
     public void showCustomProducts(View view) {
         Intent intent = new Intent(this, CustomProducts.class);
         startActivity(intent);

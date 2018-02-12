@@ -30,7 +30,7 @@ import java.util.HashMap;
 
 import gr.homedeco.www.homedeco.R;
 import gr.homedeco.www.homedeco.cart.CartController;
-import gr.homedeco.www.homedeco.order.Order;
+import gr.homedeco.www.homedeco.order.history.OrderHistory;
 import gr.homedeco.www.homedeco.server.callbacks.GetOrderCallback;
 import gr.homedeco.www.homedeco.server.requests.ServerRequests;
 import gr.homedeco.www.homedeco.server.response.ServerResponse;
@@ -64,48 +64,11 @@ public class OrderPayment extends Fragment {
 
 /* ========================================= HELPERS =============================================== */
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
-            PaymentConfirmation confirm = data.getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
-            if (confirm != null) {
-                try {
-                    Log.i("Paypal Payment", confirm.toJSONObject().toString(4));
-                    Snackbar snackbar = Snackbar.make(layout, R.string.order_pay_with_paypal_success,
-                            Snackbar.LENGTH_LONG);
-                    snackbar.show();
-                    btnCompleteOrder.setEnabled(true);
-                } catch (JSONException e) {
-                    Log.e("Paypal Payment", "ERROR: ", e);
-                }
-            }
-        }
-    }
-
-    // Paypal service start
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        paypalConfig = new PayPalConfiguration()
-                .environment(PayPalConfiguration.ENVIRONMENT_SANDBOX)
-                .clientId("AZFF5J19kL26J9ozvxkjXznR3UgV7Ia20Q-BlHUYBSb5kKth9pdsihfb3Ay4CixuVYmDIWYYQJ_HTP8k");
-        Intent intent = new Intent(getActivity(), PayPalService.class);
-        intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, paypalConfig);
-        getActivity().startService(intent);
-    }
-
-    // Paypal service stop
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        getActivity().stopService(new Intent(getActivity(), PayPalService.class));
-        super.onDestroy();
-    }
-
+    /**
+     * Setup listeners on next section button and information validation on focus change
+     */
     private void initListeners() {
 
-        // Payment method spinner
         spPaymentMethod.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
@@ -158,11 +121,12 @@ public class OrderPayment extends Fragment {
         btnPaypal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 // Paypal transaction service
-                Order order = ((OrderCreation) getActivity()).getOrderState();
-                PayPalPayment payment = new PayPalPayment(new BigDecimal(order.getPrice()), "EUR",
-                        order.getFullName(), PayPalPayment.PAYMENT_INTENT_SALE);
+                PayPalPayment payment = new PayPalPayment(
+                        new BigDecimal(((OrderCreation) getActivity()).getOrderState().getPrice()),
+                        "EUR",
+                        ((OrderCreation) getActivity()).getOrderState().getFullName(),
+                        PayPalPayment.PAYMENT_INTENT_SALE);
                 Intent intent = new Intent(getActivity(), PaymentActivity.class);
                 intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, paypalConfig);
                 intent.putExtra(PaymentActivity.EXTRA_PAYMENT, payment);
@@ -174,37 +138,102 @@ public class OrderPayment extends Fragment {
         btnCompleteOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (spPaymentMethod.getSelectedItemPosition() != 0) {
-                    Order order = ((OrderCreation) getActivity()).getOrderState();
-                    if (spPaymentMethod.getSelectedItemPosition() == 1) {
-                        order.setPaymentMethod(spPaymentMethod.getSelectedItem().toString());
-                        HashMap<String, String> creditCardInfo = new HashMap<>();
-                        creditCardInfo.put("number", creditCard.getCardNumber());
-                        creditCardInfo.put("expire", creditCard.getExpiryDate());
-                        creditCardInfo.put("name", creditCard.getCardName());
-                        order.setCreditCard(creditCardInfo);
-                    } else {
-                        order.setPaymentMethod(spPaymentMethod.getSelectedItem().toString());
-                    }
-
-                    ServerRequests serverRequests = new ServerRequests(getContext());
-                    serverRequests.createOrder(order, new GetOrderCallback() {
-                        @Override
-                        public void done(ServerResponse response) {
-                            if (!response.getMessage().isEmpty()) {
-                                Snackbar snackbar = Snackbar.make(layout, R.string.order_created, Snackbar.LENGTH_LONG);
-                                snackbar.show();
-                                CartController cController = new CartController(getContext());
-                                cController.clearCart();
-                                // TODO: Redirect to Order history
-                            } else {
-                                Snackbar snackbar = Snackbar.make(layout, R.string.order_creation_failed, Snackbar.LENGTH_LONG);
-                                snackbar.show();
-                            }
-                        }
-                    });
-                }
+                createOrder();
             }
         });
+    }
+
+    /**
+     * Creates an order and send it to the server
+     * On SUCCESS: Display success message
+     * On ERROR: Display error message
+     */
+    private void createOrder() {
+        if (spPaymentMethod.getSelectedItemPosition() != 0) {
+            if (spPaymentMethod.getSelectedItemPosition() == 1) {
+                HashMap<String, String> creditCardInfo = new HashMap<>();
+                creditCardInfo.put("number", creditCard.getCardNumber());
+                creditCardInfo.put("expire", creditCard.getExpiryDate());
+                creditCardInfo.put("name", creditCard.getCardName());
+                ((OrderCreation) getActivity()).getOrderState().setPayment(
+                        spPaymentMethod.getSelectedItem().toString(),
+                        creditCardInfo);
+            } else {
+                ((OrderCreation) getActivity()).getOrderState().setPayment(
+                        spPaymentMethod.getSelectedItem().toString(), null);
+            }
+
+            ServerRequests serverRequests = new ServerRequests(getContext());
+            serverRequests.createOrder(((OrderCreation) getActivity()).getOrderState().getOrder(), new GetOrderCallback() {
+                @Override
+                public void done(ServerResponse response) {
+                    if (!response.getMessage().isEmpty()) {
+                        Snackbar snackbar = Snackbar.make(layout, R.string.order_created, Snackbar.LENGTH_LONG);
+                        snackbar.show();
+                        CartController cController = new CartController(getContext());
+                        cController.clearCart();
+                        new android.os.Handler().postDelayed(
+                                new Runnable() {
+                                    public void run() {
+                                        startActivity(new Intent(getContext(), OrderHistory.class));
+                                    }
+                                }, 1000);
+                    } else {
+                        Snackbar snackbar = Snackbar.make(layout, R.string.order_creation_failed, Snackbar.LENGTH_LONG);
+                        snackbar.show();
+                    }
+                }
+            });
+        }
+    }
+
+/* ========================================= PAYPAL =============================================== */
+
+    /**
+     * Starts PayPal service
+     */
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        paypalConfig = new PayPalConfiguration()
+                .environment(PayPalConfiguration.ENVIRONMENT_SANDBOX)
+                .clientId("AZFF5J19kL26J9ozvxkjXznR3UgV7Ia20Q-BlHUYBSb5kKth9pdsihfb3Ay4CixuVYmDIWYYQJ_HTP8k");
+        Intent intent = new Intent(getActivity(), PayPalService.class);
+        intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, paypalConfig);
+        getActivity().startService(intent);
+    }
+
+    /**
+     * Checks if PayPal checkout was successfull
+     * On SUCCESS: Display success message and enables checkout button
+     * On ERROR: Display error message
+     */
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            PaymentConfirmation confirm = data.getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
+            if (confirm != null) {
+                try {
+                    Log.i("Paypal Payment", confirm.toJSONObject().toString(4));
+                    Snackbar snackbar = Snackbar.make(layout, R.string.order_pay_with_paypal_success,
+                            Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                    btnCompleteOrder.setEnabled(true);
+                } catch (JSONException e) {
+                    Log.e("Paypal Payment", "ERROR: ", e);
+                }
+            }
+        }
+    }
+
+    /**
+     * On Activity destroy stops PayPal service
+     */
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().stopService(new Intent(getActivity(), PayPalService.class));
+        super.onDestroy();
     }
 }

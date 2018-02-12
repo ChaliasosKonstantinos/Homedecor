@@ -14,18 +14,37 @@ public class CartController {
         localDatabase = new LocalDatabase(context);
     }
 
-    String getCart() {
+    /**
+     * Fetches user's cart from Local storage
+     *
+     * @return user's cart
+     */
+    public String getCart() {
         return localDatabase.getCart();
     }
 
+    /**
+     * Saves user's cart price to Local storage
+     */
     public void setCartPrice(double price) {
         localDatabase.setCartPrice(price);
     }
 
+    /**
+     * Fetches user's cart price from Local storage
+     *
+     * @return user's cart price (double)
+     */
     public double getCartPrice() {
         return localDatabase.getCartPrice();
     }
 
+    /**
+     * Clears user's cart from Local storage
+     *
+     * @return TRUE if cart was cleared successfully
+     *         FALSE if cart was not cleared successfully
+     */
     public boolean clearCart() {
         localDatabase.clearCart();
         String cart = localDatabase.getCart();

@@ -12,6 +12,16 @@ class ContactController {
         this.context = context;
     }
 
+    /**
+     * Sends email to the company
+     *
+     * @param name customer's name
+     * @param email customer's email
+     * @param message customer's message
+     *
+     * @return TRUE if email was sent successfully
+     *         FALSE if email was not sent successfully
+     */
     boolean sendEmail(String name, String email, String message) {
         String fMessage = "Όνομα: " + name + "\n\n";
         fMessage += "Email: " + email + "\n\n\n";

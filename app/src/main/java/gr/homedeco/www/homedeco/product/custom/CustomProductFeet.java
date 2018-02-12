@@ -42,6 +42,9 @@ public class CustomProductFeet extends Fragment {
 
 /* ========================================= HELPERS =============================================== */
 
+    /**
+     * Setup listeners on custom product feet choices
+     */
     private void setupListeners() {
         imgbFeet1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,6 +66,9 @@ public class CustomProductFeet extends Fragment {
         });
     }
 
+    /**
+     * Filters all custom product parts to retrieve feet choices
+     */
     private void filterProducts() {
         // Filter custom products for feet item
         List<CustomProduct> cPFiltered = ((CustomProducts) getActivity()).getFilteredCustomProducts();
@@ -75,8 +81,10 @@ public class CustomProductFeet extends Fragment {
         }
     }
 
+    /**
+     * Populates the view with custom product parts images
+     */
     private void populateView() {
-        // Load images
         String image_url = "http://83.212.101.162/" + cProductsFiltered.get(0).getImage();
         Picasso.with(getContext()).load(image_url).fit().into(imgbFeet1);
         image_url = "http://83.212.101.162/" + cProductsFiltered.get(1).getImage();
@@ -85,7 +93,12 @@ public class CustomProductFeet extends Fragment {
         Picasso.with(getContext()).load(image_url).fit().into(imgbFeet3);
     }
 
-    // Register the choice and routes to next tab
+    /**
+     * Registers user choice and reroutes the user to the next section
+     *
+     * @param id the id of the chosen part
+     * @param price the price of the chosen part
+     */
     private void registerChoiceAndReroute(Integer id, double price) {
         CustomProduct.CPart part = ((CustomProducts) getActivity()).getCustomProduct().createCPart();
         part.setId(id);

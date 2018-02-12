@@ -14,7 +14,6 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import gr.homedeco.www.homedeco.R;
-import gr.homedeco.www.homedeco.order.Order;
 import gr.homedeco.www.homedeco.user.User;
 import gr.homedeco.www.homedeco.user.UserController;
 
@@ -45,22 +44,23 @@ public class OrderShipping extends Fragment {
 
 /* ========================================= HELPERS =============================================== */
 
-    // Init UI listeners
+    /**
+     * Setup listeners on next section button, information validation on focus change
+     * and shipping method dropdown
+     */
     private void initListeners() {
         btnGoToOrderPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (infosAreValid) {
-                    Order order = ((OrderCreation) getActivity()).getOrderState();
-                    order.setCountry(etCountry.getText().toString());
-                    order.setState(etState.getText().toString());
-                    order.setCity(etCity.getText().toString());
-                    order.setShipAddress(etAddress.getText().toString());
-                    order.setBillAddress(etAddress.getText().toString());
-                    order.setPostalCode(etPostalCode.getText().toString());
-                    order.setShippingMethod(spShippingMethod.getSelectedItem().toString());
-
-                    ((OrderCreation) getActivity()).saveOrderState(order);
+                    ((OrderCreation) getActivity()).getOrderState().setOrderShipping(
+                            etCountry.getText().toString(),
+                            etState.getText().toString(),
+                            etCity.getText().toString(),
+                            etAddress.getText().toString(),
+                            etAddress.getText().toString(),
+                            etPostalCode.getText().toString(),
+                            spShippingMethod.getSelectedItem().toString());
                     ((OrderCreation) getActivity()).getPager().setCurrentItem(2);
                 }
             }
@@ -128,7 +128,9 @@ public class OrderShipping extends Fragment {
         });
     }
 
-    // Populates the View only if user is logged in
+    /**
+     * Populates the view with user's details if user is logged in
+     */
     private void populateView() {
         UserController uController = new UserController(getContext());
         if (uController.isUserLoggedIn()) {
@@ -141,7 +143,11 @@ public class OrderShipping extends Fragment {
         }
     }
 
-    // Show success icon to given EditText
+    /**
+     * Change the edit text's state to validation success
+     *
+     * @param et EditText to validate as a success
+     */
     private void showSuccessIcon(EditText et) {
         Drawable x = ContextCompat.getDrawable(getContext(),R.drawable.ic_action_success);
         x.setBounds(0, 0, x.getIntrinsicWidth(), x.getIntrinsicHeight());
@@ -149,7 +155,11 @@ public class OrderShipping extends Fragment {
         infosAreValid = true;
     }
 
-    // Show error icon to given EditText
+    /**
+     * Change the edit text's state to validation error
+     *
+     * @param et EditText to validate as an error
+     */
     private void showErrorIcon(EditText et) {
         Drawable x = ContextCompat.getDrawable(getContext(),R.drawable.ic_action_edit);
         x.setBounds(0, 0, x.getIntrinsicWidth(), x.getIntrinsicHeight());

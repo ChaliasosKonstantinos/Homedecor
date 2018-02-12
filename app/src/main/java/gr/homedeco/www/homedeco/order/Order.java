@@ -7,7 +7,7 @@ import java.util.List;
 public class Order{
 
     private int orderID;
-    private String shipAddress, billAddress, postalCode, city, state, country,
+    private String type, shipAddress, billAddress, postalCode, city, state, country,
             mobilePhone, phone, shippingMethod, email, fullName, status, paymentMethod;
     private double price;
     private Date date;
@@ -15,6 +15,14 @@ public class Order{
     private HashMap<String,String> creditCard = new HashMap<>();
 
     public Order() {
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public int getOrderID() {

@@ -55,12 +55,14 @@ public class Cart extends AppCompatActivity {
         rvCart = (RecyclerView) findViewById(R.id.rvCart);
         layout = (LinearLayout) findViewById(R.id.activity_cart);
         toggleOrderHistory();
-        getProducts();
+        getCart();
     }
 
-//------------------------------------- HELPERS -------------------------------------------------//
+/* ========================================= HELPERS =============================================== */
 
-    // Toggles enable/disable Order History button based on if user is logged in
+    /**
+     * Display order's history button when user is logged in
+     */
     private void toggleOrderHistory() {
         if (uController.isUserLoggedIn()) {
             Button btnOrderHistory = (Button) findViewById(R.id.btnOrderHistory);
@@ -68,48 +70,73 @@ public class Cart extends AppCompatActivity {
         }
     }
 
-    // Retrieves product from the server
+    /**
+     * Fetches product's data from the server
+     */
     private void getProducts() {
         ServerRequests serverRequests = new ServerRequests(this);
         serverRequests.fetchProductDataInBackground(0, new GetProductCallback() {
             @Override
             public void done(List<Product> returnedList) {
-                getCart(returnedList);
+                String cart = controller.getCart();
+                String[] parts = cart.split(",");
+                List<Integer> cartIDs = new ArrayList<>();
+                // Save parts into a productID list
+                for (String part : parts) {
+                    cartIDs.add(Integer.parseInt(part));
+                }
+                createCartProductList(returnedList, cartIDs);
+                rlCartPrices.setVisibility(View.VISIBLE);
             }
         });
     }
 
-    // Retrieves the cart from local database
-    private void getCart(List<Product> products) {
+    /**
+     * Fetches user's cart from Local storage
+     */
+    private void getCart() {
         String cart = controller.getCart();
         if (!cart.isEmpty()) {
-            String[] parts = cart.split(",");
-            List<Integer> cartIDs = new ArrayList<>();
-            // Save parts into a productID list
-            for (String part : parts) {
-                cartIDs.add(Integer.parseInt(part));
-            }
-            makeProductList(products, cartIDs);
-            rlCartPrices.setVisibility(View.VISIBLE);
+            getProducts();
         } else {
             tvCartIsEmpty.setVisibility(View.VISIBLE);
             rlCartPrices.setVisibility(View.GONE);
         }
     }
 
-    // Creates a list with cart's given product IDs
-    private void makeProductList(List<Product> products, List<Integer> IDs) {
+    /**
+     * Creates the cart's product list
+     *
+     * @param products a list of Products
+     * @param IDs a list of product IDs
+     */
+    private void createCartProductList(List<Product> products, List<Integer> IDs) {
         List<Product> returnedProducts = new ArrayList<>();
 
         for(int i=0; i < IDs.size(); i++) {
             int id = IDs.get(i);
             returnedProducts.add(products.get(id-3));
-            totalPriceBeforeVAT += products.get(id-3).getPrice();
         }
-        populateCartList(returnedProducts);
+        calculateCartPrice(returnedProducts);
     }
 
-    // Populates the UI
+    /**
+     * Calculates the cart price before VAT
+     *
+     * @param cartProducts a list of Products
+     */
+    private void calculateCartPrice(List<Product> cartProducts) {
+        for (Product pr : cartProducts) {
+            totalPriceBeforeVAT += pr.getPrice();
+        }
+        populateCartList(cartProducts);
+    }
+
+    /**
+     * Populates the cart view with given products
+     *
+     * @param products a list of Product Objects
+     */
     private void populateCartList(List<Product> products) {
 
         CartAdapter adapter = new CartAdapter(products);
@@ -127,9 +154,15 @@ public class Cart extends AppCompatActivity {
 
     }
 
-//------------------------------------- LISTENERS -------------------------------------------------//
+/* ========================================= LISTENERS =============================================== */
 
-    // Checkout
+    /**
+     * Show a dialog where user can choose if they want to check as guest or registered users
+     * On GUEST: Launches checkout activity
+     * On REGISTERED USER: Launches login activity
+     *
+     * @param view the View containing the button that was clicked
+     */
     public void checkout(View view) {
         if (uController.isUserLoggedIn()) {
             showCheckout();
@@ -153,31 +186,45 @@ public class Cart extends AppCompatActivity {
         }
     }
 
-    // Dialog for checkout
+    /**
+     * Launches Login activity
+     */
     private void showLoginDialog() {
         Intent intent = new Intent(this, Login.class);
         startActivity(intent);
     }
 
-    // Navigates to cart
+    /**
+     * Launches Checkout activity
+     */
     private void showCheckout() {
         Intent intent = new Intent(this, OrderCreation.class);
+        intent.putExtra("type", "generic");
         startActivity(intent);
     }
 
-    // Navigates to order history
+    /**
+     * Launches Order History activity
+     */
     public void showOrderHistory(View view) {
         Intent intent = new Intent(this, OrderHistory.class);
         startActivity(intent);
     }
 
-//------------------------------------------ MENU -------------------------------------------------//
+/* ========================================= MENU =============================================== */
+
+    /**
+     * Creates Menu
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.cart_menu_logged_in, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     * Hides unnecessary menu options
+     */
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         System.out.println("USER IS LOGGED IN: " + uController.isUserLoggedIn());
@@ -189,6 +236,9 @@ public class Cart extends AppCompatActivity {
         return super.onPrepareOptionsMenu(menu);
     }
 
+    /**
+     * Setting up menu listeners
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId())

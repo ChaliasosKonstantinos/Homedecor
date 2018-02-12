@@ -50,47 +50,14 @@ public class GenericProducts extends AppCompatActivity {
         spSubCategory.setAdapter(adapterSpSubcategory);
     }
 
-/* ========================================= MENU =============================================== */
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        UserController uc = new UserController(this);
-
-        if (uc.isUserLoggedIn()) {
-            getMenuInflater().inflate(R.menu.logged_in_menu, menu);
-        } else {
-            getMenuInflater().inflate(R.menu.generic_menu, menu);
-        }
-
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId())
-        {
-            case R.id.action_login:
-                startActivity(new Intent(this, Login.class));
-                break;
-            case R.id.action_logout:
-                UserController uc = new UserController(this);
-                uc.logoutUser();
-                startActivity(new Intent(this, Main.class));
-                break;
-            case R.id.action_userProfile:
-                startActivity(new Intent(this, UserProfile.class));
-                break;
-            case R.id.action_about:
-                startActivity(new Intent(this, AboutUs.class));
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
 /* ========================================= HELPERS =============================================== */
 
+    /**
+     * Populates the view with the returned products
+     *
+     * @param returnedList a list of Product objects
+     */
     private void populateProductsList(List<Product> returnedList) {
-
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rvProducts);
         ProductsAdapter adapter = new ProductsAdapter(returnedList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(GenericProducts.this);
@@ -98,8 +65,9 @@ public class GenericProducts extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
-/* ====================================== SERVER REQUESTS ========================================== */
-
+    /**
+     * Fetches products data from the server
+     */
     private void getProducts() {
 
         ServerRequests serverRequest = new ServerRequests(this);
@@ -115,6 +83,9 @@ public class GenericProducts extends AppCompatActivity {
 
 /* ========================================= LISTENERS ============================================= */
 
+    /**
+     * Setup button and category dropdown listeners
+     */
     private void initListeners() {
 
         spCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -200,5 +171,48 @@ public class GenericProducts extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> arg0) {
             }
         });
+    }
+
+/* ========================================= MENU =============================================== */
+
+    /**
+     * Creates Menu
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        UserController uc = new UserController(this);
+
+        if (uc.isUserLoggedIn()) {
+            getMenuInflater().inflate(R.menu.logged_in_menu, menu);
+        } else {
+            getMenuInflater().inflate(R.menu.generic_menu, menu);
+        }
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    /**
+     * Setting up menu listeners
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId())
+        {
+            case R.id.action_login:
+                startActivity(new Intent(this, Login.class));
+                break;
+            case R.id.action_logout:
+                UserController uc = new UserController(this);
+                uc.logoutUser();
+                startActivity(new Intent(this, Main.class));
+                break;
+            case R.id.action_userProfile:
+                startActivity(new Intent(this, UserProfile.class));
+                break;
+            case R.id.action_about:
+                startActivity(new Intent(this, AboutUs.class));
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

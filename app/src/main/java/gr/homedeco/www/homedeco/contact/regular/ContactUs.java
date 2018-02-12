@@ -32,6 +32,13 @@ public class ContactUs extends AppCompatActivity {
 
 /* ========================================= HELPERS =============================================== */
 
+    /**
+     * Sends email to the company
+     * On SUCCESS: Display success message
+     * On ERROR: Display error message
+     *
+     * @param view the View containing the button that was clicked
+     */
     public void sendEmail (View view) {
         String name = etName.getText().toString();
         String email = etEmail.getText().toString();
@@ -47,12 +54,20 @@ public class ContactUs extends AppCompatActivity {
         }
     }
 
+/* ========================================= MENU =============================================== */
+
+    /**
+     * Creates Menu
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.generic_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     * Setting up menu listeners
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId())

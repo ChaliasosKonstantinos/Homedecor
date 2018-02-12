@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import gr.homedeco.www.homedeco.R;
-import gr.homedeco.www.homedeco.order.Order;
 import gr.homedeco.www.homedeco.user.User;
 import gr.homedeco.www.homedeco.user.UserController;
 
@@ -38,18 +37,20 @@ public class OrderInfo extends Fragment {
 
 /* ========================================= HELPERS =============================================== */
 
-    // Init UI listeners
+    /**
+     * Setup listeners on next section button and information validation on focus change
+     */
     private void initListeners() {
         btnGoToOrderShipping.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (infosAreValid) {
-                    Order order = ((OrderCreation) getActivity()).getOrderState();
-                    order.setFullName(etFullname.getText().toString());
-                    order.setEmail(etEmail.getText().toString());
-                    order.setPhone(etPhone.getText().toString());
-                    order.setMobilePhone(etMobilePhone.getText().toString());
-                    ((OrderCreation) getActivity()).saveOrderState(order);
+                    ((OrderCreation) getActivity()).getOrderState().setOrderInfo(
+                            etFullname.getText().toString(),
+                            etEmail.getText().toString(),
+                            etPhone.getText().toString(),
+                            etMobilePhone.getText().toString()
+                    );
                     ((OrderCreation) getActivity()).getPager().setCurrentItem(1);
                 }
             }
@@ -106,7 +107,9 @@ public class OrderInfo extends Fragment {
         });
     }
 
-    // Populates the View only if user is logged in
+    /**
+     * Populates the view with user's details if user is logged in
+     */
     private void populateView() {
         UserController uController = new UserController(getContext());
         if (uController.isUserLoggedIn()) {
@@ -118,7 +121,11 @@ public class OrderInfo extends Fragment {
         }
     }
 
-    // Show success icon to given EditText
+    /**
+     * Change the edit text's state to validation success
+     *
+     * @param et EditText to validate as a success
+     */
     private void showSuccessIcon(EditText et) {
         Drawable x = ContextCompat.getDrawable(getContext(),R.drawable.ic_action_success);
         x.setBounds(0, 0, x.getIntrinsicWidth(), x.getIntrinsicHeight());
@@ -126,7 +133,11 @@ public class OrderInfo extends Fragment {
         infosAreValid = true;
     }
 
-    // Show error icon to given EditText
+    /**
+     * Change the edit text's state to validation error
+     *
+     * @param et EditText to validate as an error
+     */
     private void showErrorIcon(EditText et) {
         Drawable x = ContextCompat.getDrawable(getContext(),R.drawable.ic_action_edit);
         x.setBounds(0, 0, x.getIntrinsicWidth(), x.getIntrinsicHeight());

@@ -1,10 +1,10 @@
 package gr.homedeco.www.homedeco.product.custom;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import gr.homedeco.www.homedeco.R;
+import gr.homedeco.www.homedeco.order.creation.OrderCreation;
 import gr.homedeco.www.homedeco.product.CustomProduct;
 
 
@@ -51,6 +52,13 @@ public class CustomProductPrice extends Fragment {
         return view;
     }
 
+/* ========================================= HELPERS =============================================== */
+
+    /**
+     * Trying to calculates product's price
+     * On SUCCESS: Populates the view
+     * On ERROR: Retrying to calculate product's price
+     */
     private void populateView() {
         CustomProduct cp = ((CustomProducts) getActivity()).getCustomProduct();
         if (cp.getCParts().size() == 3) {
@@ -87,24 +95,31 @@ public class CustomProductPrice extends Fragment {
         }
     }
 
-/* ========================================= HELPERS =============================================== */
-
+    /**
+     * Setup listeners on checkout button
+     */
     private void setupListeners() {
         btnAddToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: CUSTOM PRODUCT ORDER
-                Snackbar snackbar = Snackbar.make(relativeLayout, R.string.cart_added_product, Snackbar.LENGTH_LONG);
-                snackbar.show();
+                Intent intent = new Intent(getContext(), OrderCreation.class);
+                intent.putExtra("type", "custom");
+                intent.putExtra("customProduct", ((CustomProducts) getActivity()).getCustomProduct());
+                startActivity(intent);
             }
         });
     }
 
-    // Re-populates the view because ViewPager pre-renders content when data aren't available
+    /**
+     * Re-populates the view because ViewPager pre-renders content when data aren't available
+     */
     private void startRerender() {
         handler.postDelayed(runnable, 500);
     }
 
+    /**
+     * Stop re-populating when view is successfully rendered
+     */
     private void stopRerender() {
         handler.removeCallbacks(runnable);
     }

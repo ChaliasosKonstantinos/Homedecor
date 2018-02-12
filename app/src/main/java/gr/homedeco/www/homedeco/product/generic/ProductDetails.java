@@ -1,12 +1,8 @@
 package gr.homedeco.www.homedeco.product.generic;
 
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -21,7 +17,6 @@ import gr.homedeco.www.homedeco.localDatabase.LocalDatabase;
 import gr.homedeco.www.homedeco.product.Product;
 import gr.homedeco.www.homedeco.server.callbacks.GetProductCallback;
 import gr.homedeco.www.homedeco.server.requests.ServerRequests;
-import gr.homedeco.www.homedeco.user.login.Login;
 
 public class ProductDetails extends AppCompatActivity {
 
@@ -50,6 +45,9 @@ public class ProductDetails extends AppCompatActivity {
 
 /* ========================================= HELPERS =============================================== */
 
+    /**
+     * Fetches product's data from the server
+     */
     private void getProductDetails(int productID) {
         ServerRequests serverRequest = new ServerRequests(this);
         serverRequest.fetchProductDataInBackground(productID, new GetProductCallback() {
@@ -61,10 +59,13 @@ public class ProductDetails extends AppCompatActivity {
         });
     }
 
+    /**
+     * Populates the view with the returned product
+     *
+     * @param product a Product object
+     */
     private void populateView(Product product) {
-
         String image_url = "http://83.212.101.162/" + product.getImage();
-
         Picasso.with(this).load(image_url).into(imgProductPhoto);
         tvProductName.setText(product.getName());
         String priceText = String.valueOf(product.getPrice()) + " €";
@@ -72,33 +73,15 @@ public class ProductDetails extends AppCompatActivity {
         tvProductDesc.setText(product.getDescription());
     }
 
+    /**
+     * Adds product to cart
+     * On SUCCESS: Display success message
+     *
+     * @param view the View containing the button that was clicked
+     */
     public void addToCart(View view) {
         localDatabase.addToCart(productID);
         Snackbar snackbar = Snackbar.make(layout, R.string.cart_added_product, Snackbar.LENGTH_LONG);
         snackbar.show();
-    }
-
-    public void checkout(View view) {
-        AlertDialog builder = new AlertDialog.Builder(ProductDetails.this).create();
-        LayoutInflater inflater = ProductDetails.this.getLayoutInflater();
-        builder.setView(inflater.inflate(R.layout.activity_checkout_dialog, null));
-        builder.setButton(AlertDialog.BUTTON_NEUTRAL, "Χρηστης",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        showLoginDialog();
-                    }
-                });
-        builder.setButton(AlertDialog.BUTTON_POSITIVE, "Επισκεπτης",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-        builder.show();
-    }
-
-    private void showLoginDialog() {
-        Intent intent = new Intent(this, Login.class);
-        startActivity(intent);
     }
 }

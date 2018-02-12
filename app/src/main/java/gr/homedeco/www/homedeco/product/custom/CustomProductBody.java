@@ -42,6 +42,9 @@ public class CustomProductBody extends Fragment {
 
 /* ========================================= HELPERS =============================================== */
 
+    /**
+     * Setup listeners on custom product body choices
+     */
     private void setupListeners() {
         imgbBody1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,8 +66,10 @@ public class CustomProductBody extends Fragment {
         });
     }
 
+    /**
+     * Filters all custom product parts to retrieve body choices
+     */
     private void filterProducts() {
-        // Filter custom products for body items
         List<CustomProduct> cPFiltered = ((CustomProducts) getActivity()).getFilteredCustomProducts();
         for (Integer i=0; i < cPFiltered.size(); i++) {
             CustomProduct cProduct = cPFiltered.get(i);
@@ -75,8 +80,10 @@ public class CustomProductBody extends Fragment {
         }
     }
 
+    /**
+     * Populates the view with custom product parts images
+     */
     private void populateView() {
-        // Load images
         String image_url = "http://83.212.101.162/" + cProductsFiltered.get(0).getImage();
         Picasso.with(getContext()).load(image_url).fit().into(imgbBody1);
         image_url = "http://83.212.101.162/" + cProductsFiltered.get(1).getImage();
@@ -85,7 +92,12 @@ public class CustomProductBody extends Fragment {
         Picasso.with(getContext()).load(image_url).fit().into(imgbBody3);
     }
 
-    // Register the choice and routes to next tab
+    /**
+     * Registers user choice and reroutes the user to the next section
+     *
+     * @param id the id of the chosen part
+     * @param price the price of the chosen part
+     */
     private void registerChoiceAndReroute(Integer id, double price) {
         CustomProduct.CPart part = ((CustomProducts) getActivity()).getCustomProduct().createCPart();
         part.setId(id);

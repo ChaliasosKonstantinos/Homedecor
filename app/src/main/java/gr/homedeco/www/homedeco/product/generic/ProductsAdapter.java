@@ -33,6 +33,12 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
         return new ProductViewHolder(view);
     }
 
+    /**
+     * Populates the view with product's details
+     *
+     * @param holder an OrderViewHolder to populate
+     * @param position the position of the holder on the list
+     */
     @Override
     public void onBindViewHolder(ProductViewHolder holder, int position) {
         String id = String.valueOf(dataList.get(position).getProductID());
@@ -45,11 +51,19 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
         Picasso.with(myContext).load(image_url).into(holder.imgProductsPhoto);
     }
 
+    /**
+     * Returns the number of items on the list
+     *
+     * @return the number of items on the list
+     */
     @Override
     public int getItemCount() {
         return dataList.size();
     }
 
+    /**
+     * Converting the view holder into a recycler view
+     */
     class ProductViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView tvProductsDesc, tvProductsName, tvProductsPrice, tvProductsID;
@@ -65,6 +79,9 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
             imgProductsPhoto = (ImageView) itemView.findViewById(R.id.imgvProductsPhoto);
         }
 
+        /**
+         * Setup listeners on expandable order's details card views
+         */
         @Override
         public void onClick(View v) {
             int productID;
